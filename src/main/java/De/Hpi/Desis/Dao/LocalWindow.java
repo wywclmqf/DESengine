@@ -18,7 +18,7 @@ public class LocalWindow{
     public long count;
     public double max;
     public double min;
-    public ArrayList<Tuple> tupleList;
+//    public ArrayList<Tuple> tupleList;
 
     public long getWindowId() {
         return windowId;
