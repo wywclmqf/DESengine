@@ -1,5 +1,6 @@
 package De.Hpi.Desis.Dao;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class LocalWindow{
@@ -15,7 +16,9 @@ public class LocalWindow{
     //intermediate result
     public double sum;
     public long count;
-    public LinkedList<Tuple> tupleList;
+    public double max;
+    public double min;
+    public ArrayList<Tuple> tupleList;
 
     public long getWindowId() {
         return windowId;

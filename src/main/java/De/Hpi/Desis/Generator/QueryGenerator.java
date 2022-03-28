@@ -146,6 +146,7 @@ public class QueryGenerator {
 
         Query query = new Query();
         query.setQueryId(queryCounter++);
+//        System.out.println(query.getQueryId());
         query.setKey(Object);
         query.setFunction(function);
         query.setWindowType(windowType);
@@ -171,7 +172,9 @@ public class QueryGenerator {
     }
 
     private int classifyQuery(Query query, Configuration conf){
-        return query.getFunction() < 5 ? conf.DeCentralizedAggregation : conf.CentralizedAggregation;
+        int flag =  query.getFunction() < 5 ? conf.DeCentralizedAggregation : conf.CentralizedAggregation;
+        flag =  query.getWindowType() != conf.COUNTBASED  ? conf.DeCentralizedAggregation : conf.CentralizedAggregation;
+        return flag;
     }
 
 }

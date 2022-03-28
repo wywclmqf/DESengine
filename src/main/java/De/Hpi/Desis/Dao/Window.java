@@ -9,7 +9,7 @@ public class Window{
 
     private int windowId;
     private int nodeId;
-    private int queryId;
+    public boolean[] queryId;
     private int Scenario;
 
     //intermediate results
@@ -29,12 +29,12 @@ public class Window{
     public int getNodeId() {
         return nodeId;
     }
-    public int getQueryId() {
-        return queryId;
-    }
-    public void setQueryId(int queryId) {
-        this.queryId = queryId;
-    }
+//    public int getQueryId() {
+//        return queryId;
+//    }
+//    public void setQueryId(int queryId) {
+//        this.queryId = queryId;
+//    }
     public int getScenario() {
         return Scenario;
     }

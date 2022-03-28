@@ -23,7 +23,7 @@ public interface ConfigurationGenerator {
     public static final int BADDATAGENERATORMAXIMIUMBUFFER = 10000000;
 
     //simulate event
-    public static final int EVENTRANDOMSEED = 1500000;
+    public static final int EVENTRANDOMSEED = 3000000;
 
     //data limited
     public static final int MAXBUFFERSIZE = 1000;

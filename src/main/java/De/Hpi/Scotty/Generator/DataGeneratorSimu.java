@@ -36,7 +36,7 @@ public class DataGeneratorSimu implements Runnable{
                     for(int i = 0; i<conf.MAXBUFFERSIZE; i++){
                         DesisTuple tuple = new DesisTuple();
                         tuple.TIME = (int) System.currentTimeMillis();
-                        tuple.DATA = (double)System.currentTimeMillis();
+                        tuple.DATA = (double)System.currentTimeMillis() + random.nextInt(conf.EVENTRANDOMSEED);
 //                tuple.EVENT = Integer.valueOf(line[3]);
                         tuple.EVENT = eventSimulator();
                         dataBuffer.add(tuple);

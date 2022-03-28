@@ -18,6 +18,7 @@ public interface ConfigurationWindow {
     //window
     public static final int TUMBING = 0;
     public static final int SLIDING = 1;
+    //hoping window
     public static final int SLIDING_UNEVEN = 2;
     public static final int SESSION = 3;
     public static final int PUNCTUATION = 4;

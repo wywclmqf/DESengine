@@ -9,7 +9,7 @@ import java.util.Random;
 public class SortingTest {
 
     public static void main(String[] args){
-        int listSize = 1000000;
+        int listSize = 1000;
         Random random = new Random();
 
 //        long timeBefore1 = System.nanoTime();
@@ -54,25 +54,41 @@ public class SortingTest {
         tupleLinkedList1C.addAll(tupleLinkedList1);
         tupleLinkedList2C.addAll(tupleLinkedList2C);
 
-
+//        System.out.println(tupleLinkedList1.size());
+//        System.out.println(tupleLinkedList1.get(listSize-1).DATA);
         long timeBefore1 = System.nanoTime();
-        tupleLinkedList.addAll(tupleLinkedList1);
-        tupleLinkedList.addAll(tupleLinkedList2);
-        tupleLinkedList.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-        System.out.println(System.nanoTime() - timeBefore1);
-
-        tupleLinkedList.clear();
-
-        timeBefore1 = System.nanoTime();
-        tupleLinkedList1C.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-        tupleLinkedList2C.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+        double result = -1;
+        for(int i = 0; i < listSize; i++){
+            result = result > tupleLinkedList1.get(i).DATA ? result : tupleLinkedList1.get(i).DATA;
+        }
         System.out.println(System.nanoTime() - timeBefore1);
 
         timeBefore1 = System.nanoTime();
-        tupleLinkedList.addAll(tupleLinkedList1C);
-        tupleLinkedList.addAll(tupleLinkedList2C);
-        tupleLinkedList.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+        tupleLinkedList2.sort((a, b) -> Double.compare(a.DATA, b.DATA));
         System.out.println(System.nanoTime() - timeBefore1);
+        timeBefore1 = System.nanoTime();
+        result = tupleLinkedList2.get(listSize-1).DATA;
+        result = tupleLinkedList2.get(0).DATA;
+        System.out.println(System.nanoTime() - timeBefore1);
+
+//        long timeBefore1 = System.nanoTime();
+//        tupleLinkedList.addAll(tupleLinkedList1);
+//        tupleLinkedList.addAll(tupleLinkedList2);
+//        tupleLinkedList.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+//        System.out.println(System.nanoTime() - timeBefore1);
+//
+//        tupleLinkedList.clear();
+//
+//        timeBefore1 = System.nanoTime();
+//        tupleLinkedList1C.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+//        tupleLinkedList2C.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+//        System.out.println(System.nanoTime() - timeBefore1);
+//
+//        timeBefore1 = System.nanoTime();
+//        tupleLinkedList.addAll(tupleLinkedList1C);
+//        tupleLinkedList.addAll(tupleLinkedList2C);
+//        tupleLinkedList.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+//        System.out.println(System.nanoTime() - timeBefore1);
 
     }
 

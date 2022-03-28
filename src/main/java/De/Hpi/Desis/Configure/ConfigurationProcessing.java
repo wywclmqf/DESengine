@@ -16,9 +16,10 @@ public interface ConfigurationProcessing {
     public static final int EVENTLONGGAPEND = 7;
 
     //operators
-    public static final int OPERATORS = 3;
+    public static final int OPERATORS = 5;
     public static final int COUNTOPERATOR = 0;
     public static final int SUMOPERATOR = 1;
     public static final int SORTOPERATOR = 2;
-
+    public static final int SINGLEMAXOPERATOR = 3;
+    public static final int SINGLEMINOPERATOR = 4;
 }
