@@ -29,53 +29,53 @@ public class RootSubscribeMassage implements Runnable{
     }
 
     public void run() {
-        MessagePack msgpack = new MessagePack();
-        socketSub.subscribe("".getBytes());
-        long tupleCounter = 0;
-        long networkOverhead = 0;
-        long begintime = System.currentTimeMillis();
-        long endtime = System.currentTimeMillis();
-
-        while (true) {
-            byte[] raw = socketSub.recv(1);
-            if(raw!=null) {
-                try {
-                    MessageResult messageResult = msgpack.read(raw,
-                            MessageResult.class);
-                    if(messageResult.window.getScenario() == conf.DeCentralizedAggregation){
-                        resultFromIntermediaDecentral.offer(messageResult.window);
-                    }else{
-                        //needs to add buffer
-                        resultFromIntermediaCentral.addAll(messageResult.window.tuples);
-                    }
-                    if(conf.DEBUGMODE) {
-                        if(tupleCounter == 0){
-                            tupleCounter++;
-                            networkOverhead = getNetworkOverhead(raw.length);
-                            begintime = System.currentTimeMillis();
-                            endtime = System.currentTimeMillis();
-                            continue;
-                        }
-                        tupleCounter++;
-                        networkOverhead+=getNetworkOverhead(raw.length);
-                        if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
-                            endtime = System.currentTimeMillis();
-                            System.out.println("INFO--"
-                                    + "Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
-                                    + "  BandWidth(B):  " + networkOverhead  / ((endtime - begintime) / 1000.0)
-                                    + "  Allcounter:  " + tupleCounter
-                                    + "  NetworkOverhead(B):  " + networkOverhead
-                                    + "  Time:  " + (endtime - begintime) / 1000.0
-                                    + "  GCTime:  " + getGarbageCollectionTime()
-                                    + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
-                            );
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//        MessagePack msgpack = new MessagePack();
+//        socketSub.subscribe("".getBytes());
+//        long tupleCounter = 0;
+//        long networkOverhead = 0;
+//        long begintime = System.currentTimeMillis();
+//        long endtime = System.currentTimeMillis();
+//
+//        while (true) {
+//            byte[] raw = socketSub.recv(1);
+//            if(raw!=null) {
+//                try {
+//                    MessageResult messageResult = msgpack.read(raw,
+//                            MessageResult.class);
+//                    if(messageResult.window.getScenario() == conf.DeCentralizedAggregation){
+//                        resultFromIntermediaDecentral.offer(messageResult.window);
+//                    }else{
+//                        //needs to add buffer
+//                        resultFromIntermediaCentral.addAll(messageResult.window.tuples);
+//                    }
+//                    if(conf.DEBUGMODE) {
+//                        if(tupleCounter == 0){
+//                            tupleCounter++;
+//                            networkOverhead = getNetworkOverhead(raw.length);
+//                            begintime = System.currentTimeMillis();
+//                            endtime = System.currentTimeMillis();
+//                            continue;
+//                        }
+//                        tupleCounter++;
+//                        networkOverhead+=getNetworkOverhead(raw.length);
+//                        if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
+//                            endtime = System.currentTimeMillis();
+//                            System.out.println("INFO--"
+//                                    + "Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
+//                                    + "  BandWidth(B):  " + networkOverhead  / ((endtime - begintime) / 1000.0)
+//                                    + "  Allcounter:  " + tupleCounter
+//                                    + "  NetworkOverhead(B):  " + networkOverhead
+//                                    + "  Time:  " + (endtime - begintime) / 1000.0
+//                                    + "  GCTime:  " + getGarbageCollectionTime()
+//                                    + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+//                            );
+//                        }
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
     }
 
     private static long getGarbageCollectionTime() {

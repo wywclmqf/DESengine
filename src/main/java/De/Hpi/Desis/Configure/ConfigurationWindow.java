@@ -13,7 +13,8 @@ public interface ConfigurationWindow {
     public static final int MIN = 4;
     public static final int QUANTILE = 5;
     public static final int MEDIAN = 6;
-    public static final int FUNCTIONS = 7;
+    public static final int NON = 7;
+    public static final int FUNCTIONS = 8;
 
     //window
     public static final int TUMBING = 0;

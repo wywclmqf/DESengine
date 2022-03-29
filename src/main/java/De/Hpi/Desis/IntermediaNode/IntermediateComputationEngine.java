@@ -44,63 +44,63 @@ public class IntermediateComputationEngine implements Runnable {
 
     //can not process duplicate windows
     private void windowProcess(Window window, long timeTemp){
-        //local window
-        //the all scenarios are,
-        // 1)empty, 2)less window arrived, put it into list
-        // 3) all window arrived 4)expired, process and send them all
-        // 5) old window arrived trhow
-        // 6)disorder window, keep it
-
-        //the windows that have same window ids should be in a same intermediate window
-        //and the intermediate window is to collect same windowid windows that from different nodes.
-
-        intermediateTasks.forEach(task -> {
-            //clean the expired intermediate windows, and find the aim one
-            IntermediateWindow intermediateWindow = null;
-            Iterator<IntermediateWindow> iter = task.intermediateWindowLinkedList.iterator();
-            while (iter.hasNext()) {
-                IntermediateWindow intermediateWindowItr = iter.next();
-                //4)expired, process and send them all
-                if(timeTemp - intermediateWindowItr.getProcessTime() > conf.EXPIREDTIME ) {
-                    //send it
-                    resultQueue.add(intermediateWindowItr.window);
-                    task.windowCounterAdd();
-                    iter.remove();
-                //5) old window arrived trhow, or find aim intermediate window
-                }else if(task.getWindowCounter() < window.getWindowId()
-                        && task.getTaskId() == window.getQueryId()){
-                    //this is not first window
-                    if(intermediateWindowItr.getWindowId() == window.getWindowId()){
-                        intermediateWindow = intermediateWindowItr;
-                    }
-                }
-            }
-            if(task.getWindowCounter() < window.getWindowId()
-                    && task.getTaskId() == window.getQueryId()) {
-                //1) empty, 6)disorder window, keep it, create a new intermediate window
-                if (intermediateWindow == null) {
-                    intermediateWindow = new IntermediateWindow();
-                    intermediateWindow.setWindowId(window.getWindowId());
-                    intermediateWindow.setProcessTime(timeTemp);
-                    intermediateWindow.setWindowWaittingCounter(conf.localNumber / conf.intermediaNumber - 1);
-                    intermediateWindow.window = window;
-                    task.intermediateWindowLinkedList.add(intermediateWindow);
-                } else {
-                    //2) less window arrived, still need to wait
-                    if (intermediateWindow.getWindowWaittingCounter() > 1) {
-                        intermediateWindow.deleteWindowWaittingCounter();
-                        mergeWindow(task, intermediateWindow.window, window);
-                        // 3) all window arrived
-                    } else {
-                        mergeWindow(task, intermediateWindow.window, window);
-                        resultQueue.add(intermediateWindow.window);
-                        task.windowCounterAdd();
-                        task.intermediateWindowLinkedList.remove(intermediateWindow);
-                    }
-                }
-            }
-
-        });
+//        //local window
+//        //the all scenarios are,
+//        // 1)empty, 2)less window arrived, put it into list
+//        // 3) all window arrived 4)expired, process and send them all
+//        // 5) old window arrived trhow
+//        // 6)disorder window, keep it
+//
+//        //the windows that have same window ids should be in a same intermediate window
+//        //and the intermediate window is to collect same windowid windows that from different nodes.
+//
+//        intermediateTasks.forEach(task -> {
+//            //clean the expired intermediate windows, and find the aim one
+//            IntermediateWindow intermediateWindow = null;
+//            Iterator<IntermediateWindow> iter = task.intermediateWindowLinkedList.iterator();
+//            while (iter.hasNext()) {
+//                IntermediateWindow intermediateWindowItr = iter.next();
+//                //4)expired, process and send them all
+//                if(timeTemp - intermediateWindowItr.getProcessTime() > conf.EXPIREDTIME ) {
+//                    //send it
+//                    resultQueue.add(intermediateWindowItr.window);
+//                    task.windowCounterAdd();
+//                    iter.remove();
+//                //5) old window arrived trhow, or find aim intermediate window
+//                }else if(task.getWindowCounter() < window.getWindowId()
+//                        && task.getTaskId() == window.getQueryId()){
+//                    //this is not first window
+//                    if(intermediateWindowItr.getWindowId() == window.getWindowId()){
+//                        intermediateWindow = intermediateWindowItr;
+//                    }
+//                }
+//            }
+//            if(task.getWindowCounter() < window.getWindowId()
+//                    && task.getTaskId() == window.getQueryId()) {
+//                //1) empty, 6)disorder window, keep it, create a new intermediate window
+//                if (intermediateWindow == null) {
+//                    intermediateWindow = new IntermediateWindow();
+//                    intermediateWindow.setWindowId(window.getWindowId());
+//                    intermediateWindow.setProcessTime(timeTemp);
+//                    intermediateWindow.setWindowWaittingCounter(conf.localNumber / conf.intermediaNumber - 1);
+//                    intermediateWindow.window = window;
+//                    task.intermediateWindowLinkedList.add(intermediateWindow);
+//                } else {
+//                    //2) less window arrived, still need to wait
+//                    if (intermediateWindow.getWindowWaittingCounter() > 1) {
+//                        intermediateWindow.deleteWindowWaittingCounter();
+//                        mergeWindow(task, intermediateWindow.window, window);
+//                        // 3) all window arrived
+//                    } else {
+//                        mergeWindow(task, intermediateWindow.window, window);
+//                        resultQueue.add(intermediateWindow.window);
+//                        task.windowCounterAdd();
+//                        task.intermediateWindowLinkedList.remove(intermediateWindow);
+//                    }
+//                }
+//            }
+//
+//        });
     }
 
     void mergeWindow(IntermediateTask task, Window window, Window newWindow){

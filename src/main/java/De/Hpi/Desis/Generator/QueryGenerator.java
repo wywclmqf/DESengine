@@ -27,6 +27,8 @@ public class QueryGenerator {
         try {
             //totally 20 queries
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size.
+            initializeQuery(Configuration.SPEED,Configuration.MAX,Configuration.COUNTBASED,
+                    1000000, 0, 0, 0, 0, 0);
             initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
                     1000, 0, 0, 0, 0, 0);
 //            initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
@@ -162,6 +164,7 @@ public class QueryGenerator {
         queryQueue.offer(query);
         queryList.offer(query);
 
+
 //        if(query.getScenario() == conf.DeCentralizedAggregation){
 //            queryListDecentral.offer(query);
 //            conf.setQueryNumberDecentral(conf.getQueryNumberDecentral()+1);
@@ -172,9 +175,12 @@ public class QueryGenerator {
     }
 
     private int classifyQuery(Query query, Configuration conf){
-        int flag =  query.getFunction() < 5 ? conf.DeCentralizedAggregation : conf.CentralizedAggregation;
-        flag =  query.getWindowType() != conf.COUNTBASED  ? conf.DeCentralizedAggregation : conf.CentralizedAggregation;
-        return flag;
+        if(query.getFunction() == conf.MEDIAN || query.getFunction() == conf.QUANTILE
+                || query.getWindowType() == conf.COUNTBASED  ){
+            return conf.CentralizedAggregation;
+        }else{
+            return conf.DeCentralizedAggregation;
+        }
     }
 
 }

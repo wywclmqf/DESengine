@@ -9,6 +9,8 @@ import org.zeromq.ZMQ;
 import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LocalPublishMessage implements Runnable{
@@ -32,7 +34,7 @@ public class LocalPublishMessage implements Runnable{
         while (true) {
             if(!intermediateResultQueue.isEmpty()) {
                 Window window = (Window) intermediateResultQueue.poll();
-                window.setNodeId(conf.getNodeId());
+                window.nodeId = conf.getNodeId();
                 //the message type now it the data
                 MessageResult messageResult = new MessageResult();
                 messageResult.setNodeId(conf.getNodeId());
@@ -45,10 +47,11 @@ public class LocalPublishMessage implements Runnable{
                     if(conf.DEBUGMODE) {
 //                        networkOverhead += getNetworkOverhead(raw.length);
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
+//                        if (System.currentTimeMillis() - endtime > 1000000) {
                                 endtime = System.currentTimeMillis();
-                                System.out.println("localNode--" + messageResult.getNodeId() + "--Process--" +
-                                        +messageResult.window.getWindowId()
-                                        + "  QueryId:  " + messageResult.window.getQueryId()
+                                System.out.println("localNode--" + messageResult.getNodeId() + "--Process--"
+                                        + Arrays.toString(messageResult.window.queryIdList)
+                                        + "  QueryId:  " + messageResult.window.queryId
 //                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
 //                            + "  windowType  " + resultFromLocalToIntermedia.window.getWindowType()
                                         + "  result:  " + messageResult.window.result

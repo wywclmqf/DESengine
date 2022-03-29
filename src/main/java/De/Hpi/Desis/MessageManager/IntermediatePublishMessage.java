@@ -22,43 +22,43 @@ public class IntermediatePublishMessage implements Runnable{
     }
 
     public void run() {
-//        System.out.println("Starting UpperRequestThread ----intermediateNode");
-        MessagePack msgpack = new MessagePack();
-        long endtime = System.currentTimeMillis();
-        while (true) {
-            if(!resultQueue.isEmpty()) {
-                Window window = resultQueue.poll();
-                window.setNodeId(conf.getNodeId());
-                //the message type now it the data
-                MessageResult resultFromIntermediaToRoot = new MessageResult();
-                resultFromIntermediaToRoot.setNodeId(conf.getNodeId());
-                resultFromIntermediaToRoot.setMessageType(conf.MESSAGERESULT);
-                resultFromIntermediaToRoot.setMessageLevel(conf.INTERMEDIATENODEMESSAGE);
-                resultFromIntermediaToRoot.window = window;
-                try {
-                    byte[] raw = msgpack.write(resultFromIntermediaToRoot);
-                    socketPub.send(raw);
-                    if(conf.DEBUGMODE) {
-                        if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
-                            endtime = System.currentTimeMillis();
-                            System.out.println("InteNode--" + resultFromIntermediaToRoot.getNodeId() + "--Process--" +
-                                    +resultFromIntermediaToRoot.window.getWindowId()
-                                    + "  QueryId:  " + resultFromIntermediaToRoot.window.getQueryId()
-//                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
-//                            + "  windowType  " + resultFromLocalToIntermedia.window.getWindowType()
-                                    + "  result:  " + resultFromIntermediaToRoot.window.result
-                                    + "  count:  " + resultFromIntermediaToRoot.window.count
-                                    + "  listSize:  " + resultFromIntermediaToRoot.window.tuples.size()
-//                                    + "  NetworkOverhead:  " + networkOverhead
-//                                    + "  Throughput:  " + resultFromIntermediaToRoot.window.tupleCounter / ((endtime - begintime) / 1000.0)
-                            );
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+////        System.out.println("Starting UpperRequestThread ----intermediateNode");
+//        MessagePack msgpack = new MessagePack();
+//        long endtime = System.currentTimeMillis();
+//        while (true) {
+//            if(!resultQueue.isEmpty()) {
+//                Window window = resultQueue.poll();
+//                window.setNodeId(conf.getNodeId());
+//                //the message type now it the data
+//                MessageResult resultFromIntermediaToRoot = new MessageResult();
+//                resultFromIntermediaToRoot.setNodeId(conf.getNodeId());
+//                resultFromIntermediaToRoot.setMessageType(conf.MESSAGERESULT);
+//                resultFromIntermediaToRoot.setMessageLevel(conf.INTERMEDIATENODEMESSAGE);
+//                resultFromIntermediaToRoot.window = window;
+//                try {
+//                    byte[] raw = msgpack.write(resultFromIntermediaToRoot);
+//                    socketPub.send(raw);
+//                    if(conf.DEBUGMODE) {
+//                        if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
+//                            endtime = System.currentTimeMillis();
+//                            System.out.println("InteNode--" + resultFromIntermediaToRoot.getNodeId() + "--Process--" +
+//                                    +resultFromIntermediaToRoot.window.getWindowId()
+//                                    + "  QueryId:  " + resultFromIntermediaToRoot.window.getQueryId()
+////                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
+////                            + "  windowType  " + resultFromLocalToIntermedia.window.getWindowType()
+//                                    + "  result:  " + resultFromIntermediaToRoot.window.result
+//                                    + "  count:  " + resultFromIntermediaToRoot.window.count
+//                                    + "  listSize:  " + resultFromIntermediaToRoot.window.tuples.size()
+////                                    + "  NetworkOverhead:  " + networkOverhead
+////                                    + "  Throughput:  " + resultFromIntermediaToRoot.window.tupleCounter / ((endtime - begintime) / 1000.0)
+//                            );
+//                        }
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 
 
     }
