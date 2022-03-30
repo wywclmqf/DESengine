@@ -4,7 +4,7 @@ public class IntermediateWindow {
 
     private long windowId;
     //for 2)less window arrived
-    private int windowWaittingCounter;
+    private int windowWaitCounter;
     //to check expired
     private long processTime;
     public Window window;
@@ -15,14 +15,14 @@ public class IntermediateWindow {
     public void setWindowId(long windowId) {
         this.windowId = windowId;
     }
-    public int getWindowWaittingCounter() {
-        return windowWaittingCounter;
+    public int getWindowWaitCounter() {
+        return windowWaitCounter;
     }
-    public void setWindowWaittingCounter(int windowWaittingCounter) {
-        this.windowWaittingCounter = windowWaittingCounter;
+    public void setWindowWaitCounter(int windowWaitCounter) {
+        this.windowWaitCounter = windowWaitCounter;
     }
     public void deleteWindowWaittingCounter() {
-        this.windowWaittingCounter++;
+        this.windowWaitCounter++;
     }
     public long getProcessTime() {
         return processTime;
