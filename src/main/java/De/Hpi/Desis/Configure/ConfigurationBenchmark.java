@@ -3,7 +3,7 @@ package De.Hpi.Desis.Configure;
 public interface ConfigurationBenchmark {
 
     //how much time to delay monitor
-    public static final int BenchMarkDelay = 20000;
+    public static final int BenchMarkDelay = 500;
 
     //the frequency of outputting benchmark
     public static final int BenchMarkOutputFrequency = 1000;

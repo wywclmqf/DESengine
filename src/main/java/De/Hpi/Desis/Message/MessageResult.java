@@ -2,6 +2,7 @@ package De.Hpi.Desis.Message;
 
 
 import De.Hpi.Desis.Dao.Window;
+import De.Hpi.Desis.Dao.WindowCollection;
 import org.msgpack.annotation.*;
 
 @Message
@@ -10,7 +11,7 @@ public class MessageResult {
     private int nodeId;
     private int messageType;
     private int messageLevel;
-    public Window window;
+    public WindowCollection windowCollection;
 
 
     public int getNodeId() {

@@ -3,7 +3,7 @@ package De.Hpi.Desis.Dao;
 public class LocalisEventHere {
 
     //the window of this query is end and need to be calculated
-    public boolean[] endList;
+//    public boolean[] endList;
     //the window of this query is processing
     public int[] processList;
     //calculate how many times for window to be processed in total
@@ -11,9 +11,9 @@ public class LocalisEventHere {
     //mark down the current state of window that belong to this query
 //    public int[] stateList;
     //in case there is a long gap and multiple windows end
-    public int[] multipleWindowEndList;
+//    public int[] multipleWindowEndList;
     //to break down functions into operators
-    public boolean[] functions;
+//    public boolean[] functions;
 
     //there are three statues for each window start end and processing
     private boolean createNewWindow;

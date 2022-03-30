@@ -1,18 +1,13 @@
 package De.Hpi.Desis.Dao;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 public class LocalWindow{
 
-    private long windowId;
+    private long localWindowId;
     //it decide when to delete this localwindow (is it still used by task)
-    private int windowUsedCounter;
+    private int localWindowCounter;
     //the tasks that need this slice
     public int[] processList;
 
-    //operator 0x count, sum, sort
-    public boolean[] operators;
     //intermediate result
     public double sum;
     public long count;
@@ -20,20 +15,20 @@ public class LocalWindow{
     public double min;
 //    public ArrayList<Tuple> tupleList;
 
-    public long getWindowId() {
-        return windowId;
+    public long getLocalWindowId() {
+        return localWindowId;
     }
-    public void setWindowId(long windowId) {
-        this.windowId = windowId;
+    public void setLocalWindowId(long localWindowId) {
+        this.localWindowId = localWindowId;
     }
-    public int getWindowUsedCounter() {
-        return windowUsedCounter;
+    public int getLocalWindowCounter() {
+        return localWindowCounter;
     }
-    public void setWindowUsedCounter(int windowCounter) {
-        this.windowUsedCounter = windowCounter;
+    public void setLocalWindowCounter(int windowCounter) {
+        this.localWindowCounter = windowCounter;
     }
     public void windowUsedCounterDelete(){
-        this.windowUsedCounter--;
+        this.localWindowCounter--;
     }
 
 }

@@ -3,6 +3,7 @@ package De.Hpi.Desis.IntermediaNode;
 import De.Hpi.Desis.Configure.Configuration;
 import De.Hpi.Desis.Dao.Query;
 import De.Hpi.Desis.Dao.Window;
+import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.MessageManager.IntermediatePublishMessage;
 import De.Hpi.Desis.MessageManager.IntermediateSubscribeMessage;
 import De.Hpi.Desis.MessageManager.IntermediateSubscribeAndPublishMessage;
@@ -16,9 +17,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class IntermediaNode {
 
     private Configuration conf;
-    private ConcurrentLinkedQueue queryQueue;
-    private ConcurrentLinkedQueue resultQueue;
-    private ConcurrentLinkedQueue resultQueueFromLocal;
+    private ConcurrentLinkedQueue<Query> queryQueue;
+    private ConcurrentLinkedQueue<WindowCollection> resultQueue;
+    private ConcurrentLinkedQueue<WindowCollection> resultQueueFromLocal;
 
     private ZContext context;
     private ZMQ.Socket socketUpperPub;
@@ -35,8 +36,8 @@ public class IntermediaNode {
         this.threadsList = new ArrayList<>();
         this.conf.setNodeId(nodeId);
         this.queryQueue = new ConcurrentLinkedQueue<Query>();
-        this.resultQueue = new ConcurrentLinkedQueue<Window>();
-        this.resultQueueFromLocal = new ConcurrentLinkedQueue<Window>();
+        this.resultQueue = new ConcurrentLinkedQueue<WindowCollection>();
+        this.resultQueueFromLocal = new ConcurrentLinkedQueue<WindowCollection>();
 
         this.context = new ZContext();
         this.intermediateParseAddress = new IntermediateParseAddress();
@@ -69,9 +70,9 @@ public class IntermediaNode {
         //receive the data or message from the local node
         threadsList.add(new Thread(new IntermediateSubscribeMessage(resultQueueFromLocal, conf, socketLocalPub)));
         //perform decentralized aggregation in intermediate node
-//        threadsList.add(new Thread(new IntermediateComputationEngine(resultQueue, resultQueueFromLocal, queryQueue ,conf)));
+        threadsList.add(new Thread(new IntermediateComputationEngine(resultQueue, resultQueueFromLocal, queryQueue ,conf)));
 //        //send data from intermedia to root
-        threadsList.add(new Thread(new IntermediatePublishMessage(resultQueue, socketUpperPub, conf)));
+//        threadsList.add(new Thread(new IntermediatePublishMessage(resultQueue, socketUpperPub, conf)));
 
     }
 

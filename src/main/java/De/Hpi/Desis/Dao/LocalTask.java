@@ -28,6 +28,9 @@ public class LocalTask {
     //or how many windows are currently processing
     private int windowSlices;
 
+    //window end
+    private boolean windowEnd;
+
     public int getTaskId() { return taskId; }
     public void setTaskId(int taskId) { this.taskId = taskId; }
     public long getEventTime() {
@@ -68,6 +71,12 @@ public class LocalTask {
     }
     public int getwindowSlices() {
         return windowSlices;
+    }
+    public boolean getWindowEnd() {
+        return windowEnd;
+    }
+    public void setWindowEnd(boolean windowEnd) {
+        this.windowEnd = windowEnd;
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import De.Hpi.Desis.Dao.Tuple;
 import De.Hpi.Desis.Dao.Window;
+import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Message.MessageResult;
 import org.msgpack.MessagePack;
 import org.zeromq.SocketType;
@@ -31,10 +32,10 @@ public class ZeroMqPub {
 //                tuple.DATA = topicNbr;
 //                tuple.EVENT = 1;
                 MessageResult messageResult = new MessageResult();
-                Window window = new Window();
+                WindowCollection windowCollection = new WindowCollection();
 
 //                window.tupleCounter =52;
-                messageResult.window = window;
+                messageResult.windowCollection = windowCollection;
 //                messageResult.window.tuples = new ArrayList<>();
 
                 for(int i=0; i< 1000; i++){

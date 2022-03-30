@@ -7,7 +7,7 @@ public class IntermediateTask {
     private int taskId;
     public Query query;
     public LinkedList<IntermediateWindow> intermediateWindowLinkedList;
-    //it is from 0
+    //it is from 1
     private int windowCounter;
 
     public int getTaskId() { return taskId; }
