@@ -71,7 +71,7 @@ public class RootNode {
         //get the data from the intermedia node
         threadsList.add(new Thread(new RootSubscribeMassage(resultFromIntermediaDecentral, resultFromIntermediaCentral, conf, socketSub)));
         //perform aggregation in root node
-        threadsList.add(new Thread(new RootComputationEngineDecentral(resultFromIntermediaDecentral, conf, resultQueue, queryList)));
+//        threadsList.add(new Thread(new RootComputationEngineDecentral(resultFromIntermediaDecentral, conf, resultQueue, queryList)));
         //output result
         threadsList.add(new Thread(new PrintResult(resultQueue, conf)));
     }

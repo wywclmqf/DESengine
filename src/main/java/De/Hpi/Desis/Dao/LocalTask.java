@@ -8,21 +8,25 @@ public class LocalTask {
 
     private int taskId;
     public Query query;
-    public ArrayList<Window> windowList;
 
     //for isEventHere function to process the query
     private long eventTime;
     private long processTime;
-    //how many windows are calculated, it is from 1
-    private int windowCounter;
+    //for all time based window we need a initial time, to process window id when long gap
+    private long initialTime;
+
+    //how many windows are calculated, it is from 1, the window id
+    private int windowId;
+    //in case there is a long gap so, we need to save the window id after long gap
+    //and window id can not be calculated as plus 1
+    //the windowCount is how many windows are finish
+    //windowCount < windowId & windowCount + 1 = windowId
+    private int windowCount;
 
     //to calculate how many windows are using this slices,
     // which means the windows that slice be shared with
     //or how many windows are currently processing
     private int windowSlices;
-
-    //operator count, sum, sort, mix
-    private int operator;
 
     public int getTaskId() { return taskId; }
     public void setTaskId(int taskId) { this.taskId = taskId; }
@@ -38,20 +42,23 @@ public class LocalTask {
     public void setProcessTime(long processTime) {
         this.processTime = processTime;
     }
-    public int getWindowCounter() {
-        return windowCounter;
+    public int getWindowId() {
+        return windowId;
     }
-    public void setWindowCounter(int windowCounter) {
-        this.windowCounter = windowCounter;
+    public void setWindowId(int windowId) {
+        this.windowId = windowId;
     }
-    public void windowCounterAdd(){
-        this.windowCounter++;
+    public int getWindowCount() {
+        return windowCount;
     }
-    public int getOperator() {
-        return operator;
+    public void setWindowCount(int windowCount) {
+        this.windowCount = windowCount;
     }
-    public void setOperator(int operator) {
-        this.operator = operator;
+    public long getInitialTime() {
+        return initialTime;
+    }
+    public void setInitialTime(long initialTime) {
+        this.initialTime = initialTime;
     }
     public void windowSliceAdd(){
         this.windowSlices++;

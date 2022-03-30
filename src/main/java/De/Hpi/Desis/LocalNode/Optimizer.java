@@ -7,8 +7,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /*
-1. Median & Quantile
-sorting spends too much time, which affects the output
+1. windows that have gaps only increment window counter.
 
  */
 
@@ -17,9 +16,8 @@ public class Optimizer implements Runnable{
     private Configuration conf;
     private LinkedList<LocalTask> localTasks;
     private LinkedList<LocalWindow> localWindows;
-    private LinkedList<Window> windowList;
     private ArrayList<Tuple> tupleList;
-    private ConcurrentLinkedQueue<Window> intermediateResultQueue;
+    private ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue;
     private ConcurrentLinkedQueue<Query> queryQueue;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
     private long localWindowCounter;
@@ -28,15 +26,14 @@ public class Optimizer implements Runnable{
     private boolean nonDecomposable;
     private boolean hasCountBased;
 
-    public Optimizer(Configuration conf, ConcurrentLinkedQueue<Window> intermediateResultQueue,
-                     ConcurrentLinkedQueue<Query> queryQueue , ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue) {
+    public Optimizer(Configuration conf, ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue,
+                                       ConcurrentLinkedQueue<Query> queryQueue , ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue) {
         this.conf = conf;
         this.intermediateResultQueue =intermediateResultQueue;
         this.queryQueue =queryQueue;
         this.dataQueue =dataQueue;
         this.localTasks = new LinkedList<>();
         this.localWindows = new LinkedList<>();
-        this.windowList = new LinkedList<>();
         this.tupleList = new ArrayList<>(conf.centralizedBatchSize);
         this.localWindowCounter = 0;
         this.tupleCounter = 0;
@@ -58,15 +55,15 @@ public class Optimizer implements Runnable{
                     //slice window
                     LocalisEventHere localisEventHere = isEventHere(tuple, timeTemp);
 
-                    if(localisEventHere.getFinishWindow() > 0){
+                    if(localisEventHere.isFinishWindow()){
                         endWindow(localisEventHere);
                     }
-                    if(localisEventHere.getCreateNewWindow() > 0){
+                    if(localisEventHere.isCreateNewWindow()){
                         createWindow(localisEventHere);
                     }
-                    if(localisEventHere.getProcessWindow() > 0){
+                    if(localisEventHere.isProcessWindow()){
                         //calculate the result the calculate action
-                        processWindow(tuple);
+                        processWindow(localisEventHere, tuple);
                     }
                 });
 
@@ -80,9 +77,6 @@ public class Optimizer implements Runnable{
         tupleCounterIncrement();
         //to record the window state of each query
         LocalisEventHere localisEventHere = new LocalisEventHere();
-        localisEventHere.setCreateNewWindow(0);
-        localisEventHere.setFinishWindow(0);
-        localisEventHere.setProcessWindow(0);
         //to break down functions into operators
         localisEventHere.functions = new boolean[conf.FUNCTIONS];
         //the window of this query is end and need to be calculated
@@ -90,7 +84,7 @@ public class Optimizer implements Runnable{
         //the window of this query is processing
         localisEventHere.processList = new int[localTasks.size()];
         //mark down the current state of window that belong to this query
-        localisEventHere.stateList = new int[localTasks.size()];
+//        localisEventHere.stateList = new int[localTasks.size()];
         //in case there is a long gap and multiple windows end
         localisEventHere.multipleWindowEndList = new int[localTasks.size()];
 
@@ -98,278 +92,189 @@ public class Optimizer implements Runnable{
             //iterate all the query and process the bound of query
             // decentralized aggregation
 //            if(task.query.getScenario() == conf.DeCentralizedAggregation) {
-                switch (task.query.getWindowType()) {
-                    //1------tumbling window
-                    case Configuration.TUMBING: {
-                        if (task.getProcessTime() == 0) {
-                            //for the state
-                            task.windowSliceAdd();
-                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                            localisEventHere.addCreateNewWindow();
-                            //initial tumbing window
-                            task.setProcessTime(timeTemp);
-                        } else {
-                            if ((timeTemp - task.getProcessTime()) > task.query.getRange()) {
-                                //for the state
-//                                task.windowSliceAdd();
-//                                task.windowSliceDelete();
-                                localisEventHere.endList[task.getTaskId()] = true;
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                                localisEventHere.addCreateNewWindow();
-                                localisEventHere.addFinishWindow();
-                                localisEventHere.multipleWindowEndList[task.getTaskId()] =
-                                        (int) (timeTemp - task.getProcessTime()) / task.query.getRange();
-                                //in case there is a super long gap
-                                task.setProcessTime(timeTemp - (timeTemp - task.getProcessTime()) % task.query.getRange());
-                            } else {
-                                //for the state
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-                            }
-                        }
+            switch (task.query.getWindowType()) {
+                //1------tumbling window
+                case Configuration.TUMBING: {
+                    if (task.getInitialTime() == 0) {
+                        //for the state
+                        task.windowSliceAdd();
+                        localisEventHere.setCreateNewWindow(true);
                         localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
-                        localisEventHere.addProcessWindow(task.getwindowSlices());
-                        localisEventHere.functions[task.query.getFunction()] = true;
-                        break;
-                    }
-                    //2-----sliding window
-                    case Configuration.SLIDING: {
-                        //initial sliding window
-                        //event time to start window, processing time to end window
-                        if (task.getProcessTime() == 0) {
-                            //for the state
-                            task.windowSliceAdd();
-                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                            localisEventHere.addCreateNewWindow();
-                            task.setProcessTime(timeTemp);
-                            task.setEventTime(timeTemp);
-                        } else {
-                            if ((timeTemp - task.getProcessTime()) > task.query.getRange()) {
-                                //for the state
-                                task.windowSliceDelete();
-                                localisEventHere.endList[task.getTaskId()] = true;
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTEND;
-                                localisEventHere.addCreateNewWindow();
-                                localisEventHere.addFinishWindow();
-                                //home many windows if there is a long gap
-                                localisEventHere.multipleWindowEndList[task.getTaskId()] =
-                                        (int) (timeTemp - task.getProcessTime() - task.query.getRange()) / task.query.getSlide() + 1;
-                                //in case there is a super long gap
-                                task.setProcessTime(timeTemp - (timeTemp - task.getProcessTime() - task.query.getRange()) % task.query.getSlide()
-                                        - task.query.getRange() + task.query.getSlide());
-                            }
-                            //if gcd is slide
-                            if ((timeTemp - task.getEventTime()) > task.query.getSlide()) {
-                                //for the state
-                                task.windowSliceAdd();
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                                localisEventHere.addCreateNewWindow();
-                                //home many windows if there is a long gap
-//                                resultOfIsEventHere.multipleWindowEndList[task.getTaskId()] = (int) (timeTemp - task.getEventTime()) / task.query.getSlide();
-                                //align
-                                task.setEventTime(timeTemp - (timeTemp - task.getEventTime()) % task.query.getSlide());
-                            }
-                            if ((timeTemp - task.getEventTime()) <= task.query.getSlide()
-                                    && (timeTemp - task.getProcessTime()) <= task.query.getRange()) {
-                                //for the state
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-                            }
+                        localisEventHere.addProcessCount(task.getwindowSlices());
+                        //initial tumbing window
+                        task.setProcessTime(timeTemp);
+                        task.setInitialTime(timeTemp);
+                    } else {
+                        if ((timeTemp - task.getProcessTime()) > task.query.getRange()) {
+                            localisEventHere.endList[task.getTaskId()] = true;
+                            localisEventHere.setCreateNewWindow(true);
+                            localisEventHere.setFinishWindow(true);
+                            localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                            localisEventHere.addProcessCount(task.getwindowSlices());
+                            task.setWindowCount((int)(timeTemp - task.getInitialTime()) / task.query.getRange());
+//                            localisEventHere.multipleWindowEndList[task.getTaskId()] =
+//                                    (int) (timeTemp - task.getInitialTime()) / task.query.getRange();
+                            //in case there is a super long gap
+                            task.setProcessTime(task.getInitialTime() + task.getWindowCount()*task.query.getRange());
+                            //task.setProcessTime(timeTemp - (timeTemp - task.getProcessTime()) % task.query.getRange());
                         }
-                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
-                        localisEventHere.addProcessWindow(task.getwindowSlices());
-                        localisEventHere.functions[task.query.getFunction()] = true;
-                        break;
                     }
-                    //3-----uneven sliding window (hoping window, slide more than range), this is hopping window
-                    case Configuration.SLIDING_UNEVEN: {
-                        if (task.getProcessTime() == 0) {
-                            task.setProcessTime(timeTemp);
-                            //for the state
-                            task.windowSliceAdd();
-                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                            localisEventHere.addCreateNewWindow();
-                        } else {
-                            if ((timeTemp - task.getProcessTime()) > task.query.getRange()) {
-                                //between range > to < slide
-                                if ((timeTemp - task.getProcessTime()) % task.query.getSlide() > task.query.getRange()) {
-                                    //for the state
-                                    if(task.getwindowSlices() == 1) {
-                                        task.windowSliceDelete();
-                                        localisEventHere.endList[task.getTaskId()] = true;
-                                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTEND;
-                                        localisEventHere.addFinishWindow();
-                                        //home many windows if there is a long gap
-                                        localisEventHere.multipleWindowEndList[task.getTaskId()] = (int) (timeTemp - task.getProcessTime()) / task.query.getSlide() + 1;
-                                        task.setProcessTime(timeTemp - (timeTemp - task.getProcessTime()) % task.query.getSlide());
-                                    }else{
-                                        //for the state
-                                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-                                    }
-                                    break;
-                                    //between 0 to range
-                                } else if((timeTemp - task.getProcessTime()) % task.query.getSlide() > 0){
-                                    //long gap
-                                    if((timeTemp - task.getProcessTime()) / task.query.getSlide() > 1) {
-                                        localisEventHere.endList[task.getTaskId()] = true;
-                                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                                        localisEventHere.addCreateNewWindow();
-                                        localisEventHere.addFinishWindow();
-                                        //a long gap before range
-                                        if(task.getwindowSlices() == 1) {
-                                            //task.windowSliceDelete();
-                                            //task.windowSliceAdd();
-                                            localisEventHere.multipleWindowEndList[task.getTaskId()] =
-                                                    (int) (timeTemp - task.getProcessTime()) / task.query.getSlide();
-                                        //a long gap after range
-                                        }else{
-                                            task.windowSliceAdd();
-                                            localisEventHere.multipleWindowEndList[task.getTaskId()] =
-                                                    (int) (timeTemp - task.getProcessTime()) / task.query.getSlide() - 1;
-                                        }
-                                        //in case there is a super long gap
-                                        task.setProcessTime(timeTemp - (timeTemp - task.getProcessTime()) % task.query.getSlide());
-                                    }else{
-                                        task.windowSliceAdd();
-                                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                                        localisEventHere.addCreateNewWindow();
-                                        //how many windows if there is a long gap
-                                        //resultOfIsEventHere.multipleWindowEndList[task.getTaskId()] = (int) (timeTemp - task.getProcessTime()) / task.query.getSlide();
-                                        task.setProcessTime(task.getProcessTime() + task.query.getSlide());
-                                    }
-                                }
-                            } else {
-                                //for the state
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-                            }
-                        }
-                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
-                        localisEventHere.addProcessWindow(task.getwindowSlices());
-                        localisEventHere.functions[task.query.getFunction()] = true;
-                        break;
-                    }
-                    //4-----session window
-                    case Configuration.SESSION: {
-                        if (task.getProcessTime() == 0) {
-                            task.setProcessTime(timeTemp);
-                            //for the state
-                            task.windowSliceAdd();
-                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                            localisEventHere.addCreateNewWindow();
-                        } else {
-                            if (timeTemp - task.getProcessTime() > task.query.getSlide()) {
-                                //there is a gap
-                                localisEventHere.endList[task.getTaskId()] = true;
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                                localisEventHere.addCreateNewWindow();
-                                localisEventHere.addFinishWindow();
-                                localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
-                                //in case there is a super long gap
-                                task.setProcessTime(timeTemp);
-                            } else {
-                                //for the state
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-                                task.setProcessTime(timeTemp);
-                            }
-                        }
-                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
-                        localisEventHere.addProcessWindow(task.getwindowSlices());
-                        localisEventHere.functions[task.query.getFunction()] = true;
-                        break;
-                    }
-                    //5-----punctuation window
-                    case Configuration.PUNCTUATION: {
-                        if (task.getProcessTime() == 0) {
-                            task.setProcessTime(timeTemp);
-                            //for the state
-                            task.windowSliceAdd();
-                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                            localisEventHere.addCreateNewWindow();
-                        } else {
-                            if (task.query.getEndPunctuation() == tuple.EVENT) {
-                                //there is a gap
-                                localisEventHere.endList[task.getTaskId()] = true;
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                                localisEventHere.addCreateNewWindow();
-                                localisEventHere.addFinishWindow();
-                                localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
-                                //in case there is a super long gap
-                                task.setProcessTime(timeTemp);
-                            } else {
-                                //for the state
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-                            }
-                        }
-                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
-                        localisEventHere.addProcessWindow(task.getwindowSlices());
-                        localisEventHere.functions[task.query.getFunction()] = true;
-                        break;
-                    }
-                    //6 -- count based window
-                    //in fact the first tuple which make decision to build
-                    // the sub window is not belong to this sub window, however here is a bug
-                    //so the tuple number is more than batchSize, which equals to batchsize + 1
-                    //batch size is process time
-                    case Configuration.COUNTBASED: {
-                        if (task.getProcessTime() == 0) {
-                            task.setProcessTime(tupleCounter);
-                            //for the state
-                            task.windowSliceAdd();
-                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-                            localisEventHere.addCreateNewWindow();
-                        } else {
-//                            if (tupleCounter - task.getProcessTime() > task.query.getBatchSize()) {
-                            if (tupleCounter - task.getProcessTime() >= conf.centralizedBatchSize) {
-                                //for the state
-                                localisEventHere.endList[task.getTaskId()] = true;
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                                localisEventHere.addCreateNewWindow();
-                                localisEventHere.addFinishWindow();
-                                localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
-                                //align
-                                task.setProcessTime(tupleCounter);
-                            } else {
-                                //for the state
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-                            }
-                        }
-                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
-                        localisEventHere.addProcessWindow(task.getwindowSlices());
-//                        localisEventHere.functions[task.query.getFunction()] = true;
-                        localisEventHere.functions[conf.NON] = true;
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-
+                    localisEventHere.setProcessWindow(true);
+                    localisEventHere.functions[task.query.getFunction()] = true;
+                    break;
                 }
-            // transfer all tuples to root node by batch
-//            }else{
-//                //batch size is process time
-//                if (task.getProcessTime() == 0) {
-//                    task.setProcessTime(tupleCounter);
-//                    //for the state
-//                    task.windowSliceAdd();
-//                    localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
-//                    localisEventHere.addCreateNewWindow();
-//                } else {
-//                    if (tupleCounter - task.getProcessTime() > conf.centralizedBatchSize) {
-//                        //for the state
-//                        localisEventHere.endList[task.getTaskId()] = true;
-//                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-//                        localisEventHere.addCreateNewWindow();
-//                        localisEventHere.addFinishWindow();
-//                        localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
-//                        //align
-//                        task.setProcessTime(tupleCounter);
-//                    } else {
-//                        //for the state
-//                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
-//                    }
-//                }
-//                localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
-//                localisEventHere.addProcessWindow(task.getwindowSlices());
-//                localisEventHere.functions[task.query.getFunction()] = true;
-//            }
+                //2-----sliding window
+                case Configuration.SLIDING: {
+                    //initial sliding window
+                    //event time to start window, processing time to end window
+                    if (task.getInitialTime() == 0) {
+                        //for the state
+                        task.windowSliceAdd();
+                        localisEventHere.setCreateNewWindow(true);
+                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                        localisEventHere.addProcessCount(task.getwindowSlices());
+                        task.setProcessTime(timeTemp);
+                        task.setEventTime(timeTemp);
+                        task.setInitialTime(timeTemp);
+                    } else {
+                        //window end
+                        if ((timeTemp - task.getProcessTime()) > task.query.getRange()) {
+                            //for the state
+                            task.windowSliceDelete();
+                            localisEventHere.endList[task.getTaskId()] = true;
+                            localisEventHere.setCreateNewWindow(true);
+                            localisEventHere.setFinishWindow(true);
+                            localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                            localisEventHere.addProcessCount(task.getwindowSlices());
+                            //home many windows if there is a long gap
+                            task.setWindowCount(
+                                    (int)(timeTemp - task.getInitialTime()) / task.query.getSlide());
+//                            localisEventHere.multipleWindowEndList[task.getTaskId()] =
+//                                    (int) (timeTemp - task.getProcessTime() - task.query.getRange()) / task.query.getSlide() + 1;
+                            //in case there is a super long gap
+//                            task.setProcessTime(timeTemp - (timeTemp - task.getProcessTime() - task.query.getRange()) % task.query.getSlide()
+//                                    - task.query.getRange() + task.query.getSlide());
+                            task.setProcessTime(task.getInitialTime() + task.getWindowCount()*task.query.getSlide());
+                        }
+                        //window start
+                        if ((timeTemp - task.getEventTime()) > task.query.getSlide()) {
+                            //for the state
+                            task.windowSliceAdd();
+//                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
+                            localisEventHere.setCreateNewWindow(true);
+                            localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                            localisEventHere.addProcessCount(task.getwindowSlices());
+                            //home many windows if there is a long gap
+//                                resultOfIsEventHere.multipleWindowEndList[task.getTaskId()] = (int) (timeTemp - task.getEventTime()) / task.query.getSlide();
+                            //align and in case there is a long gap
+                            task.setEventTime(timeTemp - (timeTemp - task.getEventTime()) % task.query.getSlide());
+                        }
+                    }
+                    localisEventHere.setProcessWindow(true);
+                    localisEventHere.functions[task.query.getFunction()] = true;
+                    break;
+                }
+                //4-----session window
+                case Configuration.SESSION: {
+                    if (task.getProcessTime() == 0) {
+                        task.setProcessTime(timeTemp);
+                        //for the state
+                        task.windowSliceAdd();
+//                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
+                        localisEventHere.setCreateNewWindow(true);
+                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                        localisEventHere.addProcessCount(task.getwindowSlices());
+                    } else {
+                        if (timeTemp - task.getProcessTime() > task.query.getSlide()) {
+                            //there is a gap
+                            localisEventHere.endList[task.getTaskId()] = true;
+//                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
+                            localisEventHere.setCreateNewWindow(true);
+                            localisEventHere.setFinishWindow(true);
+                            localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                            localisEventHere.addProcessCount(task.getwindowSlices());
+                            task.setWindowCount(task.getWindowCount() + 1);
+//                            localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
+                            //in case there is a super long gap
+                            task.setProcessTime(timeTemp);
+                        } else {
+                            //for the state
+//                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
+                            task.setProcessTime(timeTemp);
+                        }
+                    }
+                    localisEventHere.setProcessWindow(true);
+                    localisEventHere.functions[task.query.getFunction()] = true;
+                    break;
+                }
+                //5-----punctuation window
+                case Configuration.PUNCTUATION: {
+                    if (task.getProcessTime() == 0) {
+                        task.setProcessTime(timeTemp);
+                        //for the state
+                        task.windowSliceAdd();
+//                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
+                        localisEventHere.setCreateNewWindow(true);
+                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                        localisEventHere.addProcessCount(task.getwindowSlices());
+                    } else {
+                        if (task.query.getEndPunctuation() == tuple.EVENT) {
+                            //there is a gap
+                            localisEventHere.endList[task.getTaskId()] = true;
+//                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
+                            localisEventHere.setCreateNewWindow(true);
+                            localisEventHere.setFinishWindow(true);
+                            localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                            localisEventHere.addProcessCount(task.getwindowSlices());
+//                            localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
+                            task.setWindowCount(task.getWindowCount() + 1);
+                            //in case there is a super long gap
+                            task.setProcessTime(timeTemp);
+                        }
+                    }
+                    localisEventHere.setProcessWindow(true);
+                    localisEventHere.functions[task.query.getFunction()] = true;
+                    break;
+                }
+                //6 -- count based window
+                //in fact the first tuple which make decision to build
+                // the sub window is not belong to this sub window, however here is a bug
+                //so the tuple number is more than batchSize, which equals to batchsize + 1
+                //batch size is process time
+                case Configuration.COUNTBASED: {
+                    if (task.getProcessTime() == 0) {
+                        task.setProcessTime(tupleCounter);
+                        //for the state
+                        task.windowSliceAdd();
+//                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
+                        localisEventHere.setCreateNewWindow(true);
+                        localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                        localisEventHere.addProcessCount(task.getwindowSlices());
+                    } else {
+//                            if (tupleCounter - task.getProcessTime() > task.query.getBatchSize()) {
+                        if (tupleCounter - task.getProcessTime() >= conf.centralizedBatchSize) {
+                            //for the state
+                            localisEventHere.endList[task.getTaskId()] = true;
+//                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
+                            localisEventHere.setCreateNewWindow(true);
+                            localisEventHere.setFinishWindow(true);
+                            localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                            localisEventHere.addProcessCount(task.getwindowSlices());
+//                            localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
+                            task.setWindowCount(task.getWindowCount() + 1);
+                            //align
+                            task.setProcessTime(tupleCounter);
+                        }
+                    }
+                    localisEventHere.setProcessWindow(true);
+                    localisEventHere.functions[task.query.getFunction()] = true;
+                    break;
+                }
+                default: {
+                    break;
+                }
+
+            }
         });
         return localisEventHere;
     }
@@ -383,8 +288,9 @@ public class Optimizer implements Runnable{
         localWindowCounterIncrement();
         LocalWindow localWindow = new LocalWindow();
         localWindow.setWindowId(localWindowCounter);
+        //record window slice
         localWindow.processList = localisEventHere.processList;
-        localWindow.setWindowUsedCounter(localisEventHere.getProcessWindow());
+        localWindow.setWindowUsedCounter(localisEventHere.getProcessCount());
 //        localWindow.tupleList = new ArrayList<Tuple>(conf.centralizedBatchSize);
         localWindow.count = 0;
         localWindow.sum = 0;
@@ -394,7 +300,7 @@ public class Optimizer implements Runnable{
         localWindows.add(localWindow);
     }
 
-    private void processWindow(Tuple tuple) {
+    private void processWindow(LocalisEventHere localisEventHere, Tuple tuple) {
         //optimizer can calculate all the queries
         //decomposable function
         LocalWindow localWindow = localWindows.getLast();
@@ -428,8 +334,18 @@ public class Optimizer implements Runnable{
     //batch median and quantile tuples
     void batchAndSending(LocalWindow localWindow){
         //iterate all local tasks that processed by this local window
+        WindowCollection windowCollection = new WindowCollection();
+        windowCollection.windowList = new ArrayList<>();
+        windowCollection.tuples = tupleList;
+
         Window window = new Window();
-        window.queryIdList = new int[conf.queryNumber];
+//        window.queryId = ;
+//        window.windowId = j;
+//        window.count = j;
+//        window.result = j;
+        windowCollection.windowList.add(window);
+
+
         localTasks.forEach(task -> {
             switch (task.query.getFunction()){
                 case Configuration.MAX: {
@@ -442,12 +358,12 @@ public class Optimizer implements Runnable{
                 }
                 case Configuration.MEDIAN: {
                     //window id for this query
-                    window.queryIdList[task.query.getQueryId()] = task.getWindowCounter();
+//                    window.queryIdList[task.query.getQueryId()] = task.getWindowId();
                     break;
                 }
                 case Configuration.QUANTILE: {
                     //window id for this query
-                    window.queryIdList[task.query.getQueryId()] = task.getWindowCounter();
+//                    window.queryIdList[task.query.getQueryId()] = task.getWindowCounter();
                     break;
                 }
                 default:
@@ -457,160 +373,42 @@ public class Optimizer implements Runnable{
 //        windowList.add(window);
 //        intermediateResultQueue.addAll(windowList);
 //        windowList.clear();
-        window.tuples = tupleList;
-        intermediateResultQueue.add(window);
+        intermediateResultQueue.add(windowCollection);
         tupleList = new ArrayList<>(conf.centralizedBatchSize);
 //        tupleList.clear();
 //        System.out.println(tupleList.size());
     }
 
     void endWindow(LocalisEventHere localisEventHere) {
-//        System.out.println(tupleCounter);
-//        System.out.println("-----------------------------");
-//        System.out.println(localisEventHere.getCreateNewWindow());
-//        System.out.println(localisEventHere.getFinishWindow());
-//        System.out.println(localisEventHere.getCreateNewWindow());
-//        System.out.println(tupleList.size());
-//        System.out.println(localWindows.get(0).count);
+        WindowCollection windowCollection = new WindowCollection();
+        windowCollection.windowList = new ArrayList<>();
 
-//        localTasks.forEach(task -> {
-//        System.out.println(task.getTaskId()
-//                + " endList " + resultOfIsEventHere.endList[task.getTaskId()]
-//                + "  tuples:  " + tupleCounter
-//                + "  localwindows: "  + localWindows.size()
-//                + "  slices: "  + task.getwindowSlices()
-//                + "  WindowsNeedTobeProcessed: " + resultOfIsEventHere.multipleWindowEndList[task.getTaskId()] );
-//        });
-//
-//        localWindows.forEach(localWindow -> {
-//            System.out.print(localWindow.getWindowId()
-//                    + " windowUsedCounter " + localWindow.getWindowUsedCounter());
-//            System.out.print(" processList ");
-//            localTasks.forEach(task -> {
-//                System.out.print(" " +localWindow.processList[task.getTaskId()]);
-//            });
-//            System.out.println();
-//        });
-
-        //for centralized aggregation we need to sort tuples anyway
-        if(nonDecomposable | hasCountBased){
-//            if(nonDecomposable)
-                tupleList.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-            //send tuples
-            Window windowDecentralized = new Window();
-            windowDecentralized.queryIdList = new int[conf.queryNumber];
-            windowDecentralized.tuples = tupleList;
-            tupleList = new ArrayList<>(conf.centralizedBatchSize);
-
-            //to find the local windows that process this task which is end
-            localWindows.forEach(localWindow -> {
-                //iterate all local tasks that processed by this local window
-                localTasks.forEach(task -> {
-                    if (localisEventHere.endList[task.getTaskId()] &&
-                            localWindow.processList[task.getTaskId()] > 0) {
-                        //create window list
-                        if (task.windowList.isEmpty()) {
-                            for (int i = 0; i < localisEventHere.multipleWindowEndList[task.getTaskId()]; i++) {
-                                Window window = new Window();
-//                            window.setWindowId(task.getWindowCounter());
-                                window.queryId = task.query.getQueryId();
-//                            window.setScenario(task.query.getScenario());
-//                            if(task.query.getScenario() == conf.CentralizedAggregation)
-                            window.tuples = new ArrayList<Tuple>();
-//                            window.tupleCounter = tupleCounter;
-                                task.windowList.add(window);
-                                task.windowCounterAdd();
-                            }
-                        }
-                        //cant make sure either number of empty window or processed window is larger
-                        //all processed windows should be merged
-                        if(task.query.getScenario() == conf.DeCentralizedAggregation) {
-                            //cant make sure either number of empty window or processed window is larger
-                            for (int i = 0; i < Math.min(localisEventHere.multipleWindowEndList[task.getTaskId()]
-                                    , localWindow.processList[task.getTaskId()]); i++) {
-                                //merge results of local windows into window
-                                mergeWindow(task, localWindow, task.windowList.get(i));
-                                //remove the empty local windows and organize rest local windows
-                                localWindow.processList[task.getTaskId()] -= 1;
-                                localWindow.windowUsedCounterDelete();
-                            }
-                        }else{
-                            //cant make sure either number of empty window or processed window is larger
-                            for (int i = 0; i < Math.min(localisEventHere.multipleWindowEndList[task.getTaskId()]
-                                    , localWindow.processList[task.getTaskId()]); i++) {
-                                //remove the empty local windows and organize rest local windows
-                                localWindow.processList[task.getTaskId()] -= 1;
-                                localWindow.windowUsedCounterDelete();
-                            }
-                            windowDecentralized.queryIdList[task.query.getQueryId()] = task.getWindowCounter();
-                            task.windowList.remove(0);
-                        }
-                    }
-                });
-            });
-            intermediateResultQueue.add(windowDecentralized);
-        }else {
-            //to find the local windows that process this task which is end
-            localWindows.forEach(localWindow -> {
-                //iterate all local tasks that processed by this local window
-                localTasks.forEach(task -> {
-                    if (localisEventHere.endList[task.getTaskId()] &&
-                            localWindow.processList[task.getTaskId()] > 0) {
-                        //create window list
-                        if (task.windowList.isEmpty()) {
-                            for (int i = 0; i < localisEventHere.multipleWindowEndList[task.getTaskId()]; i++) {
-                                Window window = new Window();
-//                            window.setWindowId(task.getWindowCounter());
-                                window.queryId = task.query.getQueryId();
-//                            window.setScenario(task.query.getScenario());
-//                            if(task.query.getScenario() == conf.CentralizedAggregation)
-                            window.tuples = new ArrayList<Tuple>();
-//                            window.tupleCounter = tupleCounter;
-                                task.windowList.add(window);
-                                task.windowCounterAdd();
-                            }
-                        }
-                        //cant make sure either number of empty window or processed window is larger
-                        for (int i = 0; i < Math.min(localisEventHere.multipleWindowEndList[task.getTaskId()]
-                                , localWindow.processList[task.getTaskId()]); i++) {
-                            //merge results of local windows into window
-                            mergeWindow(task, localWindow, task.windowList.get(i));
-                            //remove the empty local windows and organize rest local windows
-                            localWindow.processList[task.getTaskId()] -= 1;
-                            localWindow.windowUsedCounterDelete();
-                        }
-                    }
-                });
-            });
-        }
-        //send window
+        //we chance strategy that merges windows
+        //iterate all local tasks
         localTasks.forEach(task -> {
-            //to hopping window, if there is long gap after range, windows can not be processed
-            //but it doesn't matter, because hopping window is not important
-            if(localWindows.isEmpty()){
-                if (localisEventHere.endList[task.getTaskId()]) {
-                    if (task.windowList.isEmpty()) {
-                        for(int i = 0; i < localisEventHere.multipleWindowEndList[task.getTaskId()] ; i++){
-                            Window window = new Window();
-//                            window.setWindowId(task.getWindowCounter());
-                            window.queryId = task.query.getQueryId();
-//                            window.setScenario(task.query.getScenario());
-//                            if(task.query.getScenario() == conf.CentralizedAggregation)
-                            window.tuples = new ArrayList<Tuple>();
-//                            window.tupleCounter = tupleCounter;
-                            task.windowList.add(window);
-                            task.windowCounterAdd();
-                        }
+            if (localisEventHere.endList[task.getTaskId()]){
+                Window window = new Window();
+                window.queryId = task.query.getQueryId();
+                window.windowId = task.getWindowId();
+                task.setWindowId(task.getWindowCount() + 1);
+                localWindows.forEach(localWindow -> {
+                    if (localWindow.processList[task.getTaskId()]>0) {
+                        //merge results of local windows into window
+                        mergeWindow(task, localWindow, window);
+                        //remove the empty local windows and organize rest local windows
+                        localWindow.processList[task.getTaskId()] -= 1;
+                        localWindow.windowUsedCounterDelete();
                     }
-                }
-            }
-            if(!task.windowList.isEmpty()) {
-//                System.out.println(dataQueue.size());
-                intermediateResultQueue.addAll(task.windowList);
-                task.windowList.clear();
+                });
+                windowCollection.windowList.add(window);
             }
         });
+        //delete localwindow
         localWindows.removeIf(localWindow -> localWindow.getWindowUsedCounter() == 0);
+        //send window
+        intermediateResultQueue.add(windowCollection);
+
+
     }
 
     void mergeWindow(LocalTask task, LocalWindow localWindow, Window window){
@@ -691,12 +489,11 @@ public class Optimizer implements Runnable{
         while(localTasks.size() < conf.queryNumber){
             if(!queryQueue.isEmpty()){
                 LocalTask task = new LocalTask();
-                task.windowList = new ArrayList<Window>();
                 task.query = (Query) queryQueue.poll();
                 task.setTaskId(task.query.getQueryId());
                 //window counter should start from 1,
                 // since we use windowId=0 to decide if this query output result to parent
-                task.setWindowCounter(1);
+                task.setWindowId(1);
                 localTasks.add(task);
 
                 //to regulate program
@@ -718,7 +515,6 @@ public class Optimizer implements Runnable{
         }
         if(!queryQueue.isEmpty()){
             LocalTask task = new LocalTask();
-            task.windowList = new ArrayList<Window>();
             task.query = (Query) queryQueue.poll();
             task.setTaskId(task.query.getQueryId());
             localTasks.add(task);

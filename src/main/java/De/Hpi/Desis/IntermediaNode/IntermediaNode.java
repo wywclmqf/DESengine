@@ -69,7 +69,7 @@ public class IntermediaNode {
         //receive the data or message from the local node
         threadsList.add(new Thread(new IntermediateSubscribeMessage(resultQueueFromLocal, conf, socketLocalPub)));
         //perform decentralized aggregation in intermediate node
-        threadsList.add(new Thread(new IntermediateComputationEngine(resultQueue, resultQueueFromLocal, queryQueue ,conf)));
+//        threadsList.add(new Thread(new IntermediateComputationEngine(resultQueue, resultQueueFromLocal, queryQueue ,conf)));
 //        //send data from intermedia to root
         threadsList.add(new Thread(new IntermediatePublishMessage(resultQueue, socketUpperPub, conf)));
 

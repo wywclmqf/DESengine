@@ -4,6 +4,7 @@ import De.Hpi.Desis.Configure.Configuration;
 import De.Hpi.Desis.Dao.Query;
 import De.Hpi.Desis.Dao.Tuple;
 import De.Hpi.Desis.Dao.Window;
+import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Generator.InputStream;
 import De.Hpi.Desis.MessageManager.LocalSubscribeMessage;
 import De.Hpi.Desis.MessageManager.LocalPublishMessage;
@@ -18,7 +19,7 @@ public class LocalNode {
 
     private Configuration conf;
     private ConcurrentLinkedQueue<Query> queryQueue;
-    private ConcurrentLinkedQueue<Window> intermediateResultQueue;
+    private ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
 
     private ZContext context;
@@ -32,7 +33,7 @@ public class LocalNode {
         this.conf.setNodeId(nodeId);
         this.threadsList = new ArrayList<>();
         this.queryQueue = new ConcurrentLinkedQueue<Query>();
-        this.intermediateResultQueue = new ConcurrentLinkedQueue<Window>();
+        this.intermediateResultQueue = new ConcurrentLinkedQueue<WindowCollection>();
         this.dataQueue = new ConcurrentLinkedQueue<ArrayList<Tuple>>();
         this.context = new ZContext();
         this.localParseAddress = new LocalParseAddress();

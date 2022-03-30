@@ -35,14 +35,14 @@ public class ZeroMqPub {
 
 //                window.tupleCounter =52;
                 messageResult.window = window;
-                messageResult.window.tuples = new ArrayList<>();
+//                messageResult.window.tuples = new ArrayList<>();
 
                 for(int i=0; i< 1000; i++){
                     Tuple tuple = new Tuple();
                     tuple.TIME = (int) System.currentTimeMillis();
                     tuple.DATA = topicNbr;
                     tuple.EVENT = 1;
-                    messageResult.window.tuples.add(tuple);
+//                    messageResult.window.tuples.add(tuple);
                 }
 
                 byte[] raw = msgpack.write(messageResult);

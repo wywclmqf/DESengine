@@ -61,7 +61,7 @@ public class BaselineNOLocal {
         threadsList.add(new Thread(new LocalSubscribeMessage(conf, queryQueue, socketInterSub)));
 
         //send the data to intermedia node
-        threadsList.add(new Thread(new LocalPublishMessage(intermediateResultQueue, socketPub, conf)));
+//        threadsList.add(new Thread(new LocalPublishMessage(intermediateResultQueue, socketPub, conf)));
 
 
 //        Thread MultipleQueryProcessing = new Thread(new MultipleQueryProcessing(resultQueue, taskQueue));
