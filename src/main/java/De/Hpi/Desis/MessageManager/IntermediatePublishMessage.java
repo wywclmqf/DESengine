@@ -2,63 +2,67 @@ package De.Hpi.Desis.MessageManager;
 
 import De.Hpi.Desis.Configure.Configuration;
 import De.Hpi.Desis.Dao.Window;
+import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Message.MessageResult;
 import org.msgpack.MessagePack;
 import org.zeromq.ZMQ;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class IntermediatePublishMessage implements Runnable{
 
     private Configuration conf;
-    private ConcurrentLinkedQueue<Window> resultQueue;
+    private ConcurrentLinkedQueue<WindowCollection> resultQueue;
     private ZMQ.Socket socketPub;
 
-    public IntermediatePublishMessage(ConcurrentLinkedQueue<Window> resultQueue, ZMQ.Socket socketPub, Configuration conf) {
+    public IntermediatePublishMessage(ConcurrentLinkedQueue<WindowCollection> resultQueue, ZMQ.Socket socketPub, Configuration conf) {
         this.conf = conf;
         this.resultQueue =resultQueue;
         this.socketPub = socketPub;
     }
 
     public void run() {
-////        System.out.println("Starting UpperRequestThread ----intermediateNode");
-//        MessagePack msgpack = new MessagePack();
-//        long endtime = System.currentTimeMillis();
-//        while (true) {
-//            if(!resultQueue.isEmpty()) {
-//                Window window = resultQueue.poll();
+//        System.out.println("Starting UpperRequestThread ----intermediateNode");
+        MessagePack msgpack = new MessagePack();
+        long endtime = System.currentTimeMillis();
+        while (true) {
+            if(!resultQueue.isEmpty()) {
+                WindowCollection windowCollection = resultQueue.poll();
 //                window.setNodeId(conf.getNodeId());
-//                //the message type now it the data
-//                MessageResult resultFromIntermediaToRoot = new MessageResult();
-//                resultFromIntermediaToRoot.setNodeId(conf.getNodeId());
-//                resultFromIntermediaToRoot.setMessageType(conf.MESSAGERESULT);
-//                resultFromIntermediaToRoot.setMessageLevel(conf.INTERMEDIATENODEMESSAGE);
-//                resultFromIntermediaToRoot.window = window;
-//                try {
-//                    byte[] raw = msgpack.write(resultFromIntermediaToRoot);
-//                    socketPub.send(raw);
-//                    if(conf.DEBUGMODE) {
-//                        if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
-//                            endtime = System.currentTimeMillis();
-//                            System.out.println("InteNode--" + resultFromIntermediaToRoot.getNodeId() + "--Process--" +
-//                                    +resultFromIntermediaToRoot.window.getWindowId()
-//                                    + "  QueryId:  " + resultFromIntermediaToRoot.window.getQueryId()
-////                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
-////                            + "  windowType  " + resultFromLocalToIntermedia.window.getWindowType()
-//                                    + "  result:  " + resultFromIntermediaToRoot.window.result
-//                                    + "  count:  " + resultFromIntermediaToRoot.window.count
-//                                    + "  listSize:  " + resultFromIntermediaToRoot.window.tuples.size()
-////                                    + "  NetworkOverhead:  " + networkOverhead
-////                                    + "  Throughput:  " + resultFromIntermediaToRoot.window.tupleCounter / ((endtime - begintime) / 1000.0)
-//                            );
-//                        }
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
+                //the message type now it the data
+                MessageResult resultFromIntermediaToRoot = new MessageResult();
+                resultFromIntermediaToRoot.setNodeId(conf.getNodeId());
+                resultFromIntermediaToRoot.setMessageType(conf.MESSAGERESULT);
+                resultFromIntermediaToRoot.setMessageLevel(conf.INTERMEDIATENODEMESSAGE);
+                resultFromIntermediaToRoot.windowCollection = windowCollection;
+                try {
+                    byte[] raw = msgpack.write(resultFromIntermediaToRoot);
+                    socketPub.send(raw);
+                    if(conf.DEBUGMODE_INTER) {
+                        if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
+                            endtime = System.currentTimeMillis();
+                            System.out.println("InteNode--" + resultFromIntermediaToRoot.getNodeId() + "--Process--"
+                                            + "  QueryId:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).queryId
+                                            + "  WindowId:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).windowId
+//                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
+//                            + "  windowType  " + resultFromLocalToIntermedia.window.getWindowType()
+                                            + "  result:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).result
+                                            + "  count:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).count
+                                            + "  WindowList:  " + resultFromIntermediaToRoot.windowCollection.windowList.size()
+                                            + "  TupleList:  " + (resultFromIntermediaToRoot.windowCollection.tuples != null ?
+                                            resultFromIntermediaToRoot.windowCollection.tuples.size() : 0)
+//                                    + "  NetworkOverhead:  " + networkOverhead
+//                                    + "  Throughput:  " + resultFromIntermediaToRoot.window.tupleCounter / ((endtime - begintime) / 1000.0)
+                            );
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 
     }

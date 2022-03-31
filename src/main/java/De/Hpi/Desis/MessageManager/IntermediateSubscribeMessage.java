@@ -41,7 +41,7 @@ public class IntermediateSubscribeMessage implements Runnable{
                     MessageResult messageResult = msgpack.read(raw,
                             MessageResult.class);
                     resultQueueFromLocal.offer(messageResult.windowCollection);
-                    if(conf.DEBUGMODE) {
+                    if(conf.DEBUGMODE_INTER) {
                         if(tupleCounter == 0){
                             tupleCounter++;
                             networkOverhead = getNetworkOverhead(raw.length);

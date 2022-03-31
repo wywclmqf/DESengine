@@ -6,9 +6,11 @@ public class IntermediateTask {
 
     private int taskId;
     public Query query;
-    public LinkedList<IntermediateWindow> intermediateWindowLinkedList;
+    public LinkedList<IntermediateWindow> intermediateWindows;
     //it is from 1
     private int windowCounter;
+    //form 0
+    private int batchCounter;
 
     public int getTaskId() { return taskId; }
     public void setTaskId(int taskId) { this.taskId = taskId; }
@@ -21,6 +23,14 @@ public class IntermediateTask {
     public void windowCounterAdd(){
         this.windowCounter++;
     }
-    public void windowCounterDelete(){this.windowCounter--;}
+    public int getBatchCounter() {
+        return batchCounter;
+    }
+    public void setBatchCounter(int batchCounter) {
+        this.batchCounter = batchCounter;
+    }
+    public void batchCounterAdd(){
+        this.batchCounter++;
+    }
 
 }

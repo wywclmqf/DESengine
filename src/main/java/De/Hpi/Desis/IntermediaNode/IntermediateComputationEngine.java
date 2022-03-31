@@ -2,6 +2,7 @@ package De.Hpi.Desis.IntermediaNode;
 
 import De.Hpi.Desis.Configure.Configuration;
 import De.Hpi.Desis.Dao.*;
+import org.apache.commons.collections.ArrayStack;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,6 +15,8 @@ public class IntermediateComputationEngine implements Runnable {
     private ConcurrentLinkedQueue<WindowCollection> resultQueue;
     private ConcurrentLinkedQueue<Query> queryQueue;
     private ArrayList<IntermediateTask> intermediateTasks;
+    private ArrayList<Tuple> tupleListForCen;
+    private long tupleBatchCounter;
 
      IntermediateComputationEngine(ConcurrentLinkedQueue<WindowCollection> resultQueue, ConcurrentLinkedQueue<WindowCollection> resultQueueFromLocal,
                                    ConcurrentLinkedQueue<Query> queryQueue, Configuration conf){
@@ -21,7 +24,9 @@ public class IntermediateComputationEngine implements Runnable {
          this.resultQueueFromLocal =resultQueueFromLocal;
          this.resultQueue = resultQueue;
          this.queryQueue = queryQueue;
-         this.intermediateTasks = new LinkedList<IntermediateTask>();
+         this.intermediateTasks = new ArrayStack();
+         this.tupleListForCen = new ArrayList<>();
+         this.tupleBatchCounter = tupleBatchCounter;
     }
 
     public void run() {
@@ -53,54 +58,95 @@ public class IntermediateComputationEngine implements Runnable {
 
         WindowCollection newWindowCollection = new WindowCollection();
         newWindowCollection.windowList = new ArrayList<>();
+        newWindowCollection.tuples = new ArrayList<>();
+        //record central windows
+        ArrayList<Window> windowListForCen = new ArrayList<>();
+        //if there is median or quantile window 1) end or 2) expired 3) process
+        boolean[] windowFlag = {false, false, false};
 
         windowCollection.windowList.forEach(window -> {
-
-            //clean the expired intermediate windows, and find the aim one
-            IntermediateWindow intermediateWindow = null;
-            Iterator<IntermediateWindow> iter = intermediateTasks.get(window.queryId).intermediateWindowLinkedList.iterator();
-
-            while (iter.hasNext()) {
-                IntermediateWindow intermediateWindowItr = iter.next();
-                //4)expired, process and send them all
-                if(timeTemp - intermediateWindowItr.getProcessTime() > conf.EXPIREDTIME ) {
-                    //send it
-                    newWindowCollection.windowList.add(intermediateWindowItr.window);
-                    intermediateTasks.get(window.queryId).windowCounterAdd();
-                    iter.remove();
-                    //5) old window arrived throw, or find aim intermediate window
-                }else if(intermediateTasks.get(window.queryId).getWindowCounter() <= window.windowId
-                        && intermediateWindowItr.getWindowId() == window.windowId){
-                    //this is not first window
-                        intermediateWindow = intermediateWindowItr;
-                }
-            }
-
-            if(intermediateTasks.get(window.queryId).getWindowCounter() <= window.windowId) {
-                //1) empty, 6)disorder window, keep it, create a new intermediate window
-                if (intermediateWindow == null) {
-                    intermediateWindow = new IntermediateWindow();
-                    intermediateWindow.setWindowId(window.windowId);
-                    intermediateWindow.setProcessTime(timeTemp);
-                    intermediateWindow.setWindowWaitCounter(conf.localNumber / conf.intermediaNumber - 1);
-                    intermediateWindow.window = window;
-                    intermediateTasks.get(window.queryId).intermediateWindowLinkedList.add(intermediateWindow);
-                } else {
-                    //2) less window arrived, still need to wait
-                    if (intermediateWindow.getWindowWaitCounter() > 1) {
-                        intermediateWindow.deleteWindowWaittingCounter();
-                        mergeWindow(task, intermediateWindow.window, window);
-                        // 3) all window arrived
-                    } else {
-                        mergeWindow(task, intermediateWindow.window, window);
-                        resultQueue.add(intermediateWindow.window);
-                        task.windowCounterAdd();
-                        task.intermediateWindowLinkedList.remove(intermediateWindow);
+            //decentralized
+            if(intermediateTasks.get(window.queryId).query.getScenario() == conf.DeCentralizedAggregation) {
+                //5) old window arrived throw, or find aim intermediate window
+                if (intermediateTasks.get(window.queryId).getWindowCounter() <= window.windowId) {
+                    //if we need to build a new window
+                    boolean isNewWindow = true;
+                    //clean the expired intermediate windows, and find the aim one
+                    Iterator<IntermediateWindow> iter = intermediateTasks.get(window.queryId).intermediateWindows.iterator();
+                    while (iter.hasNext()) {
+                        IntermediateWindow intermediateWindow = iter.next();
+                        //4)expired, process and send them all
+                        if (timeTemp - intermediateWindow.getProcessTime() > conf.EXPIREDTIME) {
+                            //send it
+                            newWindowCollection.windowList.add(intermediateWindow.window);
+                            //update task
+                            iter.remove();
+                            intermediateTasks.get(window.queryId).windowCounterAdd();
+                        } else if (intermediateWindow.getWindowId() == window.windowId) {
+                            //we find aim intermediate window
+                            //this is not first window
+                            intermediateWindow.deleteWindowWaitingCounter();
+                            mergeWindow(intermediateTasks.get(window.queryId), intermediateWindow.window, window);
+                            //2) less window arrived, still need to wait
+                            //3) all window arrived
+                            if (intermediateWindow.getWindowWaitCounter() == 0) {
+                                //process and send window
+                                mergeWindow(intermediateTasks.get(window.queryId), intermediateWindow.window, window);
+                                newWindowCollection.windowList.add(intermediateWindow.window);
+                                //update task
+                                iter.remove();
+                                intermediateTasks.get(window.queryId).windowCounterAdd();
+                            }
+                            isNewWindow = false;
+                            break;
+                        }
+                    }
+                    //1) empty, 6)disorder window, keep it, create a new intermediate window
+                    if (isNewWindow) {
+                        IntermediateWindow intermediateWindow = new IntermediateWindow();
+                        intermediateWindow.setWindowId(window.windowId);
+                        intermediateWindow.setProcessTime(timeTemp);
+                        intermediateWindow.setWindowWaitCounter(conf.localNumber / conf.intermediaNumber - 1);
+                        intermediateWindow.window = window;
+                        intermediateTasks.get(window.queryId).intermediateWindows.add(intermediateWindow);
                     }
                 }
             }
-
+            //centralized median & quantile & countbased
+            else{
+                if (intermediateTasks.get(window.queryId).query.getWindowType() != conf.COUNTBASED) {
+                    //window expired
+                    if(intermediateTasks.get(window.queryId).intermediateWindows.getFirst().getWindowId() > window.windowId){
+                        window.windowId = intermediateTasks.get(window.queryId).intermediateWindows.getFirst().getWindowId();
+                        windowFlag[1] = true;
+                    //window end
+                    }else if(intermediateTasks.get(window.queryId).intermediateWindows.getFirst().getWindowId() < window.windowId){
+                        windowFlag[0] = true;
+                        intermediateTasks.get(window.queryId).intermediateWindows.getFirst().setWindowId(window.windowId);
+                    }
+                    windowListForCen.add(window);
+                }
+            }
         });
+
+        //no expired
+        if(!windowFlag[1]){
+            tupleBatchCounter++;
+            tupleListForCen.addAll(windowCollection.tuples);
+//            tupleListForCen.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+            //window end
+            if(windowFlag[0] || tupleBatchCounter >= conf.transferBatchSize) {
+                //sort
+                tupleListForCen.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+                newWindowCollection.windowList.addAll(windowListForCen);
+                newWindowCollection.tuples.addAll(tupleListForCen);
+                tupleListForCen = new ArrayList<>();
+                tupleBatchCounter = 0;
+            }
+        }
+        //send reuslt
+        if(!newWindowCollection.windowList.isEmpty())
+            resultQueue.add(newWindowCollection);
     }
 
     void mergeWindow(IntermediateTask task, Window window, Window newWindow){
@@ -130,12 +176,7 @@ public class IntermediateComputationEngine implements Runnable {
                 default:
                     break;
             }
-        }else{
-            //merge two list
-            window.tuples.addAll(newWindow.tuples);
-            newWindow.tuples.sort((a, b) -> Double.compare(a.DATA, b.DATA));
         }
-//        window.tupleCounter+=newWindow.tupleCounter;
     }
 
     private void queryPreProcess(){
@@ -147,8 +188,17 @@ public class IntermediateComputationEngine implements Runnable {
 
                 task.setTaskId(task.query.getQueryId());
                 task.setWindowCounter(1);
-                task.intermediateWindowLinkedList = new LinkedList<IntermediateWindow>();
+                task.intermediateWindows = new LinkedList<IntermediateWindow>();
                 intermediateTasks.add(task);
+
+                //for centralized aggregation, initialize median and quantile
+                if(task.query.getScenario() == conf.CentralizedAggregation
+                        && task.query.getWindowType() != conf.COUNTBASED){
+                    IntermediateWindow intermediateWindow = new IntermediateWindow();
+                    intermediateWindow.setWindowId(1);
+                    task.intermediateWindows.add(intermediateWindow);
+                }
+
             }else{
                 try {
                     Thread.sleep(conf.queryWait);
@@ -162,8 +212,16 @@ public class IntermediateComputationEngine implements Runnable {
             task.query = (Query) queryQueue.poll();
             task.setTaskId(task.query.getQueryId());
             task.setWindowCounter(1);
-            task.intermediateWindowLinkedList = new LinkedList<IntermediateWindow>();
+            task.intermediateWindows = new LinkedList<IntermediateWindow>();
             intermediateTasks.add(task);
+
+            //for centralized aggregation, initialize median and quantile
+            if(task.query.getScenario() == conf.CentralizedAggregation
+                    && task.query.getWindowType() != conf.COUNTBASED){
+                IntermediateWindow intermediateWindow = new IntermediateWindow();
+                intermediateWindow.setWindowId(1);
+                task.intermediateWindows.add(intermediateWindow);
+            }
         }
 
     }

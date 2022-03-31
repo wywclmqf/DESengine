@@ -3,6 +3,7 @@ import De.Hpi.Desis.Configure.Configuration;
 import De.Hpi.Desis.Dao.Query;
 import De.Hpi.Desis.Dao.Tuple;
 import De.Hpi.Desis.Dao.Window;
+import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Generator.QueryGenerator;
 import De.Hpi.Desis.MessageManager.RootPublishMessage;
 import De.Hpi.Desis.MessageManager.RootSubscribeMassage;
@@ -21,7 +22,7 @@ public class RootNode {
     private ConcurrentLinkedQueue<Query> queryQueue;
     private ConcurrentLinkedQueue<Query> queryList;
     private ConcurrentLinkedQueue<Window> resultQueue;
-    private ConcurrentLinkedQueue<Window> resultFromIntermediaDecentral;
+    private ConcurrentLinkedQueue<WindowCollection> resultFromIntermediaDecentral;
     private ConcurrentLinkedQueue<Tuple> resultFromIntermediaCentral;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
 
@@ -40,7 +41,7 @@ public class RootNode {
         this.queryList = new ConcurrentLinkedQueue<Query>();
         this.resultQueue = new ConcurrentLinkedQueue<Window>();
         this.resultFromIntermediaCentral = new ConcurrentLinkedQueue<Tuple>();
-        this.resultFromIntermediaDecentral = new ConcurrentLinkedQueue<Window>();
+        this.resultFromIntermediaDecentral = new ConcurrentLinkedQueue<WindowCollection>();
         this.dataQueue = new ConcurrentLinkedQueue<ArrayList<Tuple>>();
         this.queryGenerator =new QueryGenerator(queryQueue, queryList, conf);
 
@@ -71,7 +72,7 @@ public class RootNode {
         //get the data from the intermedia node
         threadsList.add(new Thread(new RootSubscribeMassage(resultFromIntermediaDecentral, resultFromIntermediaCentral, conf, socketSub)));
         //perform aggregation in root node
-//        threadsList.add(new Thread(new RootComputationEngineDecentral(resultFromIntermediaDecentral, conf, resultQueue, queryList)));
+        threadsList.add(new Thread(new RootComputationEngineDecentral(resultFromIntermediaDecentral, conf, resultQueue, queryList)));
         //output result
         threadsList.add(new Thread(new PrintResult(resultQueue, conf)));
     }

@@ -72,7 +72,7 @@ public class IntermediaNode {
         //perform decentralized aggregation in intermediate node
         threadsList.add(new Thread(new IntermediateComputationEngine(resultQueue, resultQueueFromLocal, queryQueue ,conf)));
 //        //send data from intermedia to root
-//        threadsList.add(new Thread(new IntermediatePublishMessage(resultQueue, socketUpperPub, conf)));
+        threadsList.add(new Thread(new IntermediatePublishMessage(resultQueue, socketUpperPub, conf)));
 
     }
 

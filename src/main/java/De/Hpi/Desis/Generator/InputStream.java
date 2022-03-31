@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static De.Hpi.Desis.Configure.Configuration.DEBUGMODE_LOCAL;
+
 public class InputStream implements Runnable {
 
     private Configuration conf;
@@ -44,16 +46,18 @@ public class InputStream implements Runnable {
         tupleCounter.set(0);
 
         while(true){
-            if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
-                endtime = System.currentTimeMillis();
-                System.out.println("INFO--"
-                        + "Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
-                        + "  NetworkOverhead:  " + 0
-                        + "  Allcounter:  " + tupleCounter.get()
-                        + "  Time:  " + (endtime - begintime) / 1000.0
-                        + "  GCTime:  " + getGarbageCollectionTime()
-                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime));
+            if(DEBUGMODE_LOCAL) {
+                if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
+                    endtime = System.currentTimeMillis();
+                    System.out.println("INFO--"
+                            + "Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
+//                        + "  NetworkOverhead:  " + 0
+                            + "  Allcounter:  " + tupleCounter.get()
+                            + "  Time:  " + (endtime - begintime) / 1000.0
+                            + "  GCTime:  " + getGarbageCollectionTime()
+                            + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime));
 
+                }
             }
         }
     }

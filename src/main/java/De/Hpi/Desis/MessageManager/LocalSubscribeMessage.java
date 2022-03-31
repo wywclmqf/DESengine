@@ -37,7 +37,7 @@ public class LocalSubscribeMessage implements Runnable{
                     MessageQuery messageQuery = msgpack.read(raw,
                             MessageQuery.class);
                     queryQueue.offer(messageQuery.query);
-                    if (conf.DEBUGMODE) {
+                    if (conf.DEBUGMODE_LOCAL) {
                         System.out.println("localNode--" + conf.getNodeId() + "--receive----" + messageQuery.query.getQueryId());
                     }
                 }

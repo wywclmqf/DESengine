@@ -45,10 +45,7 @@ public class LocalPublishMessage implements Runnable{
                 try {
                     byte[] raw = msgpack.write(messageResult);
                     socketPub.send(raw);
-                    if(conf.DEBUGMODE) {
-                        if(messageResult.windowCollection.tuples == null){
-                            messageResult.windowCollection.tuples = new ArrayList<>();
-                        }
+                    if(conf.DEBUGMODE_LOCAL) {
 //                        networkOverhead += getNetworkOverhead(raw.length);
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
 //                        if (System.currentTimeMillis() - endtime > 1000000) {
@@ -61,7 +58,8 @@ public class LocalPublishMessage implements Runnable{
                                         + "  result:  " + messageResult.windowCollection.windowList.get(0).result
                                         + "  count:  " + messageResult.windowCollection.windowList.get(0).count
                                         + "  WindowList:  " + messageResult.windowCollection.windowList.size()
-                                        + "  TupleList:  " + messageResult.windowCollection.tuples.size()
+                                        + "  TupleList:  " + (messageResult.windowCollection.tuples != null ?
+                                                messageResult.windowCollection.tuples.size() : 0)
 //                                        + "  Throughput:  " + messageResult.window.tupleCounter / ((endtime - begintime) / 1000.0)
 //                                        + "  NetworkOverhead:  " + networkOverhead
 //                                        + "  Allcounter:  " + messageResult.window.tupleCounter

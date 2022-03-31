@@ -27,7 +27,7 @@ public class QueryGenerator {
         try {
             //totally 20 queries
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size.
-            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
+            initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
                     1000, 0, 0, 0, 0, 0);
 //            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
 //                    1000, 0, 0, 0, 0, 0);
