@@ -21,7 +21,7 @@ public class RootNode {
     private QueryGenerator queryGenerator;
     private ConcurrentLinkedQueue<Query> queryQueue;
     private ConcurrentLinkedQueue<Query> queryList;
-    private ConcurrentLinkedQueue<Window> resultQueue;
+    private ConcurrentLinkedQueue<WindowCollection> resultQueue;
     private ConcurrentLinkedQueue<WindowCollection> resultFromIntermediaDecentral;
     private ConcurrentLinkedQueue<Tuple> resultFromIntermediaCentral;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
@@ -39,7 +39,7 @@ public class RootNode {
         this.threadsList = new ArrayList<>();
         this.queryQueue = new ConcurrentLinkedQueue<Query>();
         this.queryList = new ConcurrentLinkedQueue<Query>();
-        this.resultQueue = new ConcurrentLinkedQueue<Window>();
+        this.resultQueue = new ConcurrentLinkedQueue<WindowCollection>();
         this.resultFromIntermediaCentral = new ConcurrentLinkedQueue<Tuple>();
         this.resultFromIntermediaDecentral = new ConcurrentLinkedQueue<WindowCollection>();
         this.dataQueue = new ConcurrentLinkedQueue<ArrayList<Tuple>>();

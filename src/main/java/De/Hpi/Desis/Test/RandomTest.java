@@ -4,33 +4,35 @@ import De.Hpi.Desis.Dao.IntermediateWindow;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 
 public class RandomTest {
     public static void main(String[] args) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Frühling");
-        arrayList.add("Sommer");
-        arrayList.add("Herbst");
-        arrayList.add("WINTER");
+        ArrayList<Double> arrayList = new ArrayList<>();
+        arrayList.add(1.0);
+        arrayList.add(2.3);
+        arrayList.add(3.3);
+        arrayList.add(4.3);
+        arrayList.add(5.3);
+        arrayList.add(6.3);
 
-//        arrayList.forEach(element -> {
-//            if(!element.equals("Sommer")) {
-//                System.out.println(element);
+//        Iterator<String> iter = arrayList.iterator();
+//        while(iter.hasNext()){
+//            String ele = iter.next();
+//            if(!ele.equals("WINTER")) {
+//                System.out.println(ele);
 //            }else{
-//                arrayList.remove("Sommer");
+//                iter.remove();
+//                break;
 //            }
-//        });
+//        }
 
-        Iterator<String> iter = arrayList.iterator();
-        while(iter.hasNext()){
-            String ele = iter.next();
-            if(!ele.equals("WINTER")) {
-                System.out.println(ele);
-            }else{
-                iter.remove();
-                break;
-            }
-        }
-        System.out.println(iter.hasNext());
+        Double result = arrayList.stream().mapToDouble(item -> item).sum();
+
+        arrayList.stream().limit(3).collect(Collectors.toList()).stream();
+
+        System.out.println(result);
+
+
     }
 }

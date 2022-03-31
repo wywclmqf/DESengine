@@ -2,27 +2,27 @@ package De.Hpi.Desis.Dao;
 
 public class RootWindow {
 
-    private long windowId;
+    private int windowId;
     //for 2)less window arrived
-    private int windowWaittingCounter;
+    private int windowWaitCounter;
     //to check expired
     private long processTime;
     public Window window;
 
-    public long getWindowId() {
+    public int getWindowId() {
         return windowId;
     }
-    public void setWindowId(long windowId) {
+    public void setWindowId(int windowId) {
         this.windowId = windowId;
     }
-    public int getWindowWaittingCounter() {
-        return windowWaittingCounter;
+    public int getWindowWaitCounter() {
+        return windowWaitCounter;
     }
-    public void setWindowWaittingCounter(int windowWaittingCounter) {
-        this.windowWaittingCounter = windowWaittingCounter;
+    public void setWindowWaitCounter(int windowWaittingCounter) {
+        this.windowWaitCounter = windowWaittingCounter;
     }
-    public void deleteWindowWaittingCounter() {
-        this.windowWaittingCounter++;
+    public void deleteWindowWaitingCounter() {
+        this.windowWaitCounter++;
     }
     public long getProcessTime() {
         return processTime;

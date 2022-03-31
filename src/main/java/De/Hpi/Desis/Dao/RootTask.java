@@ -1,12 +1,14 @@
 package De.Hpi.Desis.Dao;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class RootTask {
 
     private int taskId;
     public Query query;
-    public LinkedList<RootWindow> rootWindowLinkedList;
+    public LinkedList<RootWindow> rootWindows;
+    public ArrayList<ArrayList<Tuple>> batchList;
     //it is from 0
     private int windowCounter;
 

@@ -17,6 +17,8 @@ public class IntermediateComputationEngine implements Runnable {
     private ArrayList<IntermediateTask> intermediateTasks;
     private ArrayList<Tuple> tupleListForCen;
     private long tupleBatchCounter;
+    private boolean sortFlag;
+    private boolean centralizedFlag;
 
      IntermediateComputationEngine(ConcurrentLinkedQueue<WindowCollection> resultQueue, ConcurrentLinkedQueue<WindowCollection> resultQueueFromLocal,
                                    ConcurrentLinkedQueue<Query> queryQueue, Configuration conf){
@@ -26,7 +28,9 @@ public class IntermediateComputationEngine implements Runnable {
          this.queryQueue = queryQueue;
          this.intermediateTasks = new ArrayStack();
          this.tupleListForCen = new ArrayList<>();
-         this.tupleBatchCounter = tupleBatchCounter;
+         this.tupleBatchCounter = 0;
+         this.sortFlag = false;
+         this.centralizedFlag = false;
     }
 
     public void run() {
@@ -34,11 +38,9 @@ public class IntermediateComputationEngine implements Runnable {
             if (!resultQueueFromLocal.isEmpty()) {
                 //to read all queries
                 queryPreProcess();
-
                 //get intermediate result from local nodes
                 WindowCollection windowCollection = resultQueueFromLocal.poll();
                 long timeTemp = System.currentTimeMillis();
-
                 windowProcess(windowCollection, timeTemp);
             }
         }
@@ -114,6 +116,7 @@ public class IntermediateComputationEngine implements Runnable {
             }
             //centralized median & quantile & countbased
             else{
+                windowListForCen.add(window);
                 if (intermediateTasks.get(window.queryId).query.getWindowType() != conf.COUNTBASED) {
                     //window expired
                     if(intermediateTasks.get(window.queryId).intermediateWindows.getFirst().getWindowId() > window.windowId){
@@ -124,20 +127,20 @@ public class IntermediateComputationEngine implements Runnable {
                         windowFlag[0] = true;
                         intermediateTasks.get(window.queryId).intermediateWindows.getFirst().setWindowId(window.windowId);
                     }
-                    windowListForCen.add(window);
                 }
             }
         });
 
         //no expired
-        if(!windowFlag[1]){
+        if(!windowFlag[1] && centralizedFlag){
             tupleBatchCounter++;
             tupleListForCen.addAll(windowCollection.tuples);
 //            tupleListForCen.sort((a, b) -> Double.compare(a.DATA, b.DATA));
             //window end
             if(windowFlag[0] || tupleBatchCounter >= conf.transferBatchSize) {
                 //sort
-                tupleListForCen.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+                if(sortFlag)
+                    tupleListForCen.sort((a, b) -> Double.compare(a.DATA, b.DATA));
                 newWindowCollection.windowList.addAll(windowListForCen);
                 newWindowCollection.tuples.addAll(tupleListForCen);
                 tupleListForCen = new ArrayList<>();
@@ -191,6 +194,14 @@ public class IntermediateComputationEngine implements Runnable {
                 task.intermediateWindows = new LinkedList<IntermediateWindow>();
                 intermediateTasks.add(task);
 
+                //if tuples need to be sorted
+                if(task.query.getFunction() == conf.MEDIAN || task.query.getFunction() == conf.QUANTILE){
+                    sortFlag = true;
+                }
+                if(task.query.getScenario() == conf.CentralizedAggregation){
+                    centralizedFlag = true;
+                }
+
                 //for centralized aggregation, initialize median and quantile
                 if(task.query.getScenario() == conf.CentralizedAggregation
                         && task.query.getWindowType() != conf.COUNTBASED){
@@ -214,6 +225,14 @@ public class IntermediateComputationEngine implements Runnable {
             task.setWindowCounter(1);
             task.intermediateWindows = new LinkedList<IntermediateWindow>();
             intermediateTasks.add(task);
+
+            //if tuples need to be sorted
+            if(task.query.getFunction() == conf.MEDIAN || task.query.getFunction() == conf.QUANTILE){
+                sortFlag = true;
+            }
+            if(task.query.getScenario() == conf.CentralizedAggregation){
+                centralizedFlag = true;
+            }
 
             //for centralized aggregation, initialize median and quantile
             if(task.query.getScenario() == conf.CentralizedAggregation

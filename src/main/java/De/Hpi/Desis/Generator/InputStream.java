@@ -49,8 +49,8 @@ public class InputStream implements Runnable {
             if(DEBUGMODE_LOCAL) {
                 if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
                     endtime = System.currentTimeMillis();
-                    System.out.println("INFO--"
-                            + "Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
+                    System.out.println("LocalNode--" + conf.getNodeId() + "--INFO"
+                            + "  Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
 //                        + "  NetworkOverhead:  " + 0
                             + "  Allcounter:  " + tupleCounter.get()
                             + "  Time:  " + (endtime - begintime) / 1000.0

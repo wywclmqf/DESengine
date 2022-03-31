@@ -50,7 +50,7 @@ public class LocalPublishMessage implements Runnable{
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
 //                        if (System.currentTimeMillis() - endtime > 1000000) {
                                 endtime = System.currentTimeMillis();
-                                System.out.println("localNode--" + messageResult.getNodeId() + "--Process--"
+                                System.out.println("LocalNode--" + messageResult.getNodeId() + "--PreAggregation"
                                         + "  QueryId:  " + messageResult.windowCollection.windowList.get(0).queryId
                                         + "  WindowId:  " + messageResult.windowCollection.windowList.get(0).windowId
 //                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()

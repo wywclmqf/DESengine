@@ -53,8 +53,8 @@ public class IntermediateSubscribeMessage implements Runnable{
                         networkOverhead+=getNetworkOverhead(raw.length);
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
                             endtime = System.currentTimeMillis();
-                            System.out.println("INFO--"
-                                    + "Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
+                            System.out.println("InterNode--" + conf.getNodeId() + "--INFO"
+                                    + "  Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
                                     + "  BandWidth(B):  " + networkOverhead  / ((endtime - begintime) / 1000.0)
                                     + "  Allcounter:  " + tupleCounter
                                     + "  NetworkOverhead(B):  " + networkOverhead

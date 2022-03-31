@@ -43,7 +43,7 @@ public class IntermediatePublishMessage implements Runnable{
                     if(conf.DEBUGMODE_INTER) {
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
                             endtime = System.currentTimeMillis();
-                            System.out.println("InteNode--" + resultFromIntermediaToRoot.getNodeId() + "--Process--"
+                            System.out.println("InterNode--" + resultFromIntermediaToRoot.getNodeId() + "--PreAggregation"
                                             + "  QueryId:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).queryId
                                             + "  WindowId:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).windowId
 //                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
