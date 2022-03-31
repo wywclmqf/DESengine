@@ -60,6 +60,7 @@ public class InputStream implements Runnable {
                 }
             }
         }
+
     }
     private static long getGarbageCollectionTime() {
         long collectionTime = 0;

@@ -20,7 +20,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     // and querywait is to block loops
     public static final int queryWait = 10;
     //the batch size of centralized aggregation default 1000 * 1000 = 100w
-    public static final int centralizedBatchSize = 10000;
+    public static final int centralizedBatchSize = 1000;
     public static final int transferBatchSize = 1000;
     //expired time
     public static final int EXPIREDTIME = 1000; //watermark of intermediate window and root window
