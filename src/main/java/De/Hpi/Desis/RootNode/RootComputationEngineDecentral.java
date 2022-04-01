@@ -122,10 +122,10 @@ public class RootComputationEngineDecentral implements Runnable {
                     //window expired
                     if(rootTask.rootWindows.getFirst().getWindowId() > window.windowId){
                         window.windowId = rootTask.rootWindows.getFirst().getWindowId();
-                        windowFlag[1] = true;
+//                        windowFlag[1] = true;
                         //window end
                     }else if(rootTask.rootWindows.getFirst().getWindowId() < window.windowId){
-                        windowFlag[0] = true;
+//                        windowFlag[0] = true;
                         mergeWindow(rootTask, rootTask.rootWindows.get(0).window, window);
                         rootTask.rootWindows.get(0).setWindowId(window.windowId);
                         newWindowCollection.windowList.add(rootTask.rootWindows.get(0).window);

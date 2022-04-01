@@ -10,6 +10,7 @@ import org.zeromq.ZMQ;
 import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class IntermediateSubscribeMessage implements Runnable{

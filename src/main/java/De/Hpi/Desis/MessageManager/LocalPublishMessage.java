@@ -45,6 +45,8 @@ public class LocalPublishMessage implements Runnable{
                 try {
                     byte[] raw = msgpack.write(messageResult);
                     socketPub.send(raw);
+                    if(messageResult.windowCollection.tuples == null)
+                        messageResult.windowCollection.tuples = new ArrayList<>();
                     if(conf.DEBUGMODE_LOCAL) {
 //                        networkOverhead += getNetworkOverhead(raw.length);
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {

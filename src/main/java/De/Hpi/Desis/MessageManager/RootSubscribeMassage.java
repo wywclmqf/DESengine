@@ -33,49 +33,59 @@ public class RootSubscribeMassage implements Runnable{
         MessagePack msgpack = new MessagePack();
         socketSub.subscribe("".getBytes());
         long tupleCounter = 0;
+        long tupleCounterAll = 0;
         long networkOverheadR = 0;
         long networkOverheadI = 0;
         long begintime = System.currentTimeMillis();
         long endtime = System.currentTimeMillis();
 
         while (true) {
-            byte[] raw = socketSub.recv(1);
-            if(raw!=null) {
-                try {
-                    MessageResult messageResult = msgpack.read(raw,
-                            MessageResult.class);
+            try {
+                if(resultFromIntermediaDecentral.size() < conf.DATAGENERATORMAXIMIUMBUFFER) {
+                    byte[] raw = socketSub.recv(1);
+                    if(raw!=null) {
+                        MessageResult messageResult = msgpack.read(raw,
+                                MessageResult.class);
 
-                    resultFromIntermediaDecentral.offer(messageResult.windowCollection);
-                    if(conf.DEBUGMODE_ROOT) {
-                        if(tupleCounter == 0){
+                        resultFromIntermediaDecentral.offer(messageResult.windowCollection);
+                        if(conf.DEBUGMODE_ROOT) {
+                            if(tupleCounter == 0){
+                                tupleCounter++;
+                                tupleCounterAll+=messageResult.windowCollection.tuples.size();
+                                networkOverheadR = getNetworkOverheadR(raw.length);
+                                networkOverheadI = getNetworkOverheadI(raw.length);
+                                begintime = System.currentTimeMillis();
+                                endtime = System.currentTimeMillis();
+                                continue;
+                            }
                             tupleCounter++;
-                            networkOverheadR = getNetworkOverheadR(raw.length);
-                            networkOverheadI = getNetworkOverheadI(raw.length);
-                            begintime = System.currentTimeMillis();
-                            endtime = System.currentTimeMillis();
-                            continue;
-                        }
-                        tupleCounter++;
-                        networkOverheadR+=getNetworkOverheadR(raw.length);
-                        networkOverheadI+=getNetworkOverheadI(raw.length);
-                        if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
-                            endtime = System.currentTimeMillis();
-                            System.out.println("rootNode--INFO"
-                                    + "  Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
-                                    + "  BandWidth(Root):  " + networkOverheadR  / ((endtime - begintime) / 1000.0)
-                                    + "  BandWidth(Inter):  " + networkOverheadI  / ((endtime - begintime) / 1000.0)
-                                    + "  Allcounter:  " + tupleCounter
-                                    + "  NetworkOverhead(Root):  " + networkOverheadR
-                                    + "  NetworkOverhead(Inter):  " + networkOverheadI
-                                    + "  Time:  " + (endtime - begintime) / 1000.0
-                                    + "  GCTime:  " + getGarbageCollectionTime()
-                                    + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
-                            );
+                            tupleCounterAll+=messageResult.windowCollection.tuples.size();
+                            networkOverheadR+=getNetworkOverheadR(raw.length);
+                            networkOverheadI+=getNetworkOverheadI(raw.length);
+                            if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
+                                endtime = System.currentTimeMillis();
+                                System.out.println("rootNode--INFO"
+                                        + "  Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
+                                        + "  ThroughputTuple:  " + tupleCounterAll / ((endtime - begintime) / 1000.0)
+                                        + "  BandWidth(Root):  " + networkOverheadR  / ((endtime - begintime) / 1000.0)
+                                        + "  BandWidth(Inter):  " + networkOverheadI  / ((endtime - begintime) / 1000.0)
+                                        + "  Allcounter:  " + tupleCounter
+                                        + "  AllcounterTuple:  " + tupleCounterAll
+                                        + "  NetworkOverhead(Root):  " + networkOverheadR
+                                        + "  NetworkOverhead(Inter):  " + networkOverheadI
+                                        + "  Time:  " + (endtime - begintime) / 1000.0
+                                        + "  GCTime:  " + getGarbageCollectionTime()
+                                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                                );
+                            }
                         }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }else {
+                    System.out.println("WARNING!!!!:  " + resultFromIntermediaDecentral.size());
+                    Thread.sleep(conf.DATAGENERATORFREQUENCY);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

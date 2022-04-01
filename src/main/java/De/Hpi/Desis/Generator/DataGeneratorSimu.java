@@ -53,7 +53,13 @@ public class DataGeneratorSimu implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+//            if(tupleCounter.get() > 10000000){
+//                try {
+//                    Thread.sleep(9999999);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
     }
 

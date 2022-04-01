@@ -36,13 +36,14 @@ public class DistributedRootMain {
             aggFnsString = "MEDIAN";
         }else{
             //linux
-            rootControllerPort = 50010;
-            rootWindowPort = 50020;
-            rootResultPath = "/hpi/fs00/home/wang.yue/data/result";
-            numChildren = Integer.parseInt(args[0]);
+            rootControllerPort = Integer.parseInt(args[0]);
+            rootWindowPort = Integer.parseInt(args[1]);
+            rootResultPath = args[2];
+            numChildren = Integer.parseInt(args[3]);
             windowsString = "TUMBLING,1000";
             aggFnsString = "MEDIAN";
         }
+
         runRoot(rootControllerPort, rootWindowPort, rootResultPath, numChildren, windowsString, aggFnsString);
     }
 

@@ -38,11 +38,11 @@ public class DistributedChildMain {
         }else {
             //linux
             parentIp = args[0];
-            parentControllerPort = 40010;
-            parentWindowPort = 40020;
-            streamPort = 30010;
-            childId = Integer.parseInt(args[1]);
-            numStreams = 1;
+            parentControllerPort = Integer.parseInt(args[1]);
+            parentWindowPort = Integer.parseInt(args[2]);
+            streamPort = Integer.parseInt(args[3]);
+            childId = Integer.parseInt(args[4]);
+            numStreams = Integer.parseInt(args[5]);
         }
 
         runChild(parentIp, parentControllerPort, parentWindowPort, streamPort, childId, numStreams);

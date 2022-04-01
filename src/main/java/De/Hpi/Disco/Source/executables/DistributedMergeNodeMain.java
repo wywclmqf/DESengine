@@ -31,22 +31,22 @@ public class DistributedMergeNodeMain {
 
         if(conf.WINDOWS) {
             //windows
-            parentIp = "localhost";
+            parentIp = args[0];
             parentControllerPort = 50010;
             parentWindowPort = 50020;
             controllerPort = 40010;
             windowPort = 40020;
-            numChildren = Integer.parseInt(args[0]);
-            nodeId = Integer.parseInt(args[1]);
+            numChildren = Integer.parseInt(args[1]);
+            nodeId = Integer.parseInt(args[2]);
         }else {
             //linux
-            parentIp = "node-08";
-            parentControllerPort = 50010;
-            parentWindowPort = 50020;
-            controllerPort = 40010;
-            windowPort = 40020;
-            numChildren = Integer.parseInt(args[0]);
-            nodeId = Integer.parseInt(args[1]);
+            parentIp = args[0];
+            parentControllerPort = Integer.parseInt(args[1]);
+            parentWindowPort = Integer.parseInt(args[2]);
+            controllerPort = Integer.parseInt(args[3]);
+            windowPort = Integer.parseInt(args[4]);
+            numChildren = Integer.parseInt(args[5]);
+            nodeId = Integer.parseInt(args[6]);
         }
 
         runMergerNode(parentIp, parentControllerPort, parentWindowPort, controllerPort, windowPort, numChildren, nodeId);

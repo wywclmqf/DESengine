@@ -31,7 +31,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //debug mode, output much more information, mainly print message between nodes
     public static final boolean DEBUGMODE = true;
     //windows & Linuxs
-    public static final boolean WINDOWS = false;
+    public static final boolean WINDOWS = true;
     //how many threads for generator
     public static final int GeneratorThreadNumber = 1;
 
