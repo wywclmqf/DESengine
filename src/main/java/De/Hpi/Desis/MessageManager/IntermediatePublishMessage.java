@@ -1,14 +1,12 @@
 package De.Hpi.Desis.MessageManager;
 
 import De.Hpi.Desis.Configure.Configuration;
-import De.Hpi.Desis.Dao.Window;
 import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Message.MessageResult;
 import org.msgpack.MessagePack;
 import org.zeromq.ZMQ;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class IntermediatePublishMessage implements Runnable{
@@ -44,15 +42,16 @@ public class IntermediatePublishMessage implements Runnable{
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
                             endtime = System.currentTimeMillis();
                             System.out.println("InterNode--" + resultFromIntermediaToRoot.getNodeId() + "--PreAggregation"
-                                            + "  QueryId:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).queryId
+                                            + "  WindowCounter:  " + resultFromIntermediaToRoot.windowCollection.sliceCounter
+                                            + (!resultFromIntermediaToRoot.windowCollection.windowList.isEmpty() ?
+                                            ( "  QueryId:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).queryId
                                             + "  WindowId:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).windowId
-//                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
-//                            + "  windowType  " + resultFromLocalToIntermedia.window.getWindowType()
                                             + "  result:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).result
-                                            + "  count:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).count
+                                            + "  count:  " + resultFromIntermediaToRoot.windowCollection.windowList.get(0).count) : "")
                                             + "  WindowList:  " + resultFromIntermediaToRoot.windowCollection.windowList.size()
                                             + "  TupleList:  " + (resultFromIntermediaToRoot.windowCollection.tuples != null ?
                                             resultFromIntermediaToRoot.windowCollection.tuples.size() : 0)
+                                            + "  Queue:  " + resultQueue.size()
 //                                    + "  NetworkOverhead:  " + networkOverhead
 //                                    + "  Throughput:  " + resultFromIntermediaToRoot.window.tupleCounter / ((endtime - begintime) / 1000.0)
                             );

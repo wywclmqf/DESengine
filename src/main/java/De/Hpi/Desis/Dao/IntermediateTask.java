@@ -1,11 +1,13 @@
 package De.Hpi.Desis.Dao;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class IntermediateTask {
 
     private int taskId;
     public Query query;
+    public ArrayList<QuerySub> querySubs;
     public LinkedList<IntermediateWindow> intermediateWindows;
     //it is from 1
     private int windowCounter;

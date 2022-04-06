@@ -15,4 +15,8 @@ public class Window{
     public double result;
     public long count;
 
+    //slice
+    public int sliceId;
+    public int sliceCounter;
+
 }

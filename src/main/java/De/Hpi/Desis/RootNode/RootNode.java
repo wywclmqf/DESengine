@@ -2,7 +2,6 @@ package De.Hpi.Desis.RootNode;
 import De.Hpi.Desis.Configure.Configuration;
 import De.Hpi.Desis.Dao.Query;
 import De.Hpi.Desis.Dao.Tuple;
-import De.Hpi.Desis.Dao.Window;
 import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Generator.QueryGenerator;
 import De.Hpi.Desis.MessageManager.RootPublishMessage;
@@ -22,8 +21,7 @@ public class RootNode {
     private ConcurrentLinkedQueue<Query> queryQueue;
     private ConcurrentLinkedQueue<Query> queryList;
     private ConcurrentLinkedQueue<WindowCollection> resultQueue;
-    private ConcurrentLinkedQueue<WindowCollection> resultFromIntermediaDecentral;
-    private ConcurrentLinkedQueue<Tuple> resultFromIntermediaCentral;
+    private ConcurrentLinkedQueue<WindowCollection> resultFromIntermedia;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
 
     private ZContext context;
@@ -40,8 +38,7 @@ public class RootNode {
         this.queryQueue = new ConcurrentLinkedQueue<Query>();
         this.queryList = new ConcurrentLinkedQueue<Query>();
         this.resultQueue = new ConcurrentLinkedQueue<WindowCollection>();
-        this.resultFromIntermediaCentral = new ConcurrentLinkedQueue<Tuple>();
-        this.resultFromIntermediaDecentral = new ConcurrentLinkedQueue<WindowCollection>();
+        this.resultFromIntermedia = new ConcurrentLinkedQueue<WindowCollection>();
         this.dataQueue = new ConcurrentLinkedQueue<ArrayList<Tuple>>();
         this.queryGenerator =new QueryGenerator(queryQueue, queryList, conf);
 
@@ -70,9 +67,9 @@ public class RootNode {
         //send query to intermedia node
         threadsList.add(new Thread(new RootPublishMessage(conf, queryQueue, socketPub)));
         //get the data from the intermedia node
-        threadsList.add(new Thread(new RootSubscribeMassage(resultFromIntermediaDecentral, resultFromIntermediaCentral, conf, socketSub)));
+        threadsList.add(new Thread(new RootSubscribeMassage(resultFromIntermedia, conf, socketSub)));
         //perform aggregation in root node
-        threadsList.add(new Thread(new RootComputationEngineDecentral(resultFromIntermediaDecentral, conf, resultQueue, queryList)));
+        threadsList.add(new Thread(new RootComputationEngineDecentral(resultFromIntermedia, conf, resultQueue, queryList)));
         //output result
         threadsList.add(new Thread(new PrintResult(resultQueue, conf)));
     }

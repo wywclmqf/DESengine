@@ -7,8 +7,8 @@ public class RootTask {
 
     private int taskId;
     public Query query;
+    public ArrayList<QuerySub> querySubs;
     public LinkedList<RootWindow> rootWindows;
-    public ArrayList<ArrayList<Tuple>> batchList;
     //it is from 0
     private int windowCounter;
 

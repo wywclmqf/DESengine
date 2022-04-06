@@ -34,7 +34,15 @@ public class Scotty {
 
 //        windowFunction = new Sum();
 //        windowFunction = new QuantileWindowFunction(0.5);
-        slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1000));
+
+//        for(int i = 0; i < 100; i++){
+            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1000));
+            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1601));
+            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1802));
+            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1303));
+            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1204));
+            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 11005));
+//        }
         slicingWindowOperator.addAggregation(new Sum());
         slicingWindowOperator.setMaxLateness(0);
         return slicingWindowOperator;
@@ -52,9 +60,11 @@ public class Scotty {
 //                    basicOutputCollector.emit(new Values(currentKey, aggregateWindow));
 
                     if (System.currentTimeMillis() - debugTimer > conf.BenchMarkDebugFrequency) {
-                        debugTimer = System.currentTimeMillis();
+//                        debugTimer = System.currentTimeMillis();
                         //out put final result
                         System.out.println("Scotty----finalAggregation----"
+                                        + "  Queries:  " + aggregates.size()
+//                                        + "  Queries:  " + slicingWindowOperator.
 //                                        + window.getWindowId()
 //                                        + "  QueryId:  " + window.getQueryId()
 //                            + "  function  " + window.getFunction()

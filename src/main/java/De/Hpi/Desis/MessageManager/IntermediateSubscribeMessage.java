@@ -37,42 +37,49 @@ public class IntermediateSubscribeMessage implements Runnable{
         long endtime = System.currentTimeMillis();
 
         while (true) {
-            byte[] raw = socketSub.recv(1);
-            if(raw!=null) {
-                try {
-                    MessageResult messageResult = msgpack.read(raw,
-                            MessageResult.class);
-                    resultQueueFromLocal.offer(messageResult.windowCollection);
-                    if(conf.DEBUGMODE_INTER) {
-                        if(tupleCounter == 0){
+            try {
+                if(resultQueueFromLocal.size() < conf.DATAGENERATORMAXIMIUMBUFFER) {
+                    byte[] raw = socketSub.recv(1);
+                    if(raw!=null) {
+                        MessageResult messageResult = msgpack.read(raw,
+                                MessageResult.class);
+                        resultQueueFromLocal.offer(messageResult.windowCollection);
+                        if(conf.DEBUGMODE_INTER) {
+                            if(tupleCounter == 0){
+                                tupleCounter++;
+                                networkOverheadL = getNetworkOverheadL(raw.length);
+                                networkOverheadI = getNetworkOverheadI(raw.length);
+                                begintime = System.currentTimeMillis();
+                                endtime = System.currentTimeMillis();
+                                continue;
+                            }
                             tupleCounter++;
-                            networkOverheadL = getNetworkOverheadL(raw.length);
-                            networkOverheadI = getNetworkOverheadI(raw.length);
-                            begintime = System.currentTimeMillis();
-                            endtime = System.currentTimeMillis();
-                            continue;
+                            networkOverheadL+=getNetworkOverheadL(raw.length);
+                            networkOverheadI+=getNetworkOverheadI(raw.length);
+                            if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
+                                endtime = System.currentTimeMillis();
+                                System.out.println("InterNode--" + conf.getNodeId() + "--INFO"
+                                        + "  Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
+                                        + "  BandWidth(Inter):  " + networkOverheadI  / ((endtime - begintime) / 1000.0)
+                                        + "  BandWidth(Local):  " + networkOverheadL  / ((endtime - begintime) / 1000.0)
+                                        + "  Allcounter:  " + tupleCounter
+                                        + "  NetworkOverhead(Inter):  " + networkOverheadI
+                                        + "  NetworkOverhead(Local):  " + networkOverheadL
+                                        + "  Time:  " + (endtime - begintime) / 1000.0
+                                        + "  GCTime:  " + getGarbageCollectionTime()
+                                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                                        + "  Queue:  " + resultQueueFromLocal.size()
+                                );
+                            }
                         }
-                        tupleCounter++;
-                        networkOverheadL+=getNetworkOverheadL(raw.length);
-                        networkOverheadI+=getNetworkOverheadI(raw.length);
-                        if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
-                            endtime = System.currentTimeMillis();
-                            System.out.println("InterNode--" + conf.getNodeId() + "--INFO"
-                                    + "  Throughput:  " + tupleCounter / ((endtime - begintime) / 1000.0)
-                                    + "  BandWidth(Inter):  " + networkOverheadI  / ((endtime - begintime) / 1000.0)
-                                    + "  BandWidth(Local):  " + networkOverheadL  / ((endtime - begintime) / 1000.0)
-                                    + "  Allcounter:  " + tupleCounter
-                                    + "  NetworkOverhead(Inter):  " + networkOverheadI
-                                    + "  NetworkOverhead(Local):  " + networkOverheadL
-                                    + "  Time:  " + (endtime - begintime) / 1000.0
-                                    + "  GCTime:  " + getGarbageCollectionTime()
-                                    + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
-                            );
-                        }
+
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }else {
+//                    System.out.println("WARNING!!!!:  " + resultQueueFromLocal.size());
+                    Thread.sleep(conf.DATAGENERATORFREQUENCY);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

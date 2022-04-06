@@ -11,6 +11,7 @@ public class Query {
     private int queryId;
     private int key;
     private int function;
+    private double functionAddition;
     private int windowType;
     private int scenario;
 
@@ -21,6 +22,9 @@ public class Query {
     private int startPunctuation;
     private int endPunctuation;
     private int batchSize;
+
+
+
 
     public String getEntireQuery() {
         return entireQuery;
@@ -116,6 +120,14 @@ public class Query {
 
     public void setWaterMark(int waterMark) {
         this.waterMark = waterMark;
+    }
+
+    public double getFunctionAddition() {
+        return functionAddition;
+    }
+
+    public void setFunctionAddition(double functionAddition) {
+        this.functionAddition = functionAddition;
     }
 
 }

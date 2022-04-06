@@ -8,6 +8,7 @@ public class LocalTask {
 
     private int taskId;
     public Query query;
+    public ArrayList<QuerySub> querySubs;
 
     //for isEventHere function to process the query
     private long eventTime;

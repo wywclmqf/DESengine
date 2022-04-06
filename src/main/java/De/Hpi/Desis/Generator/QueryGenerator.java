@@ -27,8 +27,13 @@ public class QueryGenerator {
         try {
             //totally 20 queries
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size.
-            initializeQuery(Configuration.SPEED,Configuration.MAX,Configuration.TUMBING,
-                    1000, 0, 0, 0, 0, 0);
+            initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.COUNTBASED,
+                    1000000, 2000, 0, 0, 0, 0,0.1);
+
+            for(int i = 0; i <= 1000; i++){
+                initializeQuery(Configuration.SPEED,Configuration.QUANTILE,Configuration.TUMBING,
+                        1000, 2000, 0, 0, 0, 0,0.1);
+            }
 //            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.COUNTBASED,
 //                    100000, 0, 0, 0, 0, 0);
 //            initializeQuery(Configuration.SPEED,Configuration.QUANTILE,Configuration.TUMBING,
@@ -144,13 +149,14 @@ public class QueryGenerator {
     }
 
     private void initializeQuery(int Object, int function, int windowType, int range, int slide
-            , int startPunctuation, int endPunctuation, int waterMark, int batchSize) {
+            , int startPunctuation, int endPunctuation, int waterMark, int batchSize, double functionAddition) {
 
         Query query = new Query();
         query.setQueryId(queryCounter++);
 //        System.out.println(query.getQueryId());
         query.setKey(Object);
         query.setFunction(function);
+        query.setFunctionAddition(functionAddition);
         query.setWindowType(windowType);
         query.setRange(range);
         query.setSlide(slide);
@@ -159,7 +165,11 @@ public class QueryGenerator {
         query.setWaterMark(waterMark);
         query.setBatchSize(batchSize);
         query.setScenario(classifyQuery(query, conf));
-
+        query.setEntireQuery(Object + "," + function
+                + "," + windowType + "," + range + "," + slide
+                + "," + startPunctuation + "," + endPunctuation
+                + "," + waterMark + "," + batchSize
+                );
         //to send the query
         queryQueue.offer(query);
         queryList.offer(query);

@@ -36,7 +36,7 @@ public class RootPublishMessage implements Runnable {
                         byte[] raw = msgpack.write(messageQuery);
                         socketPub.send(raw);
                         if(conf.DEBUGMODE_ROOT) {
-                            System.out.println("rootNode--" + conf.getNodeId() + "--sending query----" + query.getQueryId());
+//                            System.out.println("rootNode--" + conf.getNodeId() + "--sending query----" + query.getQueryId());
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

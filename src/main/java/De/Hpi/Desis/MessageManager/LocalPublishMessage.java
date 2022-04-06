@@ -1,17 +1,13 @@
 package De.Hpi.Desis.MessageManager;
 
 import De.Hpi.Desis.Configure.Configuration;
-import De.Hpi.Desis.Dao.Window;
 import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Message.MessageResult;
 import org.msgpack.MessagePack;
 import org.zeromq.ZMQ;
 
 import java.io.IOException;
-import java.lang.management.GarbageCollectorMXBean;
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LocalPublishMessage implements Runnable{
@@ -53,15 +49,16 @@ public class LocalPublishMessage implements Runnable{
 //                        if (System.currentTimeMillis() - endtime > 1000000) {
                                 endtime = System.currentTimeMillis();
                                 System.out.println("LocalNode--" + messageResult.getNodeId() + "--PreAggregation"
-                                        + "  QueryId:  " + messageResult.windowCollection.windowList.get(0).queryId
+                                        + "  WindowCounter:  " + messageResult.windowCollection.sliceCounter
+                                        + (!messageResult.windowCollection.windowList.isEmpty() ?
+                                        ( "  QueryId:  " + messageResult.windowCollection.windowList.get(0).queryId
                                         + "  WindowId:  " + messageResult.windowCollection.windowList.get(0).windowId
-//                            + "  function  " + resultFromLocalToIntermedia.window.getFunction()
-//                            + "  windowType  " + resultFromLocalToIntermedia.window.getWindowType()
                                         + "  result:  " + messageResult.windowCollection.windowList.get(0).result
-                                        + "  count:  " + messageResult.windowCollection.windowList.get(0).count
+                                        + "  count:  " + messageResult.windowCollection.windowList.get(0).count) : "")
                                         + "  WindowList:  " + messageResult.windowCollection.windowList.size()
                                         + "  TupleList:  " + (messageResult.windowCollection.tuples != null ?
                                                 messageResult.windowCollection.tuples.size() : 0)
+                                        + "  Queue:  " + intermediateResultQueue.size()
 //                                        + "  Throughput:  " + messageResult.window.tupleCounter / ((endtime - begintime) / 1000.0)
 //                                        + "  NetworkOverhead:  " + networkOverhead
 //                                        + "  Allcounter:  " + messageResult.window.tupleCounter

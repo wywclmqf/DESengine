@@ -1,14 +1,11 @@
 package De.Hpi.Desis.MessageManager;
 
 import De.Hpi.Desis.Configure.Configuration;
-import De.Hpi.Desis.Dao.Tuple;
-import De.Hpi.Desis.Dao.Window;
 import De.Hpi.Desis.Dao.WindowCollection;
 import De.Hpi.Desis.Message.MessageResult;
 import org.msgpack.MessagePack;
 import org.zeromq.ZMQ;
 
-import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -16,15 +13,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class RootSubscribeMassage implements Runnable{
 
     private Configuration conf;
-    private ConcurrentLinkedQueue<WindowCollection> resultFromIntermediaDecentral;
-    private ConcurrentLinkedQueue<Tuple> resultFromIntermediaCentral;
+    private ConcurrentLinkedQueue<WindowCollection> resultFromIntermedia;
     private ZMQ.Socket socketSub;
 
     public RootSubscribeMassage(ConcurrentLinkedQueue<WindowCollection> resultFromIntermediaDecentral
-            , ConcurrentLinkedQueue<Tuple> resultFromIntermediaCentral
             , Configuration conf, ZMQ.Socket socketSub) {
-        this.resultFromIntermediaDecentral =resultFromIntermediaDecentral;
-        this.resultFromIntermediaCentral =resultFromIntermediaCentral;
+        this.resultFromIntermedia =resultFromIntermediaDecentral;
         this.socketSub = socketSub;
         this.conf = conf;
     }
@@ -41,13 +35,13 @@ public class RootSubscribeMassage implements Runnable{
 
         while (true) {
             try {
-                if(resultFromIntermediaDecentral.size() < conf.DATAGENERATORMAXIMIUMBUFFER) {
+                if(resultFromIntermedia.size() < conf.DATAGENERATORMAXIMIUMBUFFER) {
                     byte[] raw = socketSub.recv(1);
                     if(raw!=null) {
                         MessageResult messageResult = msgpack.read(raw,
                                 MessageResult.class);
 
-                        resultFromIntermediaDecentral.offer(messageResult.windowCollection);
+                        resultFromIntermedia.offer(messageResult.windowCollection);
                         if(conf.DEBUGMODE_ROOT) {
                             if(tupleCounter == 0){
                                 tupleCounter++;
@@ -76,12 +70,13 @@ public class RootSubscribeMassage implements Runnable{
                                         + "  Time:  " + (endtime - begintime) / 1000.0
                                         + "  GCTime:  " + getGarbageCollectionTime()
                                         + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                                        + "  Queue:  " + resultFromIntermedia.size()
                                 );
                             }
                         }
                     }
                 }else {
-                    System.out.println("WARNING!!!!:  " + resultFromIntermediaDecentral.size());
+//                    System.out.println("WARNING!!!!:  " + resultFromIntermedia.size());
                     Thread.sleep(conf.DATAGENERATORFREQUENCY);
                 }
             } catch (Exception e) {
