@@ -29,10 +29,11 @@ public class QueryGenerator {
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size.
             initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.COUNTBASED,
                     1000000, 2000, 0, 0, 0, 0,0.1);
-
+            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
+                    1000, 2000, 0, 0, 0, 0,0.1);
             for(int i = 0; i <= 1000; i++){
-                initializeQuery(Configuration.SPEED,Configuration.QUANTILE,Configuration.TUMBING,
-                        1000, 2000, 0, 0, 0, 0,0.1);
+                initializeQuery(Configuration.SPEED,Configuration.SUM,Configuration.COUNTBASED,
+                        1000000, 2000, 0, 0, 0, 0,0.1);
             }
 //            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.COUNTBASED,
 //                    100000, 0, 0, 0, 0, 0);

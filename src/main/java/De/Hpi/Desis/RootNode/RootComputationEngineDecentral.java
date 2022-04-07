@@ -18,6 +18,7 @@ public class RootComputationEngineDecentral implements Runnable {
     private int currentSliceId;
     private long tupleCounter;
     private boolean countBasedFlag;
+    private boolean timeBasedNonDecomposableFlag;
 
     RootComputationEngineDecentral(ConcurrentLinkedQueue<WindowCollection> resultFromIntermedia, Configuration conf,
                                    ConcurrentLinkedQueue<WindowCollection> resultQueue,
@@ -28,9 +29,10 @@ public class RootComputationEngineDecentral implements Runnable {
         this.rootTasks = new ArrayList<>();
         this.tupleBatches = new LinkedList<>();
         this.queryQueue = queryQueue;
-        this.currentSliceId = 1;
+        this.currentSliceId = 0;
         this.tupleCounter = 0;
         this.countBasedFlag = false;
+        this.timeBasedNonDecomposableFlag = false;
     }
 
     public void run() {
@@ -66,14 +68,21 @@ public class RootComputationEngineDecentral implements Runnable {
         boolean newTupleBatch = false;
         //save tuple batch, if new id less than old id, these are disorder data just drop
         if(currentSliceId <= windowCollection.sliceId) {
-            TupleBatch tupleBatch = new TupleBatch();
-            tupleBatch.sliceId = windowCollection.sliceId;
-            tupleBatch.sliceCounter = windowCollection.sliceCounter;
-            tupleBatch.tuples = windowCollection.tuples;
-            tupleCounter += windowCollection.tuples.size();
-            tupleBatches.addFirst(tupleBatch);
+            //can process timebased nondecomposable function
+            if(timeBasedNonDecomposableFlag) {
+                TupleBatch tupleBatch = new TupleBatch();
+                tupleBatch.sliceId = windowCollection.sliceId;
+                tupleBatch.sliceCounter = windowCollection.sliceCounter;
+                tupleBatch.tuples = windowCollection.tuples;
+                tupleBatches.addFirst(tupleBatch);
+            }
+
             //can process countbased window
-            newTupleBatch = true;
+            if(countBasedFlag){
+                newTupleBatch = true;
+            }
+            tupleCounter += windowCollection.tuples.size();
+            //drop slices
             if(currentSliceId < windowCollection.sliceId){
                 currentSliceId = windowCollection.sliceId;
             }
@@ -151,58 +160,59 @@ public class RootComputationEngineDecentral implements Runnable {
         //countbased window, the windowlist of windowCollcetion is empty
         if(countBasedFlag && newTupleBatch){
             rootTasks.forEach(task -> {
+                //filter countbased window
+                if(task.query.getWindowType() != conf.COUNTBASED){
+                    return;
+                }
                 //for count based window
+                Window window = task.rootWindows.get(0).window;
                 //window end nonDecomposable
                 if(task.query.getFunction() == conf.MEDIAN || task.query.getFunction() == conf.QUANTILE){
                     //window end
-                    Window window = task.rootWindows.get(0).window;
                     if(tupleCounter - window.count
                             >= task.query.getRange()){
-                        //calculate
-                        mergeWindowCountBased(task, task.rootWindows.get(0).window, windowCollection.tuples,
-                                0,(int) (task.query.getRange() - task.rootWindows.get(0).window.count)-1);
+                        //calculate end position
+                        int endPosition = (int) (windowCollection.tuples.size() - (tupleCounter - window.count - task.query.getRange()));
                         //calculate final result and send it
-                        calculateWindow(task, window, newWindowCollection);
-
+                        calculateWindowCountBased(task, window, newWindowCollection,
+                                0, endPosition-1, windowCollection.tuples);
                         //update new window
                         task.windowCounterAdd();
                         window.windowId = task.getWindowCounter();
                         window.result = 0;
                         window.count += task.query.getRange();
+                        task.tupleLists.add(new ArrayList(windowCollection.tuples.stream()
+                                .skip(endPosition).limit(windowCollection.tuples.size()).collect(Collectors.toList())));
                     }else{
-                        //calculate
-                        mergeWindowCountBased(task, task.rootWindows.get(0).window, windowCollection.tuples,
-                                0,(int) (task.query.getRange() - task.rootWindows.get(0).window.count)-1);
+                        task.tupleLists.add(windowCollection.tuples);
                     }
                 }else{
                     //window end decomposable
-                    if(task.rootWindows.get(0).window.count + windowCollection.tuples.size()
+                    if(tupleCounter - window.count
                             >= task.query.getRange()){
                         //calculate
-                        mergeWindowCountBased(task, task.rootWindows.get(0).window, windowCollection.tuples,
-                                0,(int) (task.query.getRange() - task.rootWindows.get(0).window.count)-1);
-                        task.rootWindows.get(0).window.count = task.query.getRange();
-//                        calculateWindow(task, task.rootWindows.get(0).window);
+                        int endPosition = (int) (windowCollection.tuples.size() - (tupleCounter - window.count - task.query.getRange()));
+                        //calculate final result and send it
+                        mergeWindowCountBased(task, window,
+                                0, endPosition-1, windowCollection.tuples);
                         //send window
-                        newWindowCollection.windowList.add(task.rootWindows.get(0).window);
+                        calculateWindowCountBased(task, window, newWindowCollection,
+                                0, endPosition-1, windowCollection.tuples);
 
                         //update new window
-                        window.count = task.rootWindows.get(0).window.count + windowCollection.tuples.size() - task.query.getRange();
-                        mergeWindowCountBased(task, window, windowCollection.tuples,
-                                (int) window.count, windowCollection.tuples.size() - 1);
-                        task.rootWindows.get(0).window = window;
+                        task.windowCounterAdd();
+                        window.windowId = task.getWindowCounter();
+                        window.result = 0;
+                        mergeWindowCountBased(task, window,
+                                endPosition, windowCollection.tuples.size()-1, windowCollection.tuples);
+                        window.count += task.query.getRange();
                     }else {
-                        mergeWindowCountBased(task, task.rootWindows.get(0).window, windowCollection.tuples,
-                                0,windowCollection.tuples.size() - 1);
-                        task.rootWindows.get(0).window.count += windowCollection.tuples.size();
+                        mergeWindowCountBased(task, window,
+                                0, windowCollection.tuples.size()-1, windowCollection.tuples);
                     }
                 }
             });
         }
-
-
-
-
 
         if(!newWindowCollection.windowList.isEmpty()) {
             resultQueue.add(newWindowCollection);
@@ -240,46 +250,35 @@ public class RootComputationEngineDecentral implements Runnable {
         }
     }
 
+    private void calculateWindowDecomposableFunction(RootTask task, Window window, WindowCollection windowCollection){
+        task.querySubs.forEach(querySub -> {
+            Window tempWindow = new Window();
+            tempWindow.queryId = querySub.queryId;
+            tempWindow.windowId = window.windowId;
+            tempWindow.result = window.result;
+            windowCollection.windowList.add(tempWindow);
+        });
+    }
+
     private void calculateWindow(RootTask task, Window window, WindowCollection windowCollection){
         switch (task.query.getFunction()) {
             case Configuration.COUNT: {
                 window.result = window.count;
-                task.querySubs.forEach(querySub -> {
-                    Window tempWindow = new Window();
-                    tempWindow.queryId = querySub.queryId;
-                    tempWindow.windowId = window.windowId;
-                    tempWindow.result = window.result;
-                    windowCollection.windowList.add(tempWindow);
-                });
+                calculateWindowDecomposableFunction(task, window, windowCollection);
                 break;
             }
             case Configuration.SUM: {
-                window.result = window.result;
-                task.querySubs.forEach(querySub -> {
-                    Window tempWindow = new Window();
-                    tempWindow.queryId = querySub.queryId;
-                    tempWindow.windowId = window.windowId;
-                    tempWindow.result = window.result;
-                    windowCollection.windowList.add(tempWindow);
-                });
+//                window.result = window.result;
+                calculateWindowDecomposableFunction(task, window, windowCollection);
                 break;
             }
             case Configuration.AVERAGE: {
                 window.result = window.result / window.count;
-                task.querySubs.forEach(querySub -> {
-                    Window tempWindow = new Window();
-                    tempWindow.queryId = querySub.queryId;
-                    tempWindow.windowId = window.windowId;
-                    tempWindow.result = window.result;
-                    windowCollection.windowList.add(tempWindow);
-                });
+                calculateWindowDecomposableFunction(task, window, windowCollection);
                 break;
             }
             case Configuration.MEDIAN: {
                 ArrayList<Tuple> tuplesTemp = new ArrayList<>();
-//                long temp = tupleBatches.stream()
-//                        .filter(tupleBatch -> tupleBatch.sliceId > window.sliceId - window.sliceCounter).
-//                        .map(tupleBatch -> tupleBatch.tuples).count();
                 tupleBatches.forEach(tupleBatch -> {
                     if(tupleBatch.sliceId > window.sliceId - window.sliceCounter && tupleBatch.sliceId <= window.sliceId){
                         tupleBatch.sliceCounter--;
@@ -288,11 +287,12 @@ public class RootComputationEngineDecentral implements Runnable {
                 });
                 tupleBatches.removeIf(tupleBatch -> tupleBatch.sliceCounter <= 0);
                 tuplesTemp.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+                window.result = tuplesTemp.get((tuplesTemp.size() - 1) / 2).DATA;
                 task.querySubs.forEach(querySub -> {
                     Window tempWindow = new Window();
                     tempWindow.queryId = querySub.queryId;
                     tempWindow.windowId = window.windowId;
-                    tempWindow.result = tuplesTemp.get((tuplesTemp.size() - 1) / 2).DATA;
+                    tempWindow.result = window.result;
                     windowCollection.windowList.add(tempWindow);
                 });
                 break;
@@ -317,81 +317,100 @@ public class RootComputationEngineDecentral implements Runnable {
                 break;
             }
             case Configuration.MAX:{
-                task.querySubs.forEach(querySub -> {
-                    Window tempWindow = new Window();
-                    tempWindow.queryId = querySub.queryId;
-                    tempWindow.windowId = window.windowId;
-                    tempWindow.result = window.result;
-                    windowCollection.windowList.add(tempWindow);
-                });
+                calculateWindowDecomposableFunction(task, window, windowCollection);
             }
             case Configuration.MIN:{
-                task.querySubs.forEach(querySub -> {
-                    Window tempWindow = new Window();
-                    tempWindow.queryId = querySub.queryId;
-                    tempWindow.windowId = window.windowId;
-                    tempWindow.result = window.result;
-                    windowCollection.windowList.add(tempWindow);
-                });
+                calculateWindowDecomposableFunction(task, window, windowCollection);
             }
             default:
                 break;
         }
     }
 
-    void mergeWindowCountBased(RootTask task, Window window, ArrayList<Tuple> tuples,int first, int end){
+    private void calculateWindowCountBased(RootTask task, Window window, WindowCollection windowCollection
+            , int startPoint, int endPoint, ArrayList<Tuple> newestTuples){
         switch (task.query.getFunction()) {
+            case Configuration.COUNT: {
+                window.result = window.count;
+                calculateWindowDecomposableFunction(task, window, windowCollection);
+                break;
+            }
             case Configuration.SUM: {
-                for(int i = first; i < end; i++){
-                    window.result += tuples.get(i).DATA;
-                }
+//                window.result = window.result;
+                calculateWindowDecomposableFunction(task, window, windowCollection);
                 break;
             }
             case Configuration.AVERAGE: {
-//                window.result += tuples.stream().mapToDouble(item -> item.DATA).sum();
-                for(int i = first; i < end; i++){
+                window.result = window.result / task.query.getRange();
+                calculateWindowDecomposableFunction(task, window, windowCollection);
+                break;
+            }
+            case Configuration.MEDIAN: {
+                ArrayList<Tuple> tuplesTemp = new ArrayList<>();
+                task.tupleLists.forEach(tuplesTemp::addAll);
+                tuplesTemp.addAll(new ArrayList(newestTuples.stream().skip(startPoint).limit(endPoint).collect(Collectors.toList())));
+                task.tupleLists = new ArrayList<>();
+                tuplesTemp.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+                window.result = tuplesTemp.get((tuplesTemp.size() - 1) / 2).DATA;
+
+                task.querySubs.forEach(querySub -> {
+                    Window tempWindow = new Window();
+                    tempWindow.queryId = querySub.queryId;
+                    tempWindow.windowId = window.windowId;
+                    tempWindow.result = window.result;
+                    windowCollection.windowList.add(tempWindow);
+                });
+                break;
+            }
+            case Configuration.QUANTILE: {
+                ArrayList<Tuple> tuplesTemp = new ArrayList<>();
+                task.tupleLists.forEach(tuplesTemp::addAll);
+                tuplesTemp.addAll(new ArrayList(newestTuples.stream().skip(startPoint).limit(endPoint).collect(Collectors.toList())));
+                task.tupleLists = new ArrayList<>();
+                tuplesTemp.sort((a, b) -> Double.compare(a.DATA, b.DATA));
+                window.result = tuplesTemp.get((tuplesTemp.size() - 1) / 2).DATA;
+
+                task.querySubs.forEach(querySub -> {
+                    Window tempWindow = new Window();
+                    tempWindow.queryId = querySub.queryId;
+                    tempWindow.windowId = window.windowId;
+                    tempWindow.result = tuplesTemp.get((int) ((tuplesTemp.size() - 1)  * querySub.functionAddition)).DATA;
+                    windowCollection.windowList.add(tempWindow);
+                });
+                break;
+            }
+            case Configuration.MAX:{
+                calculateWindowDecomposableFunction(task, window, windowCollection);
+            }
+            case Configuration.MIN:{
+                calculateWindowDecomposableFunction(task, window, windowCollection);
+            }
+            default:
+                break;
+        }
+    }
+
+    void mergeWindowCountBased(RootTask task, Window window, int first, int end, ArrayList<Tuple> tuples){
+        switch (task.query.getFunction()) {
+            case Configuration.SUM:
+            case Configuration.AVERAGE: {
+                for(int i = first; i <= end; i++){
                     window.result += tuples.get(i).DATA;
                 }
                 break;
             }
             case Configuration.MAX: {
-//                window.result = Math.max(window.result, tuples.stream().mapToDouble(item -> item.DATA).max().getAsDouble());
-                for(int i = first; i < end; i++){
+                for(int i = first; i <= end; i++){
                     window.result = Math.max(window.result, tuples.get(i).DATA);
                 }
                 break;
             }
             case Configuration.MIN: {
-//                window.result = Math.min(window.result, tuples.stream().mapToDouble(item -> item.DATA).min().getAsDouble());
-                for(int i = first; i < end; i++){
+                for(int i = first; i <= end; i++){
                     window.result = Math.min(window.result, tuples.get(i).DATA);
                 }
                 break;
             }
-//            case Configuration.MEDIAN: {
-//                task.batchList.add(new ArrayList(tuples.stream().skip(first).limit(end).collect(Collectors.toList())));
-//                ArrayList<Tuple> tuplesTemp = new ArrayList<>();
-//                task.batchList.forEach(batch -> {
-//                    tuplesTemp.addAll(batch);
-//                });
-//                //sort
-//                tuplesTemp.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-//                window.result = tuplesTemp.get((tuplesTemp.size() - 1) / 2).DATA;;
-//                task.batchList = new ArrayList<>();
-//                break;
-//            }
-//            case Configuration.QUANTILE: {
-//                task.batchList.add(new ArrayList(tuples.stream().skip(first).limit(end).collect(Collectors.toList())));
-//                ArrayList<Tuple> tuplesTemp = new ArrayList<>();
-//                task.batchList.forEach(batch -> {
-//                    tuplesTemp.addAll(batch);
-//                });
-//                //sort
-//                tuplesTemp.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-//                window.result = tuplesTemp.get((tuplesTemp.size() - 1) / 4).DATA;;
-//                task.batchList = new ArrayList<>();
-//                break;
-//            }
             default:
                 break;
         }
@@ -431,12 +450,17 @@ public class RootComputationEngineDecentral implements Runnable {
                 rootTasks.add(task);
 
                 //countbasedflag and initialized count task
-                if(query.getScenario() == conf.COUNTBASED){
+                if(query.getWindowType() == conf.COUNTBASED){
                     RootWindow rootWindow = new RootWindow();
                     rootWindow.window = new Window();
                     rootWindow.setWindowId(1);
                     task.rootWindows.add(rootWindow);
+                    task.tupleLists = new ArrayList<>();
                     countBasedFlag = true;
+                }
+                //nondecomposableFlag for median and quantile
+                if(query.getWindowType() != conf.COUNTBASED && query.getScenario() == conf.CentralizedAggregation){
+                    timeBasedNonDecomposableFlag = true;
                 }
 
             }else{

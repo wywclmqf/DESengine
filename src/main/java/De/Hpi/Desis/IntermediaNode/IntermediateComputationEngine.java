@@ -33,7 +33,7 @@ public class IntermediateComputationEngine implements Runnable {
          this.tupleBatchCounter = 0;
          this.sortFlag = false;
          this.centralizedFlag = false;
-         this.currentSliceId = 1;
+         this.currentSliceId = 0;
          this.endFlag = false;
     }
 
@@ -139,6 +139,7 @@ public class IntermediateComputationEngine implements Runnable {
 
         //send reuslt
         if(endFlag) {
+            endFlag = false;
 //        newWindowCollection.tuples = windowCollection.tuples;
             newWindowCollection.sliceId = windowCollection.sliceId ;
             newWindowCollection.sliceCounter = windowCollection.sliceCounter;

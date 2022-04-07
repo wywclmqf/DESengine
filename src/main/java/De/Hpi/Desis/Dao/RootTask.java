@@ -7,8 +7,10 @@ public class RootTask {
 
     private int taskId;
     public Query query;
+    //to merge queries
     public ArrayList<QuerySub> querySubs;
     public LinkedList<RootWindow> rootWindows;
+    public ArrayList<ArrayList<Tuple>> tupleLists;
     //it is from 0
     private int windowCounter;
 
