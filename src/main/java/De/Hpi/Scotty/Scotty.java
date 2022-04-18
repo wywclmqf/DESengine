@@ -35,14 +35,10 @@ public class Scotty {
 //        windowFunction = new Sum();
 //        windowFunction = new QuantileWindowFunction(0.5);
 
-//        for(int i = 0; i < 100; i++){
-            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1000));
-            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1601));
-            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1802));
-            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1303));
-            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1204));
-            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 11005));
-//        }
+        for(int i = 0; i < conf.queryNumber; i++){
+            slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1000*(i%10 + 1)));
+//            System.out.println(1000*(i%10 + 1));
+        }
         slicingWindowOperator.addAggregation(new Sum());
         slicingWindowOperator.setMaxLateness(0);
         return slicingWindowOperator;

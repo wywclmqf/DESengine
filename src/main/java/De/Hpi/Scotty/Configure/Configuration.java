@@ -18,7 +18,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //Q3: the hopping window slicing & optimization?
 
     //how many query we would simulate
-    public static final int queryNumber = 1;
+    public int queryNumber = 1;
     //to make program easy
     // in optimizer system start to process only when "queryNumber" queries in system,
     // and querywait is to block loops
@@ -30,7 +30,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //debug mode, output much more information, mainly print message between nodes
     public static final boolean DEBUGMODE = true;
     //windows & Linuxs
-    public static final boolean WINDOWS = true;
+    public static final boolean WINDOWS = false;
     //how many threads for generator
     public static final int GeneratorThreadNumber = 2;
 

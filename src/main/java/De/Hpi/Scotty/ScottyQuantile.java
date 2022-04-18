@@ -31,6 +31,7 @@ public class ScottyQuantile {
         StateFactory stateFactory = new MemoryStateFactory();
         SlicingWindowOperator<Integer> slicingWindowOperator = new SlicingWindowOperator<>(stateFactory);
 
+
 //        windowFunction = new Sum();
 //        windowFunction = new QuantileWindowFunction(0.5);
         slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1000));

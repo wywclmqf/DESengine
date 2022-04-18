@@ -19,6 +19,9 @@ public class CSVReading {
         threadsList.add(new Thread(new InputStream(conf, dataQueue, conf.GeneratorThreadNumber)));
         threadsList.forEach( thread -> thread.start());
 
+        if(Integer.valueOf(args[0]) != 0){
+            conf.queryNumber = Integer.valueOf(args[0]);
+        }
 
 
         Scotty scotty = new Scotty(conf);

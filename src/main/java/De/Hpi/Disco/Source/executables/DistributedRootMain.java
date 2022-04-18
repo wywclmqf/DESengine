@@ -20,6 +20,10 @@ public class DistributedRootMain {
 //        final String aggFnsString = args[5];
         Configuration conf = new Configuration();
 
+        if(Integer.parseInt(args[0])!= 0){
+
+        }
+
         final int rootControllerPort;
         final int rootWindowPort;
         final String rootResultPath;
@@ -32,8 +36,8 @@ public class DistributedRootMain {
             rootWindowPort = 50020;
             rootResultPath = "E:/result.txt";
             numChildren = Integer.parseInt(args[0]);
-            windowsString = "TUMBLING,1000";
-            aggFnsString = "MEDIAN";
+            windowsString = "TUMBLING,1000;TUMBLING,1000;TUMBLING,1000;TUMBLING,1000";
+            aggFnsString = "AVG;SUM";
         }else{
             //linux
             rootControllerPort = Integer.parseInt(args[0]);
