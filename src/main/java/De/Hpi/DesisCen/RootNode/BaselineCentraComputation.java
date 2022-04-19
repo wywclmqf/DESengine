@@ -531,7 +531,11 @@ public class BaselineCentraComputation implements Runnable{
 //        System.out.println("eidxO   " + (int) (baselineLocalWindow.endIndex - offset));
 //        System.out.println(offset);
 //        System.out.println();
-        List<Tuple> tupleTempList = tupleList.subList((int) (baselineLocalWindow.startIndex - offset)-1, (int) (baselineLocalWindow.endIndex - offset)-1);
+//        System.out.println(tupleList.size());
+//        System.out.println((baselineLocalWindow.startIndex - offset)-1);
+//        System.out.println((baselineLocalWindow.endIndex - offset)-1);
+//        System.out.println();
+        List<Tuple> tupleTempList = tupleList.subList((int) Math.max((baselineLocalWindow.startIndex - offset)-1, 0), (int) Math.max((baselineLocalWindow.endIndex - offset)-1, 0));
         window.tuples.addAll(tupleTempList);
     }
 
@@ -541,7 +545,9 @@ public class BaselineCentraComputation implements Runnable{
             newOffset = newOffset < baselineLocalWindows.get(i).startIndex
                     ? newOffset : baselineLocalWindows.get(i).startIndex;
         }
-        tupleList = new LinkedList<>( tupleList.subList((int) (newOffset - offset)-1, tupleList.size() - 1) );
+
+
+        tupleList = new LinkedList<>( tupleList.subList((int) Math.max((newOffset - offset)-1,0), Math.max(tupleList.size() - 1, 0)));
         offset = newOffset;
     }
 

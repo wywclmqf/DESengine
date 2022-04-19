@@ -7,7 +7,7 @@ public class OverallMainDriverTestCen {
 
     public static void main(String[] args) throws Exception
     {
-        EnteryPointForRootnode.main(new String[]{"0", "100"});
+        EnteryPointForRootnode.main(new String[]{"0", "1"});
 
         EntryPointForLocalNode.main(new String[]{"1", "100"});
 //        EntryPointForLocalNode.main(new String[]{"2"});
