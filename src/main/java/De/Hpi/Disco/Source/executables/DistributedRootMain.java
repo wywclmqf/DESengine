@@ -21,8 +21,14 @@ public class DistributedRootMain {
         Configuration conf = new Configuration();
 
         if(Integer.parseInt(args[0])!= 0){
-
+            conf.queryNumber = Integer.parseInt(args[0]);
         }
+
+        String queries = new String();
+        for(int i = 0; i <= conf.queryNumber; i++){
+            queries += "TUMBLING,"+1000*(i%10 + 1)+";";
+        }
+
 
         final int rootControllerPort;
         final int rootWindowPort;
@@ -35,17 +41,17 @@ public class DistributedRootMain {
             rootControllerPort = 50010;
             rootWindowPort = 50020;
             rootResultPath = "E:/result.txt";
-            numChildren = Integer.parseInt(args[0]);
-            windowsString = "TUMBLING,1000;TUMBLING,1000;TUMBLING,1000;TUMBLING,1000";
-            aggFnsString = "AVG;SUM";
+            numChildren = Integer.parseInt(args[1]);
+            windowsString = queries;
+            aggFnsString = "AVG";
         }else{
             //linux
-            rootControllerPort = Integer.parseInt(args[0]);
-            rootWindowPort = Integer.parseInt(args[1]);
-            rootResultPath = args[2];
-            numChildren = Integer.parseInt(args[3]);
-            windowsString = "TUMBLING,1000";
-            aggFnsString = "MEDIAN";
+            rootControllerPort = Integer.parseInt(args[1]);
+            rootWindowPort = Integer.parseInt(args[2]);
+            rootResultPath = args[3];
+            numChildren = Integer.parseInt(args[4]);
+            windowsString = queries;
+            aggFnsString = "AVG";
         }
 
         runRoot(rootControllerPort, rootWindowPort, rootResultPath, numChildren, windowsString, aggFnsString);
