@@ -26,7 +26,7 @@ srun -A rabl -p magic --mem 40G -w node-01 --cpus-per-task=20 tools/java/bin/jav
 srun -A rabl -p magic --mem 40G -w node-01 --cpus-per-task=20 tools/java/bin/java -Xms4096M -Xmx40960M -cp Desis.jar De.Hpi.Scotty.CSVReadingQuantile
 
 //DesisCen
-srun -A rabl -p magic -w node-08 --mem 10G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx10240M -cp Desis.jar De.Hpi.DesisCen.EntryPoint.EnteryPointForRootnode 1 0
+srun -A rabl -p magic -w node-08 --mem 20G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx20240M -cp Desis.jar De.Hpi.DesisCen.EntryPoint.EnteryPointForRootnode 1 0
 
 srun -A rabl -p magic -w node-04 --mem 40G --cpus-per-task=30 tools/java/bin/java -Xms4096M -Xmx40960M -cp Desis.jar De.Hpi.DesisCen.EntryPoint.EntryPointForLocalNode 1 0
 srun -A rabl -p magic -w node-05 --mem 40G --cpus-per-task=30 tools/java/bin/java -Xms4096M -Xmx40960M -cp Desis.jar De.Hpi.DesisCen.EntryPoint.EntryPointForLocalNode 2 0

@@ -44,12 +44,10 @@ public class BaselineCentraComputation implements Runnable{
 //        AtomicLong eventTime = new AtomicLong();
 //        AtomicLong createTime = new AtomicLong();
 //        AtomicLong finishStartTime = new AtomicLong();
-
+        queryPreProcess();
 
         while(true) {
             //to read all queries
-            queryPreProcess();
-
             if (!dataQueue.isEmpty()){
                 ArrayList<Tuple> dataBuffer = dataQueue.poll();
                 dataBuffer.forEach(tuple -> {
@@ -522,26 +520,38 @@ public class BaselineCentraComputation implements Runnable{
     void mergeWindow(LocalTask task, BaselineLocalWindow baselineLocalWindow, Window window){
         if(baselineLocalWindow.endIndex == 0)
             baselineLocalWindow.endIndex = tupleCounter;
-//        System.out.println("tuplist   " + tupleList.size());
-//        System.out.println("tuplist   " + tupleList.get(0));
+
+//        System.out.println("tuplist   " + localTasks.size());
+//        System.out.println("tuplist   " + baselineLocalWindows.size());
 //        System.out.println("tuplist   " + tupleList.size());
 //        System.out.println("sidx   " + baselineLocalWindow.startIndex);
 //        System.out.println("eidx   " + baselineLocalWindow.endIndex);
 //        System.out.println("sidxO   " + (int) (baselineLocalWindow.startIndex - offset));
 //        System.out.println("eidxO   " + (int) (baselineLocalWindow.endIndex - offset));
 //        System.out.println(offset);
+//        System.out.println(window.getWindowId());
 //        System.out.println();
-        List<Tuple> tupleTempList = tupleList.subList((int) (baselineLocalWindow.startIndex - offset)-1, (int) (baselineLocalWindow.endIndex - offset)-1);
+
+        List<Tuple> tupleTempList = tupleList.subList((int) Math.max((baselineLocalWindow.startIndex - offset)-1, 0)
+                , (int) Math.max((baselineLocalWindow.endIndex - offset)-1, 0));
         window.tuples.addAll(tupleTempList);
     }
 
     void resetTupleList(){
         long newOffset = baselineLocalWindows.get(0).startIndex;
         for(int i = 0; i < baselineLocalWindows.size(); i++){
-            newOffset = newOffset < baselineLocalWindows.get(i).startIndex
-                    ? newOffset : baselineLocalWindows.get(i).startIndex;
+            newOffset = Math.min(newOffset, baselineLocalWindows.get(i).startIndex);
         }
-        tupleList = new LinkedList<>( tupleList.subList((int) (newOffset - offset)-1, tupleList.size() - 1) );
+
+//        System.out.println("newOffset   " + newOffset);
+//        System.out.println("offset   " + offset);
+//        System.out.println("tuplist   " + tupleList.size());
+
+        tupleList = new LinkedList<>( tupleList.subList((int) (newOffset - offset), tupleList.size()));
+
+//        System.out.println("tuplist   " + tupleList.size());
+//        System.out.println();
+
         offset = newOffset;
     }
 
@@ -633,13 +643,13 @@ public class BaselineCentraComputation implements Runnable{
                 }
             }
         }
-        if(!queryQueue.isEmpty()){
-            LocalTask task = new LocalTask();
-            task.windowList = new ArrayList<Window>();
-            task.query = (Query) queryQueue.poll();
-            task.setTaskId(task.query.getQueryId());
-            localTasks.add(task);
-        }
+//        if(!queryQueue.isEmpty()){
+//            LocalTask task = new LocalTask();
+//            task.windowList = new ArrayList<Window>();
+//            task.query = (Query) queryQueue.poll();
+//            task.setTaskId(task.query.getQueryId());
+//            localTasks.add(task);
+//        }
 
     }
 

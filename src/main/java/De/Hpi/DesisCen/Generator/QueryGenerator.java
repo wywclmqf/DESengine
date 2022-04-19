@@ -32,7 +32,7 @@ public class QueryGenerator {
             for(int i = 0; i <= 1000; i++){
                 initializeQuery(Configuration.SPEED, Configuration.AVERAGE, Configuration.TUMBING,
                         1000*(i%10 + 1), 2000, 0, 0, 0, 0);
-                System.out.println(1000*(i%10 + 1));
+//                System.out.println(1000*(i%10 + 1));
             }
 //            initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
 //                    1000, 0, 0, 0, 0, 0);
