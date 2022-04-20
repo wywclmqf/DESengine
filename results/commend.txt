@@ -4,16 +4,16 @@ i11scp C:\Users\ibrahim\Desktop\Desis.jar wang.yue@summon.delab.i.hpi.de:/hpi/fs
 
 C:\Users\ibrahim\Desktop\Desis.jar
 
-srun -A rabl -p magic -w node-08 --mem 10G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx10240M -cp Desis.jar De.Hpi.Desis.EntryPoint.EnteryPointForRootnode 1 0
+srun -A rabl -p magic -w node-08 --mem 40G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx40240M -cp Desis.jar De.Hpi.Desis.EntryPoint.EnteryPointForRootnode 1 1
 
-srun -A rabl -p magic -w node-02 --mem 10G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx10240M -cp Desis.jar De.Hpi.Desis.EntryPoint.EnteryPointForIntermediaNode 1 0
+srun -A rabl -p magic -w node-02 --mem 40G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx40240M -cp Desis.jar De.Hpi.Desis.EntryPoint.EnteryPointForIntermediaNode 1 1
 
-srun -A rabl -p magic -w node-03 --mem 10G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx10240M -cp Desis.jar De.Hpi.Desis.EntryPoint.EnteryPointForIntermediaNode 2 0
+srun -A rabl -p magic -w node-03 --mem 40G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx40240M -cp Desis.jar De.Hpi.Desis.EntryPoint.EnteryPointForIntermediaNode 2 1
 
-srun -A rabl -p magic -w node-04 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 1 0
-srun -A rabl -p magic -w node-05 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 2 0
-srun -A rabl -p magic -w node-06 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 3 0
-srun -A rabl -p magic -w node-07 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 4 0
+srun -A rabl -p magic -w node-04 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 1 1
+srun -A rabl -p magic -w node-05 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 2 1
+srun -A rabl -p magic -w node-06 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 3 1
+srun -A rabl -p magic -w node-07 --mem 50G --cpus-per-task=20 tools/java/bin/java -Xms20096M -Xmx50960M -cp Desis.jar De.Hpi.Desis.EntryPoint.EntryPointForLocalNode 4 1
 
 srun -A rabl -p magic --mem 40G -w node-02 --cpus-per-task=30 tools/java/bin/java -Xms4096M -Xmx40960M -cp Desis.jar De.Hpi.Desis.Test.TestGenerator 2 1000000000
 

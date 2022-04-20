@@ -42,8 +42,8 @@ public class DistributedRootMain {
             rootWindowPort = 50020;
             rootResultPath = "E:/result.txt";
             numChildren = Integer.parseInt(args[1]);
-            windowsString = queries;
-            aggFnsString = "AVG";
+            windowsString = "TUMBLING,1000";
+            aggFnsString = "MEDIAN";
         }else{
             //linux
             rootControllerPort = Integer.parseInt(args[1]);
@@ -51,7 +51,7 @@ public class DistributedRootMain {
             rootResultPath = args[3];
             numChildren = Integer.parseInt(args[4]);
             windowsString = queries;
-            aggFnsString = "AVG";
+            aggFnsString = "MEDIAN";
         }
 
         runRoot(rootControllerPort, rootWindowPort, rootResultPath, numChildren, windowsString, aggFnsString);

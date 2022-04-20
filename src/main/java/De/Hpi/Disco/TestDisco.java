@@ -8,7 +8,7 @@ public class TestDisco {
 
     public static void main(String[] args) throws Exception
     {
-        DistributedRootMain.main(new String[]{"100","1"});
+        DistributedRootMain.main(new String[]{"1","1"});
 //        System.out.println("controllerPort windowPort resultPath "
 //                + "numChildren windowsString aggFnsString");
 

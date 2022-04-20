@@ -105,9 +105,22 @@ public class AggregateMerger {
                 throw new IllegalArgumentException("Raw aggregate must consist of 3 parts, got: " + rawWindowAggregate);
             }
 
+//            if(rawWindowAggregate.length()<10)
+//                System.out.println(rawWindowAggregate);
+//            else {
+//                System.out.println(rawWindowAggregate.substring(0, 100));
+//                System.out.println(rawWindowAggregate.substring(rawWindowAggregate.length()-100, rawWindowAggregate.length()));
+//            }
+//            System.out.println(rawWindowAggregate);
+//            System.out.println(rawWindowAggregate.length());
+
             String aggregateType = rawWindowAggregateParts[0];
             String rawAggregate = rawWindowAggregateParts[1];
             int key = Integer.parseInt(rawWindowAggregateParts[2]);
+
+//            System.out.println(aggregateType);
+//            System.out.println(rawAggregate);
+//            System.out.println(key);
 
             int childId = functionWindowId.getChildId();
             FunctionWindowAggregateId keyedFunctionWindowId = new FunctionWindowAggregateId(functionWindowId, childId, key);
@@ -147,7 +160,10 @@ public class AggregateMerger {
                 return this.algebraicWindowMerger;
             case DistributedUtils.HOLISTIC_STRING:
                 assert hasHolisticAggFns;
+                //bottleneck, I tested in my own machine the root node of Disco can process 710000 to 1400000 tuples per second
+                //but each local only can process 40000 per second
                 List<DistributedSlice> slices = DistributedUtils.slicesFromString(rawPreAggregate);
+                System.out.println(rawPreAggregate.length());
                 this.holisticWindowMerger.processPreAggregate(slices, functionWindowId);
                 return this.holisticWindowMerger;
             default:

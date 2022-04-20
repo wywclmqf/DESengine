@@ -116,13 +116,12 @@ public class DistributedRoot implements Runnable {
             windowResults.forEach(this::sendResult);
         }
     }
-
+    //processor
     private List<WindowResult> processCountEvent() {
         ZMQ.Socket windowPuller = nodeImpl.dataPuller;
         String rawEvent = windowPuller.recvStr(ZMQ.DONTWAIT);
         Event event = Event.fromString(rawEvent);
         nodeImpl.aggregateMerger.processCountEvent(event);
-
         currentEventTime = event.getTimestamp();
         numEvents++;
         final long watermarkTimestamp = lastWatermark + this.watermarkMs;
@@ -139,7 +138,6 @@ public class DistributedRoot implements Runnable {
         String finalAggregateString = String.valueOf(windowResult.getValue());
         this.resultPusher.sendMore(DistributedUtils.functionWindowIdToString(windowResult.getFinalWindowId()));
         this.resultPusher.send(finalAggregateString);
-
 
         //output debug information
         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {

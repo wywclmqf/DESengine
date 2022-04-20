@@ -76,12 +76,12 @@ public class DistributedNode {
     public FinalWindowsAndSessionStarts processWindowAggregates() {
         String rawFunctionWindowAggId = this.dataPuller.recvStr(ZMQ.DONTWAIT);
         int numAggregates = Integer.parseInt(dataPuller.recvStr(ZMQ.DONTWAIT));
-
         List<String> rawPreAggregates = new ArrayList<>(numAggregates);
         for (int i = 0; i < numAggregates; i++) {
             rawPreAggregates.add(dataPuller.recvStr(ZMQ.DONTWAIT));
         }
-
+        //processor
+//        System.out.println(rawPreAggregates);
         FunctionWindowAggregateId functionWindowAggId =
                 DistributedUtils.stringToFunctionWindowAggId(rawFunctionWindowAggId);
 
