@@ -50,7 +50,7 @@ public class DistributedRootMain {
             rootWindowPort = Integer.parseInt(args[2]);
             rootResultPath = args[3];
             numChildren = Integer.parseInt(args[4]);
-            windowsString = queries;
+            windowsString = "TUMBLING,1000";
             aggFnsString = "MEDIAN";
         }
 

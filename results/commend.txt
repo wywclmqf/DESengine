@@ -34,7 +34,7 @@ srun -A rabl -p magic -w node-06 --mem 40G --cpus-per-task=30 tools/java/bin/jav
 srun -A rabl -p magic -w node-07 --mem 40G --cpus-per-task=30 tools/java/bin/java -Xms4096M -Xmx40960M -cp Desis.jar De.Hpi.DesisCen.EntryPoint.EntryPointForLocalNode 4 0
 
 //Disco
-srun -A rabl -p magic -w node-08 --mem 10G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx10240M -cp Desis.jar De.Hpi.Disco.Source.executables.DistributedRootMain 10 50010 50020 "/hpi/fs00/home/wang.yue/data/result" 10 2
+srun -A rabl -p magic -w node-08 --mem 10G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx10240M -cp Desis.jar De.Hpi.Disco.Source.executables.DistributedRootMain 10 50010 50020 "/hpi/fs00/home/wang.yue/data/result" 10 1
 
 srun -A rabl -p magic -w node-02 --mem 10G --cpus-per-task=20 tools/java/bin/java -Xms2096M -Xmx10240M -cp Desis.jar De.Hpi.Disco.Source.executables.DistributedMergeNodeMain node-08 50010 50020 40010 40020 2 1
 

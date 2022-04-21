@@ -40,7 +40,6 @@ public class LocalPublishMessage implements Runnable{
                 messageResult.windowCollection = windowCollection;
                 try {
                     byte[] raw = msgpack.write(messageResult);
-                    System.out.println(raw.length);
                     socketPub.send(raw);
                     if(messageResult.windowCollection.tuples == null)
                         messageResult.windowCollection.tuples = new ArrayList<>();
