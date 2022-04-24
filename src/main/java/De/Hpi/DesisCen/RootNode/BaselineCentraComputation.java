@@ -587,7 +587,7 @@ public class BaselineCentraComputation implements Runnable{
             }
             case Configuration.QUANTILE: {
                 window.tuples.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-                int index = window.tuples.size() / 4;
+                int index = (int) Math.max((window.tuples.size() - 1)  *  task.query.getFunctionAddition(), 0);
                 window.result = window.tuples.get(index).DATA;
                 window.tuples.clear();
                 break;

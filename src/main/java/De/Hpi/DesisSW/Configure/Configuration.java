@@ -35,7 +35,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     public static final boolean DEBUGMODE_INTER = true;
     public static final boolean DEBUGMODE_LOCAL = true;
     //windows & Linuxs
-    public static final boolean WINDOWS = true;
+    public static final boolean WINDOWS = false;
     //how many threads for generator
     public static final int GeneratorThreadNumber = 3;
 

@@ -24,8 +24,7 @@ fig.add_trace(go.Scatter(
 
 fig.show()
 
-if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment"):
-    os.mkdir("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment")
+if not os.path.exists("E:\My Paper\DesisPaper\experiment"):
+    os.mkdir("E:\My Paper\DesisPaper\experiment")
 # fig.write_image("images/fig1.svg")
-fig.write_image("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment"
-                "\workload1NetworkOverheadAverage.pdf")
+fig.write_image("E:\My Paper\DesisPaper\experiment/workload1NetworkOverheadAverage.pdf")

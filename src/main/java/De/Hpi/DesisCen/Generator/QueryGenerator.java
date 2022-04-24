@@ -27,13 +27,18 @@ public class QueryGenerator {
         try {
             //totally 20 queries
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size
-            initializeQuery(Configuration.SPEED, Configuration.MEDIAN, Configuration.TUMBING,
-                    1000, 0, 0, 0, 0, 0);
-//            for(int i = 0; i <= 1000; i++){
-//                initializeQuery(Configuration.SPEED, Configuration.AVERAGE, Configuration.TUMBING,
-//                        1000*(i%10 + 1), 2000, 0, 0, 0, 0);
-////                System.out.println(1000*(i%10 + 1));
-//            }
+//            initializeQuery(Configuration.SPEED, Configuration.MEDIAN, Configuration.TUMBING,
+//                    1000, 0, 0, 0, 0, 0);
+            for(int i = 0; i <= 1000; i++){
+                if(i%2 == 0){
+                    initializeQuery(Configuration.SPEED, Configuration.QUANTILE, Configuration.TUMBING,
+                            1000*(i%10 + 1), 2000, 0, 0, 0, 0,(i%999 + 1) / 1000.0);
+                }else{
+                    initializeQuery(Configuration.SPEED, Configuration.QUANTILE, Configuration.TUMBING,
+                            1000*(i%10 + 1), 2000, 0, 0, 0,0, (i%999 + 1) / 1000.0);
+                }
+                System.out.println((i%999 + 1)/ 1000.0);
+            }
 //            initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
 //                    1000, 0, 0, 0, 0, 0);
 //            initializeQuery(Configuration.SPEED,Configuration.MAX,Configuration.SLIDING,
@@ -147,12 +152,13 @@ public class QueryGenerator {
     }
 
     private void initializeQuery(int Object, int function, int windowType, int range, int slide
-            , int startPunctuation, int endPunctuation, int waterMark, int batchSize) {
+            , int startPunctuation, int endPunctuation, int waterMark, int batchSize, double functionAddition) {
 
         Query query = new Query();
         query.setQueryId(queryCounter++);
         query.setKey(Object);
         query.setFunction(function);
+        query.setFunctionAddition(functionAddition);
         query.setWindowType(windowType);
         query.setRange(range);
         query.setSlide(slide);

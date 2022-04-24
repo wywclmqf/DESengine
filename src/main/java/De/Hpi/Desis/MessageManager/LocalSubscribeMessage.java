@@ -38,7 +38,7 @@ public class LocalSubscribeMessage implements Runnable{
                             MessageQuery.class);
                     queryQueue.offer(messageQuery.query);
                     if (conf.DEBUGMODE_LOCAL) {
-                        System.out.println("localNode--" + conf.getNodeId() + "--receive----" + messageQuery.query.getQueryId());
+//                        System.out.println("localNode--" + conf.getNodeId() + "--receive----" + messageQuery.query.getQueryId());
                     }
                 }
             } catch (IOException e) {
