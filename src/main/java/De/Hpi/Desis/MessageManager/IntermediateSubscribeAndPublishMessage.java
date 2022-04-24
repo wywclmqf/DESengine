@@ -40,7 +40,7 @@ public class IntermediateSubscribeAndPublishMessage implements Runnable {
                     queryQueue.offer(messageQuery.query);
                     socketLowerPub.send(raw);
                     if(conf.DEBUGMODE_INTER) {
-                        System.out.println("inteNode--" + conf.getNodeId() + "--transfer----" + messageQuery.query.getQueryId());
+//                        System.out.println("inteNode--" + conf.getNodeId() + "--transfer----" + messageQuery.query.getQueryId());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
