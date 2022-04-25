@@ -29,20 +29,16 @@ public class QueryGenerator {
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size
 //            initializeQuery(Configuration.SPEED, Configuration.AVERAGE, Configuration.TUMBING,
 //                    1000, 2000, 0, 0, 0, 0,0);
-            for(int i = 0; i <= 1000; i++){
-                initializeQuery(Configuration.SPEED, Configuration.AVERAGE, Configuration.TUMBING,
-                        1000*(i%10 + 1), 2000, 0, 1000, 0, 0,0);
-            }
 //            for(int i = 0; i <= 1000; i++){
-//                if(i%2 == 0){
-//                    initializeQuery(Configuration.SPEED, Configuration.QUANTILE, Configuration.TUMBING,
-//                            1000*(i%10 + 1), 2000, 0, 0, 0, 0,(i%999 + 1) / 1000.0);
-//                }else{
-//                    initializeQuery(Configuration.SPEED, Configuration.QUANTILE, Configuration.TUMBING,
-//                            1000*(i%10 + 1), 2000, 0, 0, 0,0, (i%999 + 1) / 1000.0);
-//                }
-//                System.out.println((i%999 + 1)/ 1000.0);
+//                initializeQuery(Configuration.SPEED, Configuration.AVERAGE, Configuration.PUNCTUATION,
+//                        1000*(i%10 + 1), 2000, 0, 1000, 0, 0,0);
 //            }
+            for(int i = 0; i <= 1000; i++){
+                    initializeQuery(Configuration.SPEED, Configuration.AVERAGE, Configuration.TUMBING,
+                            1000*(i%10 + 1), 2000, 0, 0, 0, 0,(i%999 + 1) / 1000.0);
+//                    initializeQuery(Configuration.SPEED, Configuration.AVERAGE, Configuration.PUNCTUATION,
+//                            1000*(i%10 + 1), 2000, 0, 1000*(i%10 + 1), 0,0, (i%999 + 1) / 1000.0);
+            }
 //            initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
 //                    1000, 0, 0, 0, 0, 0);
 //            initializeQuery(Configuration.SPEED,Configuration.MAX,Configuration.SLIDING,
