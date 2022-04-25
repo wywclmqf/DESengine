@@ -9,7 +9,7 @@ pio.kaleido.scope.mathjax = None
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(name="DesisCen", x=[1, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[3200594.9, 843380.47, 244432.04, 142866.3, 57506.04, 48292.25]
+                         , y=[2673205.93, 876913.8, 362475.64, 223458.038, 154271.15, 129632.158]
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
 fig.add_trace(go.Scatter(name="Disco", x=[1, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[2181646, 2124146.77, 2071365.54, 2032837.087, 2058517.16, 2092535.16]
@@ -23,6 +23,8 @@ fig.add_trace(go.Scatter(name="Desis", x=[1, 10, 50, 100, 500, 1000], mode='line
 
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6,
 # marker=dict(size=10, symbol='triangle-up'))))
+
+
 
 #legend
 fig.update_layout(
@@ -77,3 +79,4 @@ if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Win
 
 # fig.write_image("images/fig1.svg")
 pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\Throughput3.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\Throughput3.svg")

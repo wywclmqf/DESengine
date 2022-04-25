@@ -8,7 +8,7 @@ pio.kaleido.scope.mathjax = None
 
 fig = go.Figure()
 
-fig.add_trace(go.Bar(name="DesisCen", x=[" "], y=[1529252], legendrank=1, width=[0.18]
+fig.add_trace(go.Bar(name="DesisCen", x=[" "], y=[1626861.266], legendrank=1, width=[0.18]
                      , marker_line_color='rgb(99,110,250)', marker_pattern_shape="."))
 fig.add_trace(go.Bar(name="Disco", x=[" "], y=[40379], legendrank=2, width=[0.18]
                      , marker_line_color='rgb(239,85,59)', marker_pattern_shape="/"))
@@ -19,6 +19,7 @@ fig.add_trace(go.Bar(name="Desis", x=[" "], y=[7401292], legendrank=4, width=[0.
 # fig.add_trace(go.Bar(name="DesisSw", x=[" "], y=[30545075.4], legendrank=4, width=[0.18]
 #                      , marker_line_color='rgb(255,161,90)', marker_pattern_shape="-"))
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6)
+
 
 #legend
 fig.update_layout(
@@ -68,3 +69,4 @@ if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Win
     os.mkdir("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1")
 # fig.write_image("images/fig1.svg")
 pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\Throughput2.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\Throughput2.svg")

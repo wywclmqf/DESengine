@@ -9,7 +9,7 @@ pio.kaleido.scope.mathjax = None
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(name="DesisCen", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
-                         , y=[1568881, 1554271, 1556244, 1572295, 1561424, 1558847, 1558314, 1561340]
+                         , y=[1626861.266, 1621172.405, 1622474.069, 1626861.266, 1635437.807, 1627743.497, 1624585.38, 1621947.61]
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
 fig.add_trace(go.Scatter(name="Disco", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
                          , y=[40379, 81010, 121524, 162212, 202755, 243282, 283521, 324008]
@@ -73,3 +73,4 @@ if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Win
 
 # fig.write_image("images/fig1.svg")
 pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\scalability2.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\scalability2.svg")
