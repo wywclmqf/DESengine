@@ -27,6 +27,7 @@ public class Optimizer implements Runnable{
     private long previousTimeCounter;
     private boolean[] operators;
     private LocalisEventHere localisEventHere;
+    private Random random;
 
     //flags for organize()
     //there are non-decomposable function and system has to sort data anyway
@@ -57,6 +58,7 @@ public class Optimizer implements Runnable{
         this.maxFLAG = false;
         this.minFLAG = false;
         this.localisEventHere = new LocalisEventHere();
+        this.random = new Random();
 
     }
 
@@ -82,7 +84,7 @@ public class Optimizer implements Runnable{
 //                    long timeTemp1 = System.nanoTime();
 
                     long timeTemp = System.currentTimeMillis();
-                    if(timeTemp - previousTimeCounter > conf. timegranularity){
+                    if(timeTemp - previousTimeCounter >= conf. timegranularity){
                         //slice window
                         isEventHereTimeBased(tuple, timeTemp);
                         previousTimeCounter = System.currentTimeMillis();
@@ -237,7 +239,7 @@ public class Optimizer implements Runnable{
                         localisEventHere.setCreateNewWindow(true);
                         localisEventHere.setProcessWindow(true);
                     } else {
-                        if (timeTemp - task.getProcessTime() > task.query.getSlide()) {
+                        if (timeTemp - task.getProcessTime() > task.query.getRange()) {
                             //there is a gap
 //                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
                             localisEventHere.setCreateNewWindow(true);
@@ -268,16 +270,20 @@ public class Optimizer implements Runnable{
                         localisEventHere.setCreateNewWindow(true);
                         localisEventHere.setProcessWindow(true);
                     } else {
-                        if (task.query.getEndPunctuation() == tuple.EVENT) {
-                            //there is a gap
+                        //to simulate punctuation window
+                        // if (task.query.getEndPunctuation() == tuple.EVENT) {
+                        if(timeTemp - previousTimeCounter >= 1000 / task.query.getEndPunctuation()) {
+                            if (random.nextInt((int) (task.query.getEndPunctuation() / (timeTemp - previousTimeCounter)) + 1) == 1 ? true : false) {
+                                //there is a gap
 //                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                            localisEventHere.setCreateNewWindow(true);
-                            localisEventHere.setFinishWindow(true);
-                            task.setWindowEnd(true);
+                                localisEventHere.setCreateNewWindow(true);
+                                localisEventHere.setFinishWindow(true);
+                                task.setWindowEnd(true);
 //                            localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
-                            task.setWindowCount(task.getWindowCount() + 1);
-                            //in case there is a super long gap
-                            task.setProcessTime(timeTemp);
+                                task.setWindowCount(task.getWindowCount() + 1);
+                                //in case there is a super long gap
+                                task.setProcessTime(timeTemp);
+                            }
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();

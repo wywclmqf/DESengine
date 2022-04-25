@@ -5,6 +5,7 @@ import De.Hpi.DesisSW.Dao.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /*
@@ -27,6 +28,7 @@ public class Optimizer implements Runnable{
     private long previousTimeCounter;
     private boolean[] operators;
     private LocalisEventHere localisEventHere;
+    private Random random;
 
     //flags for organize()
     //there are non-decomposable function and system has to sort data anyway
@@ -57,6 +59,7 @@ public class Optimizer implements Runnable{
         this.maxFLAG = false;
         this.minFLAG = false;
         this.localisEventHere = new LocalisEventHere();
+        this.random = new Random();
 
     }
 
@@ -82,7 +85,7 @@ public class Optimizer implements Runnable{
 //                    long timeTemp1 = System.nanoTime();
 
                     long timeTemp = System.currentTimeMillis();
-                    if(timeTemp - previousTimeCounter > conf. timegranularity){
+                    if(timeTemp - previousTimeCounter >= conf. timegranularity){
                         //slice window
                         isEventHereTimeBased(tuple, timeTemp);
                         previousTimeCounter = System.currentTimeMillis();
@@ -268,16 +271,20 @@ public class Optimizer implements Runnable{
                         localisEventHere.setCreateNewWindow(true);
                         localisEventHere.setProcessWindow(true);
                     } else {
-                        if (task.query.getEndPunctuation() == tuple.EVENT) {
-                            //there is a gap
+                        //to simulate punctuation window
+                        // if (task.query.getEndPunctuation() == tuple.EVENT) {
+                        if(timeTemp - previousTimeCounter >= 1000 / task.query.getEndPunctuation()) {
+                            if (random.nextInt((int) (task.query.getEndPunctuation() / (timeTemp - previousTimeCounter)) + 1) == 1 ? true : false) {
+                                //there is a gap
 //                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                            localisEventHere.setCreateNewWindow(true);
-                            localisEventHere.setFinishWindow(true);
-                            task.setWindowEnd(true);
+                                localisEventHere.setCreateNewWindow(true);
+                                localisEventHere.setFinishWindow(true);
+                                task.setWindowEnd(true);
 //                            localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
-                            task.setWindowCount(task.getWindowCount() + 1);
-                            //in case there is a super long gap
-                            task.setProcessTime(timeTemp);
+                                task.setWindowCount(task.getWindowCount() + 1);
+                                //in case there is a super long gap
+                                task.setProcessTime(timeTemp);
+                            }
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
@@ -364,6 +371,10 @@ public class Optimizer implements Runnable{
             if (this.operators[conf.SUMOPERATOR]) {
                 localWindow.sum += tuple.DATA;
             }
+            if (this.operators[conf.AVERAGEPERATOR]) {
+                localWindow.count++;
+                localWindow.sum += tuple.DATA;
+            }
             if (this.operators[conf.MAXOPERATOR]) {
                 localWindow.max = Math.max(localWindow.max, tuple.DATA);
             }
@@ -371,7 +382,7 @@ public class Optimizer implements Runnable{
                 localWindow.min = Math.min(localWindow.min, tuple.DATA);
             }
         }
-        if(this.operators[conf.SORTOPERATOR] | this.operators[conf.PRESERVEOPERATOR]){
+        if(this.operators[conf.MEDIANOPERATOR] | this.operators[conf.QUANTILEOPERATOR]){
             tupleList.add(tuple);
         }
         //batch tuples to send, because the maximum packet size of zeromp no more than 50000 bytes.
@@ -462,12 +473,12 @@ public class Optimizer implements Runnable{
             tupleList = new ArrayList<>(conf.localBatchSize);
             if(sortFLAG){
                 windowCollection.tuples.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-                if(maxFLAG)
-                    localWindows.getLast().max = Math.max(localWindows.getLast().max
-                            , windowCollection.tuples.get(conf.localBatchSize -1).DATA);
-                if(minFLAG)
-                    localWindows.getLast().min = Math.min(localWindows.getLast().min
-                            , windowCollection.tuples.get(0).DATA);
+//                if(maxFLAG)
+//                    localWindows.getLast().max = Math.max(localWindows.getLast().max
+//                            , windowCollection.tuples.get(conf.localBatchSize -1).DATA);
+//                if(minFLAG)
+//                    localWindows.getLast().min = Math.min(localWindows.getLast().min
+//                            , windowCollection.tuples.get(0).DATA);
             }
         }
     }
@@ -512,24 +523,26 @@ public class Optimizer implements Runnable{
 
     private void functionBreakToOperators(int function){
         //to analyze operators
-        if(function == conf.AVERAGE || function == conf.COUNT) {
+        if(function == conf.COUNT) {
             this.operators[conf.COUNTOPERATOR] = true;
         }
-        if(function == conf.AVERAGE || function == conf.SUM) {
+        if(function == conf.SUM) {
             this.operators[conf.SUMOPERATOR] = true;
         }
-        if(function == conf.QUANTILE || function == conf.MEDIAN ){
-            this.operators[conf.SORTOPERATOR] = true;
-        }else {
-            if (function == conf.MAX) {
-                this.operators[conf.MAXOPERATOR] = true;
-            }
-            if (function == conf.MIN) {
-                this.operators[conf.MINOPERATOR] = true;
-            }
-            if (function == conf.NON) {
-                this.operators[conf.PRESERVEOPERATOR] = true;
-            }
+        if(function == conf.AVERAGE) {
+            this.operators[conf.AVERAGEPERATOR] = true;
+        }
+        if(function == conf.MIN) {
+            this.operators[conf.MAXOPERATOR] = true;
+        }
+        if(function == conf.MAX) {
+            this.operators[conf.MINOPERATOR] = true;
+        }
+        if(function == conf.MEDIAN) {
+            this.operators[conf.MEDIANOPERATOR] = true;
+        }
+        if(function == conf.QUANTILE) {
+            this.operators[conf.QUANTILEOPERATOR] = true;
         }
     }
 

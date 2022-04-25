@@ -55,12 +55,13 @@ public class BaselineCentralReceiver implements Runnable{
                                         + "  Time:  " + (endtime - begintime) / 1000.0
                                         + "  GCTime:  " + getGarbageCollectionTime()
                                         + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                                        + "  QueueSize:  " + dataQueue.size()
                                 );
                             }
                         }
                      }
                 }else {
-                    System.out.println("WARNING!!!!:  " + dataQueue.size());
+//                    System.out.println("WARNING!!!!:  " + dataQueue.size());
                     Thread.sleep(conf.DATAGENERATORFREQUENCY);
                 }
             } catch (Exception e) {

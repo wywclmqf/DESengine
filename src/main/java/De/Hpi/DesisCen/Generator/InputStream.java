@@ -52,17 +52,17 @@ public class InputStream implements Runnable {
                     e.printStackTrace();
                 }
             }
-            if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
-                endtime = System.currentTimeMillis();
-                System.out.println("INFO--"
-                        + "Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
-                        + "  NetworkOverhead:  " + 0
-                        + "  Allcounter:  " + tupleCounter.get()
-                        + "  Time:  " + (endtime - begintime) / 1000.0
-                        + "  GCTime:  " + getGarbageCollectionTime()
-                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime));
-
-            }
+//            if (System.currentTimeMillis() - endtime > conf.BenchMarkOutputFrequency) {
+//                endtime = System.currentTimeMillis();
+//                System.out.println("INFO--"
+//                        + "Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
+//                        + "  NetworkOverhead:  " + 0
+//                        + "  Allcounter:  " + tupleCounter.get()
+//                        + "  Time:  " + (endtime - begintime) / 1000.0
+//                        + "  GCTime:  " + getGarbageCollectionTime()
+//                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime));
+//
+//            }
         }
     }
     private static long getGarbageCollectionTime() {

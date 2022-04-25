@@ -7,6 +7,7 @@ import De.Hpi.DesisCen.Dao.BaselineLocalWindow;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -22,6 +23,8 @@ public class BaselineCentraComputation implements Runnable{
     private long localWindowCounter;
     private int tupleCounter;
     private long offset;
+    private Random random;
+    private long previousTimeCounter;
 
     public BaselineCentraComputation(Configuration conf, ConcurrentLinkedQueue<Window> resultQueue,
                                      ConcurrentLinkedQueue<Query> queryQueue , ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue) {
@@ -35,6 +38,8 @@ public class BaselineCentraComputation implements Runnable{
         this.localWindowCounter = 0;
         this.tupleCounter = 0;
         this.offset = 0;
+        this.random = new Random();
+        this.previousTimeCounter = 0;
     }
 //    long eventHere1 = 0;
 //    long eventHere2 = 0;
@@ -45,7 +50,7 @@ public class BaselineCentraComputation implements Runnable{
 //        AtomicLong createTime = new AtomicLong();
 //        AtomicLong finishStartTime = new AtomicLong();
         queryPreProcess();
-
+        previousTimeCounter = System.currentTimeMillis();
         while(true) {
             //to read all queries
             if (!dataQueue.isEmpty()){
@@ -303,18 +308,23 @@ public class BaselineCentraComputation implements Runnable{
                             localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
                             localisEventHere.addCreateNewWindow();
                         } else {
-                            if (task.query.getEndPunctuation() == tuple.EVENT) {
-                                //there is a gap
-                                localisEventHere.endList[task.getTaskId()] = true;
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
-                                localisEventHere.addCreateNewWindow();
-                                localisEventHere.addFinishWindow();
-                                localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
-                                //in case there is a super long gap
-                                task.setProcessTime(timeTemp);
-                            } else {
-                                //for the state
-                                localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
+                            //to simulate punctuation window
+                            // if (task.query.getEndPunctuation() == tuple.EVENT) {
+                            if(timeTemp - previousTimeCounter >= 1000 / task.query.getEndPunctuation()) {
+                                if (random.nextInt((int) (task.query.getEndPunctuation() / (timeTemp - previousTimeCounter))+1) == 1 ? true : false) {
+                                    //there is a gap
+                                    localisEventHere.endList[task.getTaskId()] = true;
+                                    localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
+                                    localisEventHere.addCreateNewWindow();
+                                    localisEventHere.addFinishWindow();
+                                    localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
+                                    //in case there is a super long gap
+                                    task.setProcessTime(timeTemp);
+                                } else {
+                                    //for the state
+                                    localisEventHere.stateList[task.getTaskId()] = conf.EVENTNOTHING;
+                                }
+                                previousTimeCounter = System.currentTimeMillis();
                             }
                         }
                         localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
@@ -335,7 +345,7 @@ public class BaselineCentraComputation implements Runnable{
                             localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
                             localisEventHere.addCreateNewWindow();
                         } else {
-                            if (tupleCounter - task.getProcessTime() > task.query.getBatchSize()) {
+                            if (tupleCounter - task.getProcessTime() > task.query.getRange()) {
                                 //for the state
                                 localisEventHere.endList[task.getTaskId()] = true;
                                 localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
@@ -486,9 +496,9 @@ public class BaselineCentraComputation implements Runnable{
 
             if(!task.windowList.isEmpty()) {
                 resultQueue.addAll(task.windowList);
-//                System.out.println("tuplist   " + tupleList.size());
 //                System.out.println("Wtuplist   " + task.windowList.get(0).tuples.size());
                 resetTupleList();
+                System.out.println("tuplist   " + tupleList.size());
                 task.windowList.clear();
             }
         });
