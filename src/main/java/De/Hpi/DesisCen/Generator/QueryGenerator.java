@@ -24,6 +24,7 @@ public class QueryGenerator {
 
     public void generate(){
 
+        System.out.println(Runtime.getRuntime().maxMemory());
         try {
             //totally 20 queries
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size
