@@ -66,8 +66,8 @@ public class BaselineCentralSender implements Runnable{
                                     + "  Allcounter:  " + tupleCounter
                                     + "  NetworkOverhead(B):  " + networkOverhead
                                     + "  Time:  " + (endtime - begintime) / 1000.0
-                                    + "  GCTime:  " + getGarbageCollectionTime()
-                                    + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+//                                    + "  GCTime:  " + getGarbageCollectionTime()
+//                                    + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
                             );
                         }
                     }

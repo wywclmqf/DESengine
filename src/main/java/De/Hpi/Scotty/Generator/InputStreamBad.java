@@ -50,8 +50,9 @@ public class InputStreamBad implements Runnable {
                         + "  NetworkOverhead:  " + 0
                         + "  Allcounter:  " + tupleCounter.get()
                         + "  Time:  " + (endtime - begintime) / 1000.0
-                        + "  GCTime:  " + getGarbageCollectionTime()
-                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime));
+//                        + "  GCTime:  " + getGarbageCollectionTime()
+//                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                        );
 
             }
         }

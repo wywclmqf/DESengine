@@ -18,8 +18,8 @@ public interface ConfigurationTopology {
 
     public static final String interUpperPubAddr2W = "tcp://localhost:51011";
     public static final String interLowerPubAddr2W = "tcp://localhost:51021";
-    public static final String interUpperPubAddr2 = "tcp://node-03:52010";
-    public static final String interLowerPubAddr2 = "tcp://node-03:52020";
+    public static final String interUpperPubAddr2 = "tcp://node-09:52010";
+    public static final String interLowerPubAddr2 = "tcp://node-09:52020";
 
 
     //local node

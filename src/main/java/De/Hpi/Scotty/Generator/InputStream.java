@@ -51,7 +51,8 @@ public class InputStream implements Runnable {
                         + "  Allcounter:  " + tupleCounter.get()
                         + "  Time:  " + (endtime - begintime) / 1000.0
                         + "  GCTime:  " + getGarbageCollectionTime()
-                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime));
+                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                );
 
             }
         }
