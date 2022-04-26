@@ -13,7 +13,7 @@ fig.add_trace(go.Scatter(name="DesisCen", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='line
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
 fig.add_trace(go.Scatter(name="Disco", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
                          , y=[2181646, 4248293, 6214096.62, 8234068.64, 10462675.8, 13089876, 14869027.39, 16262696.7]
-                         , line=dict(color='rgb(239,85,59)', width=2), marker=dict(size=5, symbol='square')))
+                         , line=dict(color='rgb(255,161,90)', width=2), marker=dict(size=5, symbol='square')))
 fig.add_trace(go.Scatter(name="Desis", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
                          , y=[30545075.4, 60340061.32, 89925986.61, 119973452, 150213822, 180505301, 209827302, 240342115]
                          , line=dict(color='rgb(171,99,250)', width=2), marker=dict(size=5, symbol='cross')))

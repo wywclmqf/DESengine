@@ -13,7 +13,7 @@ fig.add_trace(go.Scatter(name="DesisCen", x=[2, 10], mode='lines+markers'
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
 fig.add_trace(go.Scatter(name="DesisSW", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[2910000.75, 869738.37, 486379.3, 203258.57, 53545.05, 13893.87]
-                         , line=dict(color='rgb(8,48,107)', width=2), marker=dict(size=5, symbol='triangle-up')))
+                         , line=dict(color='rgb(255,161,90)', width=2), marker=dict(size=5, symbol='triangle-up')))
 fig.add_trace(go.Scatter(name="Desis", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[7057527.24, 7124118.93, 7474829, 7465423.46, 7278250.2, 7336149.25]
                          , line=dict(color='rgb(171,99,250)', width=2), marker=dict(size=5, symbol='cross')))
@@ -77,3 +77,4 @@ if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Win
 
 # fig.write_image("images/fig1.svg")
 pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\Throughput1.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\Throughput1.svg")
