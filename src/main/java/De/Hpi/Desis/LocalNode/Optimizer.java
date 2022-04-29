@@ -22,7 +22,7 @@ public class Optimizer implements Runnable{
     private ConcurrentLinkedQueue<Query> queryQueue;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
     private int localWindowCounter;
-    private int localWindowProcessCounter;
+    private int localWindowProcessCounterofNonDecomposable;
     private long tupleCounter;
     private long previousTimeCounter;
     private boolean[] operators;
@@ -48,7 +48,7 @@ public class Optimizer implements Runnable{
         this.localWindows = new LinkedList<>();
         this.tupleList = new ArrayList<>(conf.localBatchSize);
         this.localWindowCounter = 0;
-        this.localWindowProcessCounter = 0;
+        this.localWindowProcessCounterofNonDecomposable = 0;
         this.tupleCounter = 0;
         this.previousTimeCounter = 0;
         this.operators = new boolean[conf.OPERATORS];
@@ -147,6 +147,7 @@ public class Optimizer implements Runnable{
         //in case there is a long gap and multiple windows end
 //        localisEventHere.multipleWindowEndList = new int[localTasks.size()];
         localisEventHere.setProcessCount(0);
+        localisEventHere.setProcessCountNonDecom(0);
         localTasks.forEach(task -> {
             //iterate all the query and process the bound of query
             // decentralized aggregation
@@ -178,6 +179,8 @@ public class Optimizer implements Runnable{
                     }
                     //the new slice includes all queries that are processing
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -225,6 +228,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -256,6 +261,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -287,6 +294,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -346,7 +355,7 @@ public class Optimizer implements Runnable{
         //record window slice
         localWindow.processList = localisEventHere.processList;
         localWindow.setLocalWindowCounter(localisEventHere.getProcessCount());
-        localWindowProcessCounter = localisEventHere.getProcessCount();
+        localWindowProcessCounterofNonDecomposable = localisEventHere.getProcessCountNonDecom();
 //        localWindow.tupleList = new ArrayList<Tuple>(conf.centralizedBatchSize);
         localWindow.count = 0;
         localWindow.sum = 0;
@@ -433,15 +442,14 @@ public class Optimizer implements Runnable{
                 }
             });
             windowCollection.sliceId = localWindowCounter;
-            windowCollection.sliceCounter = localWindowProcessCounter;
+            windowCollection.sliceCounter = localWindowProcessCounterofNonDecomposable;
             //delete localwindow
             localWindows.removeIf(localWindow -> localWindow.getLocalWindowCounter() <= 0);
         }else {
             //batch and send median, quantile and countbased even if they are not end
             windowCollection.sliceId = localWindowCounter;
-            windowCollection.sliceCounter = localWindowProcessCounter;
+            windowCollection.sliceCounter = localWindowProcessCounterofNonDecomposable;
         }
-
 
 //        System.out.println(time1);
 //        System.out.println(time2);

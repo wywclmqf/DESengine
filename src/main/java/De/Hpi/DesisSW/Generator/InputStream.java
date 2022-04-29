@@ -26,6 +26,7 @@ public class InputStream implements Runnable {
     @Override
     public void run() {
         AtomicLong tupleCounter = new AtomicLong();
+        long counter = 0;
         //start generators
         ArrayList<Thread> threads = new ArrayList<Thread>();
         for(int i = 1; i <= this.threadNumber; i++){
@@ -52,11 +53,13 @@ public class InputStream implements Runnable {
                             + "  Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
 //                        + "  NetworkOverhead:  " + 0
                             + "  Allcounter:  " + tupleCounter.get()
+                            + "  Count:  " + (tupleCounter.get() - counter)
                             + "  Time:  " + (endtime - begintime) / 1000.0
-//                            + "  GCTime:  " + getGarbageCollectionTime()
-//                            + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                            + "  GCTime:  " + getGarbageCollectionTime()
+                            + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
                             + "  Queue:  " + dataQueue.size()
                     );
+                    counter = tupleCounter.get();
 
                 }
             }

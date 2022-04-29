@@ -68,8 +68,8 @@ public class RootSubscribeMassage implements Runnable{
                                         + "  NetworkOverhead(Root):  " + networkOverheadR
                                         + "  NetworkOverhead(Inter):  " + networkOverheadI
                                         + "  Time:  " + (endtime - begintime) / 1000.0
-//                                        + "  GCTime:  " + getGarbageCollectionTime()
-//                                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                                        + "  GCTime:  " + getGarbageCollectionTime()
+                                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
                                         + "  Queue:  " + resultFromIntermedia.size()
                                 );
                             }

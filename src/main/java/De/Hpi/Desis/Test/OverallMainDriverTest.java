@@ -8,12 +8,12 @@ public class OverallMainDriverTest {
 
     public static void main(String[] args) throws Exception
     {
-        EnteryPointForRootnode.main(new String[]{"1", "2"});
+        EnteryPointForRootnode.main(new String[]{"1", "20"});
 
-        EnteryPointForIntermediaNode.main(new String[]{"1", "2"});
+        EnteryPointForIntermediaNode.main(new String[]{"1", "20"});
 //        EntryPointForLocalNode.main(new String[]{"1"});
 
-        EntryPointForLocalNode.main(new String[]{"1", "2"});
+        EntryPointForLocalNode.main(new String[]{"1", "20"});
 //        EnteryPointForIntermediaNode.main(new String[]{"2"});
 //        EntryPointForLocalNode.main(new String[]{"3"});
 //        EntryPointForLocalNode.main(new String[]{"4"});

@@ -29,21 +29,21 @@ public class QueryGenerator {
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size.
 //            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
 //                    1000, 1000, 0, 1000, 0, 0,0.1);
-//            for(int i = 0; i <= 1000; i++){
-//                initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
-//                        1000*(i%10 + 1), 1000, 0, 1000, 0, 0,0.1);
-//            }
+            for(int i = 0; i <= 1000; i++){
+                initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
+                        1000, 1000, 0, 1000, 0, 0,0.1);
+            }
 //            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
 //                    1000, 2000, 0, 0, 0, 0,0.1);
 
 
-            for(int i = 0; i <= 1000; i++){
-                initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
-                        1000*(i%10 + 1), 2000, 0, 1000*(i%10 + 1), 0, 0,(i%999 + 1) / 1000.0);
-//                initializeQuery(Configuration.SPEED,Configuration.SUM,Configuration.TUMBING,
-//                        1000*(i%10 + 1h), 2000, 0, 1000*(i%10 + 1), 0, 0,(i%999 + 1) / 1000.0);
+//            for(int i = 0; i <= 1000; i++){
+//                initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
+//                        1000*(i%10 + 1), 2000, 0, 1000*(i%10 + 1), 0, 0,(i%999 + 1) / 1000.0);
+//                initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.PUNCTUATION,
+//                        1000*(i%10 + 1), 2000, 0, 1000*(i%10 + 1), 0, 0,(i%999 + 1) / 1000.0);
 //                System.out.println(1000*(i%10 + 1));
-            }
+//            }
 //            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.COUNTBASED,
 //                    100000, 0, 0, 0, 0, 0);
 //            initializeQuery(Configuration.SPEED,Configuration.QUANTILE,Configuration.TUMBING,

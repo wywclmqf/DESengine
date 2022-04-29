@@ -66,8 +66,8 @@ public class IntermediateSubscribeMessage implements Runnable{
                                         + "  NetworkOverhead(Inter):  " + networkOverheadI
                                         + "  NetworkOverhead(Local):  " + networkOverheadL
                                         + "  Time:  " + (endtime - begintime) / 1000.0
-//                                        + "  GCTime:  " + getGarbageCollectionTime()
-//                                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
+                                        + "  GCTime:  " + getGarbageCollectionTime()
+                                        + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
                                         + "  Queue:  " + resultQueueFromLocal.size()
                                 );
                             }

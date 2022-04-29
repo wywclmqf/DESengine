@@ -8,10 +8,10 @@ pio.kaleido.scope.mathjax = None
 
 fig = go.Figure()
 
-fig.add_trace(go.Scatter(name="Central", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
+fig.add_trace(go.Scatter(name="DesisCen", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[2673205.93, 876913.8, 362475.64, 223458.038, 154271.15, 129632.158]
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
-fig.add_trace(go.Scatter(name="ScottyPro", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
+fig.add_trace(go.Scatter(name="DesisSW", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[30060452.29, 28474163.52, 29134213.48, 28472053.49, 25737626, 21581170]
                          , line=dict(color='rgb(255,161,90)', width=2), marker=dict(size=5, symbol='triangle-up')))
 fig.add_trace(go.Scatter(name="Desis", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'

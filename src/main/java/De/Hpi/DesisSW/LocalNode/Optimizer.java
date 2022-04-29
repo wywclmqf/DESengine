@@ -23,7 +23,7 @@ public class Optimizer implements Runnable{
     private ConcurrentLinkedQueue<Query> queryQueue;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
     private int localWindowCounter;
-    private int localWindowProcessCounter;
+    private int localWindowProcessCounterofNonDecomposable;
     private long tupleCounter;
     private long previousTimeCounter;
     private boolean[] operators;
@@ -49,7 +49,7 @@ public class Optimizer implements Runnable{
         this.localWindows = new LinkedList<>();
         this.tupleList = new ArrayList<>(conf.localBatchSize);
         this.localWindowCounter = 0;
-        this.localWindowProcessCounter = 0;
+        this.localWindowProcessCounterofNonDecomposable = 0;
         this.tupleCounter = 0;
         this.previousTimeCounter = 0;
         this.operators = new boolean[conf.OPERATORS];
@@ -148,6 +148,7 @@ public class Optimizer implements Runnable{
         //in case there is a long gap and multiple windows end
 //        localisEventHere.multipleWindowEndList = new int[localTasks.size()];
         localisEventHere.setProcessCount(0);
+        localisEventHere.setProcessCountNonDecom(0);
         localTasks.forEach(task -> {
             //iterate all the query and process the bound of query
             // decentralized aggregation
@@ -179,6 +180,8 @@ public class Optimizer implements Runnable{
                     }
                     //the new slice includes all queries that are processing
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -226,6 +229,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -257,6 +262,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -288,6 +295,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -347,10 +356,12 @@ public class Optimizer implements Runnable{
         //record window slice
         localWindow.processList = localisEventHere.processList;
         localWindow.setLocalWindowCounter(localisEventHere.getProcessCount());
-        localWindowProcessCounter = localisEventHere.getProcessCount();
+        localWindowProcessCounterofNonDecomposable = localisEventHere.getProcessCountNonDecom();
 //        localWindow.tupleList = new ArrayList<Tuple>(conf.centralizedBatchSize);
         localWindow.count = 0;
+        localWindow.avgCount = 0;
         localWindow.sum = 0;
+        localWindow.avgSum = 0;
         localWindow.max = Double.MIN_VALUE;
         localWindow.min = Double.MAX_VALUE;
         //send batch when slice end
@@ -372,8 +383,14 @@ public class Optimizer implements Runnable{
                 localWindow.sum += tuple.DATA;
             }
             if (this.operators[conf.AVERAGEPERATOR]) {
-                localWindow.count++;
-                localWindow.sum += tuple.DATA;
+//                double temp1=0;
+//                long temp2=0;
+//                for(int i = 0; i < 999 ;i++) {
+//                    temp1++;
+//                    temp2  += tuple.DATA;
+//                }
+                localWindow.avgSum += tuple.DATA;
+                localWindow.avgCount++;
             }
             if (this.operators[conf.MAXOPERATOR]) {
                 localWindow.max = Math.max(localWindow.max, tuple.DATA);
@@ -382,7 +399,7 @@ public class Optimizer implements Runnable{
                 localWindow.min = Math.min(localWindow.min, tuple.DATA);
             }
         }
-        if(this.operators[conf.MEDIANOPERATOR] | this.operators[conf.QUANTILEOPERATOR]){
+        if(this.operators[conf.MEDIANOPERATOR] | this.operators[conf.QUANTILEOPERATOR] | countbasedFLAG){
             tupleList.add(tuple);
         }
         //batch tuples to send, because the maximum packet size of zeromp no more than 50000 bytes.
@@ -394,6 +411,15 @@ public class Optimizer implements Runnable{
     }
 
     void endWindow(boolean isWindowEnd) {
+        System.out.println(localTasks.size());
+        System.out.println(localWindows.getLast().sum);
+        System.out.println(localWindows.getLast().avgSum);
+//        System.out.println(operators[conf.AVERAGEPERATOR]);
+//        System.out.println(operators[conf.SUMOPERATOR]);
+//        System.out.println(operators[conf.COUNTOPERATOR]);
+        System.out.println();
+
+
 //        long time1 = 0;
 //        long time2 = 0;
 //        long time3 = 0;
@@ -438,13 +464,13 @@ public class Optimizer implements Runnable{
                 }
             });
             windowCollection.sliceId = localWindowCounter;
-            windowCollection.sliceCounter = localWindowProcessCounter;
+            windowCollection.sliceCounter = localWindowProcessCounterofNonDecomposable;
             //delete localwindow
             localWindows.removeIf(localWindow -> localWindow.getLocalWindowCounter() <= 0);
         }else {
             //batch and send median, quantile and countbased even if they are not end
             windowCollection.sliceId = localWindowCounter;
-            windowCollection.sliceCounter = localWindowProcessCounter;
+            windowCollection.sliceCounter = localWindowProcessCounterofNonDecomposable;
         }
 
 
@@ -495,8 +521,8 @@ public class Optimizer implements Runnable{
                     break;
                 }
                 case Configuration.AVERAGE: {
-                    window.count += localWindow.count;
-                    window.result += localWindow.sum;
+                    window.count += localWindow.avgCount;
+                    window.result += localWindow.avgSum;
                     break;
                 }
                 case Configuration.MAX: {
