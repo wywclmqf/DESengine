@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TestGenerator {
 
@@ -154,7 +155,7 @@ public class TestGenerator {
                 "Tuple Number: " + counterTest);
         for(int i = 1; i <= TestGenerator.threadNumber; i++){
             conf.setNodeId(i);
-            threads.add(new Thread(new DataGenerator(conf, dataQueue, new AtomicInteger())));
+            threads.add(new Thread(new DataGenerator(conf, dataQueue, new AtomicLong())));
         }
         threads.forEach(thread -> thread.start());;
 

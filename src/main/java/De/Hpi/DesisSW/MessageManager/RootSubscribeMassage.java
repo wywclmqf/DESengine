@@ -15,12 +15,14 @@ public class RootSubscribeMassage implements Runnable{
     private Configuration conf;
     private ConcurrentLinkedQueue<WindowCollection> resultFromIntermedia;
     private ZMQ.Socket socketSub;
+    private long counter;
 
     public RootSubscribeMassage(ConcurrentLinkedQueue<WindowCollection> resultFromIntermediaDecentral
             , Configuration conf, ZMQ.Socket socketSub) {
         this.resultFromIntermedia =resultFromIntermediaDecentral;
         this.socketSub = socketSub;
         this.conf = conf;
+        this.counter = counter;
     }
 
     public void run() {
@@ -65,6 +67,7 @@ public class RootSubscribeMassage implements Runnable{
                                         + "  BandWidth(Inter):  " + networkOverheadI  / ((endtime - begintime) / 1000.0)
                                         + "  Allcounter:  " + tupleCounter
                                         + "  AllcounterTuple:  " + tupleCounterAll
+                                        + "  counter:  " + (tupleCounterAll - counter)
                                         + "  NetworkOverhead(Root):  " + networkOverheadR
                                         + "  NetworkOverhead(Inter):  " + networkOverheadI
                                         + "  Time:  " + (endtime - begintime) / 1000.0
@@ -72,6 +75,7 @@ public class RootSubscribeMassage implements Runnable{
                                         + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
                                         + "  Queue:  " + resultFromIntermedia.size()
                                 );
+                                counter = tupleCounterAll;
                             }
                         }
                     }

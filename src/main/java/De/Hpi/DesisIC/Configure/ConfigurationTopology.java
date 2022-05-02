@@ -33,6 +33,6 @@ public interface ConfigurationTopology {
     public static final String localPubAddr3 = "tcp://node-06:63010";
 
     public static final String localPubAddr4W = "tcp://localhost:61040";
-    public static final String localPubAddr4 = "tcp://node-07:64010";
+    public static final String localPubAddr4 = "tcp://node-10:64010";
 
 }

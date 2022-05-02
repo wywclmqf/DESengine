@@ -204,19 +204,19 @@ public class IntermediateComputationEngine implements Runnable {
             if(!queryQueue.isEmpty()){
                 Query query = (Query) queryQueue.poll();
                 //merge same queries
-//                IntermediateTask tempInterTask = intermediateTasks.stream()
-//                        .filter(interTask -> interTask.query.getEntireQuery().equalsIgnoreCase(query.getEntireQuery()))
-//                        .findFirst()
-//                        .orElse(null);
-//                if(tempInterTask != null){
-//                    QuerySub querySub = new QuerySub();
-//                    querySub.queryId = query.getQueryId();
-//                    querySub.functionAddition = query.getFunctionAddition();
-//                    tempInterTask.querySubs.add(querySub);
-//                    //end the loop
-//                    queryNumber--;
-//                    continue;
-//                }
+                IntermediateTask tempInterTask = intermediateTasks.stream()
+                        .filter(interTask -> interTask.query.getEntireQuery().equalsIgnoreCase(query.getEntireQuery()))
+                        .findFirst()
+                        .orElse(null);
+                if(tempInterTask != null){
+                    QuerySub querySub = new QuerySub();
+                    querySub.queryId = query.getQueryId();
+                    querySub.functionAddition = query.getFunctionAddition();
+                    tempInterTask.querySubs.add(querySub);
+                    //end the loop
+                    queryNumber--;
+                    continue;
+                }
 
                 IntermediateTask task = new IntermediateTask();
                 task.query = query;

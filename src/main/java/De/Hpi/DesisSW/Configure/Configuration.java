@@ -2,7 +2,7 @@ package De.Hpi.DesisSW.Configure;
 
 public class Configuration implements ConfigurationTopology, ConfigurationWindow,
         ConfigurationProcessing, ConfigurationGenerator, ConfigurationMessage
-        , ConfigurationBenchmark{
+        , ConfigurationBenchmark {
 
     //to calculate how to slice sliding window
     //a sliding window can be sliced into  (previous window end punctuation + next window start punctuation)
@@ -18,7 +18,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //but they still can be removed if we don't process hopping window
 
     //how many query we would simulate
-    public int queryNumber = 50;
+    public int queryNumber = 1;
     //to make program easy
     // in optimizer system start to process only when "queryNumber" queries in system,
     // and querywait is to block loops
@@ -37,7 +37,9 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //windows & Linuxs
     public static final boolean WINDOWS = false;
     //how many threads for generator
-    public static final int GeneratorThreadNumber = 3;
+    public int GeneratorThreadNumber = 1;
+    //auto querys, from 1-3 are quantiles
+    public int queryModes = 0;
 
     //node id
     private int nodeId;

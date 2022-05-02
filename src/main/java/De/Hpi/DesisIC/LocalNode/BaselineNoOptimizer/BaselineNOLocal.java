@@ -1,9 +1,9 @@
 package De.Hpi.DesisIC.LocalNode.BaselineNoOptimizer;
 
-import De.Hpi.DesisIC.Dao.Tuple;
-import De.Hpi.DesisIC.Configure.Configuration;
 import De.Hpi.DesisIC.Dao.Query;
 import De.Hpi.DesisIC.Dao.Window;
+import De.Hpi.DesisIC.Configure.Configuration;
+import De.Hpi.DesisIC.Dao.Tuple;
 import De.Hpi.DesisIC.Generator.DataGenerator;
 import De.Hpi.DesisIC.LocalNode.LocalParseAddress;
 import De.Hpi.DesisIC.MessageManager.LocalSubscribeMessage;
@@ -13,7 +13,7 @@ import org.zeromq.ZMQ;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class BaselineNOLocal {
 
@@ -71,7 +71,7 @@ public class BaselineNOLocal {
 //        SingleQueryProcessing.start();
 
         //generate data
-        threadsList.add(new Thread(new DataGenerator(conf, dataQueue, new AtomicInteger())));
+        threadsList.add(new Thread(new DataGenerator(conf, dataQueue, new AtomicLong())));
 
     }
 

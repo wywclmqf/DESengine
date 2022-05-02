@@ -25,10 +25,14 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     public static final int EXPIREDTIME = 1000; //watermark of intermediate window and root window
     //debug mode, output much more information, mainly print message between nodes
     public static final boolean DEBUGMODE = true;
+
     //windows & Linuxs
     public static final boolean WINDOWS = false;
     //how many threads for generator
-    public static final int GeneratorThreadNumber = 1;
+    public int GeneratorThreadNumber = 1;
+    //auto querys, from 1-3 are quantiles
+    public int queryModes = 0;
+
     //the sending speed of local node 1000w
     public static final int SendingSpeed = 1000 * 10000;
 

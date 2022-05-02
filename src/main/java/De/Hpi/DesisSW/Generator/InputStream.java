@@ -16,22 +16,23 @@ public class InputStream implements Runnable {
     private Configuration conf;
     private int threadNumber;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
+    private long counter;
 
     public InputStream(Configuration conf, ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue, int threadNumber){
         this.conf = conf;
         this.dataQueue = dataQueue;
         this.threadNumber = threadNumber;
+        this.counter = counter;
     }
 
     @Override
     public void run() {
         AtomicLong tupleCounter = new AtomicLong();
-        long counter = 0;
         //start generators
         ArrayList<Thread> threads = new ArrayList<Thread>();
         for(int i = 1; i <= this.threadNumber; i++){
             conf.setNodeId(i);
-            threads.add(new Thread(new DataGeneratorSimu(conf, dataQueue, tupleCounter)));
+            threads.add(new Thread(new DataGenerator(conf, dataQueue, tupleCounter)));
         }
         threads.forEach(thread -> thread.start());
 
@@ -53,14 +54,13 @@ public class InputStream implements Runnable {
                             + "  Throughput:  " + tupleCounter.get() / ((endtime - begintime) / 1000.0)
 //                        + "  NetworkOverhead:  " + 0
                             + "  Allcounter:  " + tupleCounter.get()
-                            + "  Count:  " + (tupleCounter.get() - counter)
+                            + "  counter:  " + (tupleCounter.get() - counter)
                             + "  Time:  " + (endtime - begintime) / 1000.0
                             + "  GCTime:  " + getGarbageCollectionTime()
                             + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
                             + "  Queue:  " + dataQueue.size()
                     );
                     counter = tupleCounter.get();
-
                 }
             }
         }

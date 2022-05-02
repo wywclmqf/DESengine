@@ -1,8 +1,8 @@
 package De.Hpi.DesisIC.RootNode;
-import De.Hpi.DesisIC.Configure.Configuration;
 import De.Hpi.DesisIC.Dao.Query;
-import De.Hpi.DesisIC.Dao.Tuple;
 import De.Hpi.DesisIC.Dao.WindowCollection;
+import De.Hpi.DesisIC.Configure.Configuration;
+import De.Hpi.DesisIC.Dao.Tuple;
 import De.Hpi.DesisIC.Generator.QueryGenerator;
 import De.Hpi.DesisIC.MessageManager.RootPublishMessage;
 import De.Hpi.DesisIC.MessageManager.RootSubscribeMassage;

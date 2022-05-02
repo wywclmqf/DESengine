@@ -15,12 +15,14 @@ public class IntermediateSubscribeMessage implements Runnable{
     private Configuration conf;
     private ConcurrentLinkedQueue<WindowCollection> resultQueueFromLocal;
     private ZMQ.Socket socketSub;
+    private long counter;
 
     public IntermediateSubscribeMessage(ConcurrentLinkedQueue<WindowCollection> resultQueueFromLocal
             , Configuration conf, ZMQ.Socket socketSub) {
         this.resultQueueFromLocal =resultQueueFromLocal;
         this.socketSub = socketSub;
         this.conf = conf;
+        this.counter = counter;
     }
 
     public void run() {
@@ -60,6 +62,7 @@ public class IntermediateSubscribeMessage implements Runnable{
                                         + "  BandWidth(Inter):  " + networkOverheadI  / ((endtime - begintime) / 1000.0)
                                         + "  BandWidth(Local):  " + networkOverheadL  / ((endtime - begintime) / 1000.0)
                                         + "  Allcounter:  " + tupleCounter
+                                        + "  counter:  " + (tupleCounter - counter)
                                         + "  NetworkOverhead(Inter):  " + networkOverheadI
                                         + "  NetworkOverhead(Local):  " + networkOverheadL
                                         + "  Time:  " + (endtime - begintime) / 1000.0
@@ -67,6 +70,7 @@ public class IntermediateSubscribeMessage implements Runnable{
                                         + "  GC/Time-Ratio:  " + (double) getGarbageCollectionTime() / (endtime - begintime)
                                         + "  Queue:  " + resultQueueFromLocal.size()
                                 );
+                                counter = tupleCounter;
                             }
                         }
 

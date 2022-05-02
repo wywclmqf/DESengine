@@ -37,7 +37,9 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //windows & Linuxs
     public static final boolean WINDOWS = false;
     //how many threads for generator
-    public static final int GeneratorThreadNumber = 3;
+    public int GeneratorThreadNumber = 1;
+    //auto querys, from 1-3 are quantiles
+    public int queryModes = 0;
 
     //node id
     private int nodeId;

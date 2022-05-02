@@ -8,13 +8,13 @@ pio.kaleido.scope.mathjax = None
 
 fig = go.Figure()
 
-fig.add_trace(go.Bar(name="DesisCen", x=[" "], y=[1626861.266], legendrank=1, width=[0.18]
+fig.add_trace(go.Bar(name="DesisCen", x=[" "], y=[1563426.905], legendrank=1, width=[0.18]
                      , marker_line_color='rgb(99,110,250)', marker_pattern_shape="."))
 fig.add_trace(go.Bar(name="Disco", x=[" "], y=[40379], legendrank=2, width=[0.18]
                      , marker_line_color='rgb(239,85,59)', marker_pattern_shape="/"))
 fig.add_trace(go.Bar(name="Scotty", x=[" "], y=[7353263], legendrank=3, width=[0.18]
                      , marker_line_color='rgb(0,204,150)', marker_pattern_shape="+"))
-fig.add_trace(go.Bar(name="Desis", x=[" "], y=[7401292], legendrank=4, width=[0.18]
+fig.add_trace(go.Bar(name="Desis", x=[" "], y=[7361659.16], legendrank=4, width=[0.18]
                      , marker_line_color='rgb(171,99,250)', marker_pattern_shape="\\"))
 # fig.add_trace(go.Bar(name="DesisSw", x=[" "], y=[30545075.4], legendrank=4, width=[0.18]
 #                      , marker_line_color='rgb(255,161,90)', marker_pattern_shape="-"))
@@ -40,9 +40,9 @@ fig.update_layout(
         title_text="events/sec",
         titlefont=dict(size=15),
         exponentformat="e",
-        ticktext=["0", "0.5M", "1M", "2M", "4M", "8M"],
-        tickvals=[0, 500000, 1000000, 2000000, 4000000, 8000000],
-        range=[0, 10000000],
+        ticktext=["0", "0.5M", "1M", "2M", "4M", "7M"],
+        tickvals=[0, 500000, 1000000, 2000000, 4000000, 7000000],
+        range=[0, 8000000],
         tickmode="array",
     )
 )
@@ -68,5 +68,5 @@ fig.show()
 if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1"):
     os.mkdir("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1")
 # fig.write_image("images/fig1.svg")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\Throughput2.pdf")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\Throughput2.svg")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\/throughput\ThroughputM.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s1\/throughput\ThroughputM.svg")

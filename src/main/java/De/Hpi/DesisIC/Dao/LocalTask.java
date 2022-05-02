@@ -3,7 +3,6 @@ package De.Hpi.DesisIC.Dao;
 import org.msgpack.annotation.Message;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 @Message
 public class LocalTask {
@@ -11,12 +10,6 @@ public class LocalTask {
     private int taskId;
     public Query query;
     public ArrayList<QuerySub> querySubs;
-    public LinkedList<LocalWindow> localWindows;
-    public int localWindowCounter;
-
-    public boolean createFlag;
-    public boolean endFlag;
-    public boolean processFlag;
 
     //for isEventHere function to process the query
     private long eventTime;

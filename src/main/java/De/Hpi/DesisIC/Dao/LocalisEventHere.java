@@ -8,6 +8,7 @@ public class LocalisEventHere {
     public int[] processList;
     //calculate how many times for window to be processed in total
     private int processCount;
+    private int processCountNonDecom;
     //mark down the current state of window that belong to this query
 //    public int[] stateList;
     //in case there is a long gap and multiple windows end
@@ -29,6 +30,17 @@ public class LocalisEventHere {
     public void addProcessCount(int num) {
         this.processCount+=num;
     }
+
+    public int getProcessCountNonDecom() {
+        return processCountNonDecom;
+    }
+    public void setProcessCountNonDecom(int processCountNonDecom) {
+        this.processCountNonDecom = processCountNonDecom;
+    }
+    public void addProcessCountNonDecom(int num) {
+        this.processCountNonDecom+=num;
+    }
+
     public boolean isCreateNewWindow() {
         return createNewWindow;
     }

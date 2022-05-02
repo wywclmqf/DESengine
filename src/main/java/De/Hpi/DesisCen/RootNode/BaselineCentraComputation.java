@@ -310,8 +310,9 @@ public class BaselineCentraComputation implements Runnable{
                         } else {
                             //to simulate punctuation window
                             // if (task.query.getEndPunctuation() == tuple.EVENT) {
-                            if(timeTemp - previousTimeCounter >= 1000 / task.query.getEndPunctuation()) {
-                                if (random.nextInt((int) (task.query.getEndPunctuation() / (timeTemp - previousTimeCounter))+1) == 1 ? true : false) {
+                            if(timeTemp - previousTimeCounter >= 1000.0 / task.query.getEndPunctuation()) {
+                                if (random.nextInt((int) (task.query.getEndPunctuation()
+                                        / (timeTemp - previousTimeCounter)) + 1) == 1) {
                                     //there is a gap
                                     localisEventHere.endList[task.getTaskId()] = true;
                                     localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;

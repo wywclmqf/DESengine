@@ -13,22 +13,22 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
  */
 
-public class Optimizer implements Runnable{
+public class Optimizer {
 
     private Configuration conf;
-    private ArrayList<LocalTask> localTasks;
+    public ArrayList<LocalTask> localTasks;
     private LinkedList<LocalWindow> localWindows;
     private ArrayList<Tuple> tupleList;
     private ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue;
-    private ConcurrentLinkedQueue<Query> queryQueue;
-    private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
     private int localWindowCounter;
-    private int localWindowProcessCounter;
+    private int localWindowProcessCounterofNonDecomposable;
     private long tupleCounter;
-    private long previousTimeCounter;
+    public long previousTimeCounter;
     private boolean[] operators;
     private LocalisEventHere localisEventHere;
     private Random random;
+    public int function;
+    public int scenario;
 
     //flags for organize()
     //there are non-decomposable function and system has to sort data anyway
@@ -40,16 +40,14 @@ public class Optimizer implements Runnable{
     private boolean minFLAG;
 
     public Optimizer(Configuration conf, ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue,
-                     ConcurrentLinkedQueue<Query> queryQueue , ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue) {
+                     int function, int scenario) {
         this.conf = conf;
         this.intermediateResultQueue =intermediateResultQueue;
-        this.queryQueue =queryQueue;
-        this.dataQueue =dataQueue;
         this.localTasks = new ArrayList<>();
         this.localWindows = new LinkedList<>();
         this.tupleList = new ArrayList<>(conf.localBatchSize);
         this.localWindowCounter = 0;
-        this.localWindowProcessCounter = 0;
+        this.localWindowProcessCounterofNonDecomposable = 0;
         this.tupleCounter = 0;
         this.previousTimeCounter = 0;
         this.operators = new boolean[conf.OPERATORS];
@@ -60,78 +58,31 @@ public class Optimizer implements Runnable{
         this.minFLAG = false;
         this.localisEventHere = new LocalisEventHere();
         this.random = new Random();
+        this.function = function;
+        this.scenario = scenario;
 
     }
 
-    public void run() {
-        //to read all queries
-        queryPreProcess();
-        //to increase time granularity
-        previousTimeCounter = System.currentTimeMillis();
+    public void worker(Tuple tuple){
+        tupleCounterIncrement();
 
-//        final long[] timeAll = new long[1];
-//        final long[] time0 = new long[1];
-//        final long[] time1 = new long[1];
-//        final long[] time2 = new long[1];
-//        final long[] time3 = new long[1];
-//        long timeTemp1 = System.nanoTime();
-//        long timeTemp2 = System.nanoTime();
-        while(true) {
-            if (!dataQueue.isEmpty()){
-                ArrayList<Tuple> dataBuffer = dataQueue.poll();
-                dataBuffer.forEach(tuple -> {
-                    tupleCounterIncrement();
-
-//                    long timeTemp1 = System.nanoTime();
-
-                    long timeTemp = System.currentTimeMillis();
-                    if(timeTemp - previousTimeCounter >= conf. timegranularity){
-                        //slice window
-                        isEventHereTimeBased(tuple, timeTemp);
-                        previousTimeCounter = System.currentTimeMillis();
-                    }
-
-//                    time0[0] = time0[0] + System.nanoTime() - timeTemp1;
-//                    timeTemp1 = System.nanoTime();
-
-                    if(localisEventHere.isFinishWindow()){
-                        endWindow(localisEventHere.isFinishWindow());
-                        localisEventHere.setFinishWindow(false);
-                    }
-
-//                    time1[0] = time1[0] + System.nanoTime() - timeTemp1;
-//                    timeTemp1 = System.nanoTime();
-
-                    if(localisEventHere.isCreateNewWindow()){
-                        createWindow(localisEventHere);
-                        localisEventHere.setCreateNewWindow(false);
-                    }
-
-//                    time2[0] = time2[0] + System.nanoTime() - timeTemp1;
-//                    timeTemp1 = System.nanoTime();
-
-                    //we have to process all tuples anyway
-//                    if(localisEventHere.isProcessWindow()){
-                        //calculate the result the calculate action
-                        processWindow(tuple);
-//                        localisEventHere.setProcessWindow(false);
-//                    }
-
-//                    time3[0] = time3[0] + System.nanoTime() - timeTemp1;
-
-                });
-//                if(tupleCounter > 10000000)
-//                    break;;
-            }
+        long timeTemp = System.currentTimeMillis();
+        if(timeTemp - previousTimeCounter >= conf. timegranularity){
+            //slice window
+            isEventHereTimeBased(tuple, timeTemp);
+            previousTimeCounter = System.currentTimeMillis();
         }
-//        timeAll[0] = timeAll[0] + System.nanoTime() - timeTemp2;
-//        System.out.println(timeAll[0]);
-//        System.out.println(time0[0]);
-//        System.out.println(time1[0]);
-//        System.out.println(time2[0]);
-//        System.out.println(time3[0]);
-//        System.out.println(tupleCounter);
+        if(localisEventHere.isFinishWindow()){
+            endWindow(localisEventHere.isFinishWindow());
+            localisEventHere.setFinishWindow(false);
+        }
+        if(localisEventHere.isCreateNewWindow()){
+            createWindow(localisEventHere);
+            localisEventHere.setCreateNewWindow(false);
+        }
+        processWindow(tuple);
     }
+
 
     //the end tuple of a window always belongs to next window,
     private void isEventHereTimeBased(Tuple tuple, long timeTemp){
@@ -148,6 +99,7 @@ public class Optimizer implements Runnable{
         //in case there is a long gap and multiple windows end
 //        localisEventHere.multipleWindowEndList = new int[localTasks.size()];
         localisEventHere.setProcessCount(0);
+        localisEventHere.setProcessCountNonDecom(0);
         localTasks.forEach(task -> {
             //iterate all the query and process the bound of query
             // decentralized aggregation
@@ -161,7 +113,6 @@ public class Optimizer implements Runnable{
                         task.windowSliceAdd();
                         localisEventHere.setCreateNewWindow(true);
                         localisEventHere.setProcessWindow(true);
-                        task.createFlag = true;
                         //initial tumbing window
                         task.setProcessTime(timeTemp);
                         task.setInitialTime(timeTemp);
@@ -169,8 +120,6 @@ public class Optimizer implements Runnable{
                         if ((timeTemp - task.getProcessTime()) > task.query.getRange()) {
                             localisEventHere.setCreateNewWindow(true);
                             localisEventHere.setFinishWindow(true);
-                            task.createFlag = true;
-                            task.endFlag = true;
                             task.setWindowEnd(true);
                             task.setWindowCount((int)(timeTemp - task.getInitialTime()) / task.query.getRange());
 //                            localisEventHere.multipleWindowEndList[task.getTaskId()] =
@@ -182,6 +131,8 @@ public class Optimizer implements Runnable{
                     }
                     //the new slice includes all queries that are processing
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -195,7 +146,6 @@ public class Optimizer implements Runnable{
                         task.windowSliceAdd();
                         localisEventHere.setCreateNewWindow(true);
                         localisEventHere.setProcessWindow(true);
-                        task.createFlag = true;
                         task.setProcessTime(timeTemp);
                         task.setEventTime(timeTemp);
                         task.setInitialTime(timeTemp);
@@ -206,7 +156,6 @@ public class Optimizer implements Runnable{
                             task.windowSliceDelete();
                             localisEventHere.setCreateNewWindow(true);
                             localisEventHere.setFinishWindow(true);
-                            task.endFlag = true;
                             task.setWindowEnd(true);
                             //home many windows if there is a long gap
                             task.setWindowCount(
@@ -224,7 +173,6 @@ public class Optimizer implements Runnable{
                             task.windowSliceAdd();
 //                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
                             localisEventHere.setCreateNewWindow(true);
-                            task.createFlag = true;
                             //home many windows if there is a long gap
 //                                resultOfIsEventHere.multipleWindowEndList[task.getTaskId()] = (int) (timeTemp - task.getEventTime()) / task.query.getSlide();
                             //align and in case there is a long gap
@@ -232,6 +180,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -245,17 +195,14 @@ public class Optimizer implements Runnable{
 //                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
                         localisEventHere.setCreateNewWindow(true);
                         localisEventHere.setProcessWindow(true);
-                        task.createFlag = true;
                     } else {
-                        if (timeTemp - task.getProcessTime() > task.query.getSlide()) {
+                        if (timeTemp - task.getProcessTime() > task.query.getRange()) {
                             //there is a gap
 //                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
                             localisEventHere.setCreateNewWindow(true);
                             localisEventHere.setFinishWindow(true);
                             task.setWindowEnd(true);
                             task.setWindowCount(task.getWindowCount() + 1);
-                            task.createFlag = true;
-                            task.endFlag = true;
 //                            localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
                             //in case there is a super long gap
                             task.setProcessTime(timeTemp);
@@ -266,6 +213,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -279,19 +228,17 @@ public class Optimizer implements Runnable{
 //                        localisEventHere.stateList[task.getTaskId()] = conf.EVENTSTART;
                         localisEventHere.setCreateNewWindow(true);
                         localisEventHere.setProcessWindow(true);
-                        task.createFlag = true;
                     } else {
                         //to simulate punctuation window
                         // if (task.query.getEndPunctuation() == tuple.EVENT) {
-                        if(timeTemp - previousTimeCounter >= 1000 / task.query.getEndPunctuation()) {
-                            if (random.nextInt((int) (task.query.getEndPunctuation() / (timeTemp - previousTimeCounter)) + 1) == 1 ? true : false) {
+                        if(timeTemp - previousTimeCounter >= 1000.0 / task.query.getEndPunctuation()) {
+                            if (random.nextInt((int) (task.query.getEndPunctuation()
+                                    / (timeTemp - previousTimeCounter)) + 1) == 1) {
                                 //there is a gap
 //                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
                                 localisEventHere.setCreateNewWindow(true);
                                 localisEventHere.setFinishWindow(true);
                                 task.setWindowEnd(true);
-                                task.createFlag = true;
-                                task.endFlag = true;
 //                            localisEventHere.multipleWindowEndList[task.getTaskId()] = 1;
                                 task.setWindowCount(task.getWindowCount() + 1);
                                 //in case there is a super long gap
@@ -300,6 +247,8 @@ public class Optimizer implements Runnable{
                         }
                     }
                     localisEventHere.processList[task.getTaskId()] = task.getwindowSlices();
+                    if(task.query.getFunction() == conf.MEDIAN | task.query.getFunction() == conf.QUANTILE)
+                        localisEventHere.addProcessCountNonDecom(task.getwindowSlices());
                     localisEventHere.addProcessCount(task.getwindowSlices());
 //                    localisEventHere.functions[task.query.getFunction()] = true;
                     break;
@@ -351,64 +300,49 @@ public class Optimizer implements Runnable{
         //organize previous local window
 //        if(!localWindows.isEmpty())
 //            localWindows.getLast().tupleList.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-        localWindowProcessCounter = localisEventHere.getProcessCount();
+
         //instance of new local window
-        localTasks.forEach(task -> {
-            if(task.createFlag) {
-                task.localWindowCounter++;
-                LocalWindow localWindow = new LocalWindow();
-//                localWindow.setLocalWindowId(localWindowCounter);
-                localWindow.count = 0;
-                localWindow.sum = 0;
-                localWindow.max = Double.MIN_VALUE;
-                localWindow.min = Double.MAX_VALUE;
-                task.localWindows.add(localWindow);
-                //reset flag
-                task.createFlag = false;
-            }
-        });
-
-//        localWindow.processList = localisEventHere.processList;
-//        localWindow.setLocalWindowCounter(localisEventHere.getProcessCount());
-
-
+        localWindowCounterIncrement();
+        LocalWindow localWindow = new LocalWindow();
+        localWindow.setLocalWindowId(localWindowCounter);
+        //record window slice
+        localWindow.processList = localisEventHere.processList;
+        localWindow.setLocalWindowCounter(localisEventHere.getProcessCount());
+        localWindowProcessCounterofNonDecomposable = localisEventHere.getProcessCountNonDecom();
+//        localWindow.tupleList = new ArrayList<Tuple>(conf.centralizedBatchSize);
+        localWindow.count = 0;
+        localWindow.sum = 0;
+        localWindow.max = Double.MIN_VALUE;
+        localWindow.min = Double.MAX_VALUE;
         //send batch when slice end
         if(tupleList.size() > 0){
             endWindow(false);
         }
-
+        localWindows.add(localWindow);
     }
 
     private void processWindow(Tuple tuple) {
         //optimizer can calculate all the queries
         //decomposable function
-        localTasks.forEach(task -> {
-            if(!task.localWindows.isEmpty()) {
-                task.localWindows.forEach(localWindow -> {
-                    if (task.query.getFunction() == conf.COUNT) {
-                        localWindow.count++;
-                    }
-                    if (task.query.getFunction() == conf.SUM) {
-                        localWindow.sum += tuple.DATA;
-                    }
-                    if (task.query.getFunction() == conf.AVERAGE) {
-                        localWindow.count++;
-                        localWindow.sum += tuple.DATA;
-                    }
-                    if (task.query.getFunction() == conf.MAX) {
-                        localWindow.max = Math.max(localWindow.max, tuple.DATA);
-                    }
-                    if (task.query.getFunction() == conf.MIN) {
-                        localWindow.min = Math.min(localWindow.min, tuple.DATA);
-                    }
-                });
+        if(!localWindows.isEmpty()) {
+            LocalWindow localWindow = localWindows.getLast();
+            if (this.operators[conf.COUNTOPERATOR]) {
+                localWindow.count++;
             }
-        });
-
-        if(sortFLAG | countbasedFLAG){
+            if (this.operators[conf.SUMOPERATOR]) {
+                localWindow.sum += tuple.DATA;
+            }
+            if (this.operators[conf.MAXOPERATOR]) {
+                localWindow.max = Math.max(localWindow.max, tuple.DATA);
+            }
+            if (this.operators[conf.MINOPERATOR]) {
+                localWindow.min = Math.min(localWindow.min, tuple.DATA);
+            }
+        }
+        if(this.operators[conf.SORTOPERATOR] | this.operators[conf.PRESERVEOPERATOR]){
             tupleList.add(tuple);
         }
-        //batch tuples to send, because the maximum packet size of zeromq no more than 50000 bytes.
+        //batch tuples to send, because the maximum packet size of zeromp no more than 50000 bytes.
         //only when there is no countbased window
         //tuplelist size > 0 means there are median and quantile functions
         if(tupleList.size() >= conf.localBatchSize){
@@ -437,39 +371,38 @@ public class Optimizer implements Runnable{
                 //we don't process countbased window
                 if(task.query.getWindowType() == conf.COUNTBASED)
                     return;
-                if (task.endFlag) {
-                    //all timebased queries have localwindows
-                    //how many windows is going to be sent
-                    int windowSendNumber = Math.min(task.localWindows.size(),
-                            task.getWindowCount() + 1 - task.getWindowId());
-                    for(int i = 0; i < windowSendNumber; i++){
-                        Window window = new Window();
-                        window.queryId = task.query.getQueryId();
-                        window.windowId = task.getWindowId();
-                        window.sliceId = localWindowCounter;
-
-                        //merge results of local windows into window
-                        mergeWindow(task, task.localWindows.getFirst(), window);
-                        //remove the empty local windows and organize rest local windows
-                        task.localWindows.removeFirst();
-                        //how many slices belong to this window
-                        window.sliceCounter++;
-                        windowCollection.windowList.add(window);
-                    }
+                if (task.getWindowEnd()) {
+//                    windowCounter++;
+                    Window window = new Window();
+                    window.queryId = task.query.getQueryId();
+                    window.windowId = task.getWindowId();
+                    window.sliceId = localWindowCounter;
                     task.setWindowId(task.getWindowCount() + 1);
-                    task.endFlag = false;
+                    task.setWindowEnd(false);
+                    //all timebased queries have localwindows
+                    localWindows.forEach(localWindow -> {
+                        if (localWindow.processList[task.getTaskId()] > 0) {
+                            //merge results of local windows into window
+                            mergeWindow(task, localWindow, window);
+                            //remove the empty local windows and organize rest local windows
+                            localWindow.processList[task.getTaskId()] -= 1;
+                            localWindow.windowUsedCounterDelete();
+                            //how many slices belong to this window
+                            window.sliceCounter++;
+                        }
+                    });
+                    windowCollection.windowList.add(window);
                 }
             });
             windowCollection.sliceId = localWindowCounter;
-            windowCollection.sliceCounter = localWindowProcessCounter;
+            windowCollection.sliceCounter = localWindowProcessCounterofNonDecomposable;
             //delete localwindow
-//            localWindows.removeIf(localWindow -> localWindow.getLocalWindowCounter() <= 0);
+            localWindows.removeIf(localWindow -> localWindow.getLocalWindowCounter() <= 0);
         }else {
             //batch and send median, quantile and countbased even if they are not end
             windowCollection.sliceId = localWindowCounter;
-            windowCollection.sliceCounter = localWindowProcessCounter;
+            windowCollection.sliceCounter = localWindowProcessCounterofNonDecomposable;
         }
-
 
 //        System.out.println(time1);
 //        System.out.println(time2);
@@ -496,12 +429,12 @@ public class Optimizer implements Runnable{
             tupleList = new ArrayList<>(conf.localBatchSize);
             if(sortFLAG){
                 windowCollection.tuples.sort((a, b) -> Double.compare(a.DATA, b.DATA));
-//                if(maxFLAG)
-//                    localWindows.getLast().max = Math.max(localWindows.getLast().max
-//                            , windowCollection.tuples.get(conf.localBatchSize -1).DATA);
-//                if(minFLAG)
-//                    localWindows.getLast().min = Math.min(localWindows.getLast().min
-//                            , windowCollection.tuples.get(0).DATA);
+                if(maxFLAG)
+                    localWindows.getLast().max = Math.max(localWindows.getLast().max
+                            , windowCollection.tuples.get(conf.localBatchSize -1).DATA);
+                if(minFLAG)
+                    localWindows.getLast().min = Math.min(localWindows.getLast().min
+                            , windowCollection.tuples.get(0).DATA);
             }
         }
     }
@@ -540,114 +473,91 @@ public class Optimizer implements Runnable{
         tupleCounter++;
     }
 
+    private void localWindowCounterIncrement(){
+        localWindowCounter++;
+    }
+
     private void functionBreakToOperators(int function){
         //to analyze operators
-        if(function == conf.COUNT) {
+        if(function == conf.AVERAGE || function == conf.COUNT) {
             this.operators[conf.COUNTOPERATOR] = true;
         }
-        if(function == conf.SUM) {
+        if(function == conf.AVERAGE || function == conf.SUM) {
             this.operators[conf.SUMOPERATOR] = true;
         }
-        if(function == conf.AVERAGE) {
-            this.operators[conf.AVERAGEPERATOR] = true;
-        }
-        if(function == conf.MIN) {
-            this.operators[conf.MAXOPERATOR] = true;
-        }
-        if(function == conf.MAX) {
-            this.operators[conf.MINOPERATOR] = true;
-        }
-        if(function == conf.MEDIAN) {
-            this.operators[conf.MEDIANOPERATOR] = true;
-        }
-        if(function == conf.QUANTILE) {
-            this.operators[conf.QUANTILEOPERATOR] = true;
+        if(function == conf.QUANTILE || function == conf.MEDIAN ){
+            this.operators[conf.SORTOPERATOR] = true;
+        }else {
+            if (function == conf.MAX) {
+                this.operators[conf.MAXOPERATOR] = true;
+            }
+            if (function == conf.MIN) {
+                this.operators[conf.MINOPERATOR] = true;
+            }
+            if (function == conf.NON) {
+                this.operators[conf.PRESERVEOPERATOR] = true;
+            }
         }
     }
 
-    private void queryPreProcess(){
-        //get all queries, it will be skipped when all queries retrieved
-        int queryNumber = conf.queryNumber;
-        while(localTasks.size() < queryNumber){
-            if(!queryQueue.isEmpty()){
-                Query query = (Query) queryQueue.poll();
-                //merge same queries
-//                LocalTask tempLocalTask = localTasks.stream()
-//                                .filter(localTask -> localTask.query.getEntireQuery().equalsIgnoreCase(query.getEntireQuery()))
-//                        .findFirst()
-//                        .orElse(null);
-//                if(tempLocalTask != null){
-//                    QuerySub querySub = new QuerySub();
-//                    querySub.queryId = query.getQueryId();
-//                    querySub.functionAddition = query.getFunctionAddition();
-//                    tempLocalTask.querySubs.add(querySub);
-//                    //end the loop
-//                    queryNumber--;
-//                    continue;
-//                }
-
-                LocalTask task = new LocalTask();
-                task.query = query;
-                task.setTaskId(task.query.getQueryId());
-                //window counter should start from 1,
-                // since we use windowId=0 to decide if this query output result to parent
-                task.setWindowId(1);
-                task.querySubs = new ArrayList<>();
-                task.localWindows = new LinkedList<>();
-                QuerySub querySub = new QuerySub();
-                querySub.queryId = query.getQueryId();
-                querySub.functionAddition = query.getFunctionAddition();
-                task.querySubs.add(querySub);
-                localTasks.add(task);
-
-                task.createFlag = false;
-                task.endFlag = false;
-                task.processFlag = false;
-                //flags are for organizing windows
-                //to regulate program, sort -> store,
-                if(task.query.getFunction() == conf.MEDIAN || task.query.getFunction() == conf.QUANTILE ){
-                    this.sortFLAG = true;
-                }
-                if(task.query.getScenario() == conf.CentralizedAggregation){
-                    this.preserveFLAG = true;
-                }
-                if(task.query.getWindowType() == conf.COUNTBASED){
-                    this.countbasedFLAG = true;
-                }
-                if(task.query.getScenario() == conf.MAX){
-                    this.maxFLAG = true;
-                }
-                if(task.query.getScenario() == conf.MIN){
-                    this.minFLAG = true;
-                }
-                //for countbased window, we need to save data anyway
-                //if there are not meidan aor quantile, we dont perform sorting
-                if(!(task.query.getFunction() == conf.MEDIAN || task.query.getFunction() == conf.QUANTILE)
-                        && task.query.getWindowType() == conf.COUNTBASED){
-                    task.query.setFunction(conf.NON);
-                }
-                //analyze aggregation function operators
-                functionBreakToOperators(task.query.getFunction());
-            }else{
-                try {
-                    Thread.sleep(conf.queryWait);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+    public void queryPreProcess(Query query){
+        //merge same queries
+        LocalTask tempLocalTask = localTasks.stream()
+                        .filter(localTask -> localTask.query.getEntireQuery().equalsIgnoreCase(query.getEntireQuery()))
+                .findFirst()
+                .orElse(null);
+        if(tempLocalTask != null){
+            QuerySub querySub = new QuerySub();
+            querySub.queryId = query.getQueryId();
+            querySub.functionAddition = query.getFunctionAddition();
+            tempLocalTask.querySubs.add(querySub);
+            return;
         }
-//        System.out.println(localTasks.size());
-//        localTasks.forEach(localTask -> {
-//            System.out.println(localTask.query.getQueryId());
-//            System.out.println(localTask.querySubs.size());
-//        });
-//        System.out.println();
-//        if(!queryQueue.isEmpty()){
-//            LocalTask task = new LocalTask();
-//            task.query = (Query) queryQueue.poll();
-//            task.setTaskId(task.query.getQueryId());
-//            localTasks.add(task);
-//        }
+
+        LocalTask task = new LocalTask();
+        task.query = query;
+        //task id is not query id
+        //task.setTaskId(task.query.getQueryId());
+        task.setTaskId(localTasks.size());
+
+
+        //window counter should start from 1,
+        // since we use windowId=0 to decide if this query output result to parent
+        task.setWindowId(1);
+        task.querySubs = new ArrayList<>();
+        QuerySub querySub = new QuerySub();
+        querySub.queryId = query.getQueryId();
+        querySub.functionAddition = query.getFunctionAddition();
+        task.querySubs.add(querySub);
+        localTasks.add(task);
+
+        //flags are for organizing windows
+        //to regulate program, sort -> store,
+        if(task.query.getFunction() == conf.MEDIAN || task.query.getFunction() == conf.QUANTILE ){
+            this.sortFLAG = true;
+        }
+        if(task.query.getScenario() == conf.CentralizedAggregation){
+            this.preserveFLAG = true;
+        }
+        if(task.query.getWindowType() == conf.COUNTBASED){
+            this.countbasedFLAG = true;
+        }
+        if(task.query.getScenario() == conf.MAX){
+            this.maxFLAG = true;
+        }
+        if(task.query.getScenario() == conf.MIN){
+            this.minFLAG = true;
+        }
+        //for countbased window, we need to save data anyway
+        //if there are not meidan aor quantile, we dont perform sorting
+        if(!(task.query.getFunction() == conf.MEDIAN || task.query.getFunction() == conf.QUANTILE)
+                && task.query.getWindowType() == conf.COUNTBASED){
+            task.query.setFunction(conf.NON);
+        }
+        //analyze aggregation function operators
+        functionBreakToOperators(task.query.getFunction());
+
+
     }
 
 }

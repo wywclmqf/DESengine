@@ -10,9 +10,7 @@ public class LocalWindow{
 
     //intermediate result
     public double sum;
-    public double avgSum;
     public long count;
-    public long avgCount;
     public double max;
     public double min;
 //    public ArrayList<Tuple> tupleList;

@@ -1,7 +1,7 @@
 package De.Hpi.DesisSW.MessageManager;
 
-import De.Hpi.DesisSW.Configure.Configuration;
 import De.Hpi.DesisSW.Dao.Query;
+import De.Hpi.DesisSW.Configure.Configuration;
 import De.Hpi.DesisSW.Message.MessageQuery;
 import org.msgpack.MessagePack;
 import org.zeromq.ZMQ;

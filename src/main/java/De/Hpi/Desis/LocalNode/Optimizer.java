@@ -279,8 +279,9 @@ public class Optimizer implements Runnable{
                     } else {
                         //to simulate punctuation window
                         // if (task.query.getEndPunctuation() == tuple.EVENT) {
-                        if(timeTemp - previousTimeCounter >= 1000 / task.query.getEndPunctuation()) {
-                            if (random.nextInt((int) (task.query.getEndPunctuation() / (timeTemp - previousTimeCounter)) + 1) == 1 ? true : false) {
+                        if(timeTemp - previousTimeCounter >= 1000.0 / task.query.getEndPunctuation()) {
+                            if (random.nextInt((int) (task.query.getEndPunctuation()
+                                    / (timeTemp - previousTimeCounter)) + 1) == 1) {
                                 //there is a gap
 //                            localisEventHere.stateList[task.getTaskId()] = conf.EVENTENDANDSTART;
                                 localisEventHere.setCreateNewWindow(true);
@@ -570,6 +571,7 @@ public class Optimizer implements Runnable{
 
                 LocalTask task = new LocalTask();
                 task.query = query;
+//                task.setTaskId(task.query.getQueryId());
                 task.setTaskId(task.query.getQueryId());
                 //window counter should start from 1,
                 // since we use windowId=0 to decide if this query output result to parent

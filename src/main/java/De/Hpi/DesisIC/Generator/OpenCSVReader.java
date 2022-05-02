@@ -1,7 +1,7 @@
 package De.Hpi.DesisIC.Generator;
 
-import De.Hpi.DesisIC.Dao.Tuple;
 import De.Hpi.DesisIC.Configure.Configuration;
+import De.Hpi.DesisIC.Dao.Tuple;
 import De.Hpi.DesisIC.LocalNode.LocalParseAddress;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;

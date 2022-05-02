@@ -40,7 +40,7 @@ public class LocalPublishMessage implements Runnable{
                 messageResult.windowCollection = windowCollection;
                 try {
                     byte[] raw = msgpack.write(messageResult);
-//                    socketPub.send(raw);
+                    socketPub.send(raw);
                     if(messageResult.windowCollection.tuples == null)
                         messageResult.windowCollection.tuples = new ArrayList<>();
                     if(conf.DEBUGMODE_LOCAL) {
@@ -72,6 +72,9 @@ public class LocalPublishMessage implements Runnable{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                //in case send too slow
+//                if(intermediateResultQueue.size() > conf.DATAGENERATORMAXIMIUMBUFFER)
+//                    intermediateResultQueue.clear();
             }
         }
     }

@@ -15,6 +15,7 @@ import org.zeromq.ZMQ;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class BaselineNOLocal {
 
@@ -72,7 +73,7 @@ public class BaselineNOLocal {
 //        SingleQueryProcessing.start();
 
         //generate data
-        threadsList.add(new Thread(new DataGenerator(conf, dataQueue, new AtomicInteger())));
+        threadsList.add(new Thread(new DataGenerator(conf, dataQueue, new AtomicLong())));
 
     }
 

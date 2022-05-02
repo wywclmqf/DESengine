@@ -3,7 +3,6 @@ import De.Hpi.DesisCen.Configure.Configuration;
 import De.Hpi.DesisCen.Dao.Query;
 import De.Hpi.DesisCen.Dao.Tuple;
 import De.Hpi.DesisCen.Dao.Window;
-import De.Hpi.DesisCen.Generator.DataGenerator;
 import De.Hpi.DesisCen.Generator.QueryGenerator;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;

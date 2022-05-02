@@ -6,15 +6,16 @@ import De.Hpi.Desis.Dao.Tuple;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class DataGenerator implements Runnable {
 
     private Configuration conf;
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
-    private AtomicInteger tupleConter;
+    private AtomicLong tupleConter;
 //    private OpenCSVReader openCSVReader;
     private UniVocityCSVReader uniVocityCSVReader;
-    public DataGenerator(Configuration conf, ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue, AtomicInteger tupleConter) {
+    public DataGenerator(Configuration conf, ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue, AtomicLong tupleConter) {
         this.conf = conf;
         this.dataQueue = dataQueue;
 //        this.openCSVReader = new OpenCSVReader(conf);
@@ -42,7 +43,7 @@ public class DataGenerator implements Runnable {
                         uniVocityCSVReader.getDuplicateDataTuple(dataBuffer, conf.DUPLICATETUPLE);
                         if (dataBuffer.size() >= conf.MAXBUFFERSIZE) {
                             dataQueue.offer(dataBuffer);
-                            tupleConter.incrementAndGet();
+                            tupleConter.addAndGet(dataBuffer.size());
                             dataBuffer = new ArrayList<Tuple>(conf.MAXBUFFERSIZE);
                         }
                     }else {

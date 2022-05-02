@@ -1,7 +1,7 @@
 package De.Hpi.DesisIC.RootNode;
 
-import De.Hpi.DesisIC.Configure.Configuration;
 import De.Hpi.DesisIC.Dao.*;
+import De.Hpi.DesisIC.Configure.Configuration;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -426,19 +426,19 @@ public class RootComputationEngineDecentral implements Runnable {
             if(!queryQueue.isEmpty()){
                 Query query = (Query) queryQueue.poll();
                 //merge same queries
-//                RootTask tempRootTask = rootTasks.stream()
-//                        .filter(rootTask -> rootTask.query.getEntireQuery().equalsIgnoreCase(query.getEntireQuery()))
-//                        .findFirst()
-//                        .orElse(null);
-//                if(tempRootTask != null){
-//                    QuerySub querySub = new QuerySub();
-//                    querySub.queryId = query.getQueryId();
-//                    querySub.functionAddition = query.getFunctionAddition();
-//                    tempRootTask.querySubs.add(querySub);
-//                    //end the loop
-//                    queryNumber--;
-//                    continue;
-//                }
+                RootTask tempRootTask = rootTasks.stream()
+                        .filter(rootTask -> rootTask.query.getEntireQuery().equalsIgnoreCase(query.getEntireQuery()))
+                        .findFirst()
+                        .orElse(null);
+                if(tempRootTask != null){
+                    QuerySub querySub = new QuerySub();
+                    querySub.queryId = query.getQueryId();
+                    querySub.functionAddition = query.getFunctionAddition();
+                    tempRootTask.querySubs.add(querySub);
+                    //end the loop
+                    queryNumber--;
+                    continue;
+                }
                 RootTask task = new RootTask();
                 task.query = query;
                 task.setTaskId(task.query.getQueryId());

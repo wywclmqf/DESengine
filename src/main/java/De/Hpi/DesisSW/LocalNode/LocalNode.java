@@ -1,8 +1,8 @@
 package De.Hpi.DesisSW.LocalNode;
 
-import De.Hpi.DesisSW.Configure.Configuration;
 import De.Hpi.DesisSW.Dao.Query;
 import De.Hpi.DesisSW.Dao.Tuple;
+import De.Hpi.DesisSW.Configure.Configuration;
 import De.Hpi.DesisSW.Dao.WindowCollection;
 import De.Hpi.DesisSW.Generator.InputStream;
 import De.Hpi.DesisSW.MessageManager.LocalPublishMessage;
@@ -42,7 +42,6 @@ public class LocalNode {
     }
 
     public void initialLocalode() {
-
         //initialize the publish-subscribe mode
         socketPub = context.createSocket(SocketType.PUB);
         socketPub.bind(localParseAddress.getLocalPubAddress(conf, conf.getNodeId()));
@@ -51,7 +50,7 @@ public class LocalNode {
         socketInterSub.connect(localParseAddress.getInterPubAddress(conf, conf.getNodeId()));
 
         //decentralized aggregation
-        threadsList.add(new Thread(new Optimizer(conf, intermediateResultQueue, queryQueue, dataQueue)));
+        threadsList.add(new Thread(new LocalComputationEngine(conf, intermediateResultQueue, queryQueue, dataQueue)));
         //thread initialization
         //receive data from intermedia node
         threadsList.add(new Thread(new LocalSubscribeMessage(conf, queryQueue, socketInterSub)));
