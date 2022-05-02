@@ -1,0 +1,460 @@
+10
+Optimizer
+2
+LocalTask
+1
+QuerySub
+5
+
+1
+QuerySub
+5
+
+LocalNode--1--INFO  Throughput:  1244755.2447552448  Allcounter:  1246000  counter:  1246000  Time:  1.001  GCTime:  0  GC/Time-Ratio:  0.0  Queue:  999
+LocalNode--1--INFO  Throughput:  3446553.446553447  Allcounter:  6900000  counter:  5643000  Time:  2.002  GCTime:  10  GC/Time-Ratio:  0.004995004995004995  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  4269064.269064269  Allcounter:  12821000  counter:  5921000  Time:  3.003  GCTime:  19  GC/Time-Ratio:  0.006327006327006327  Queue:  1000
+LocalNode--1--INFO  Throughput:  4651348.651348652  Allcounter:  18624000  counter:  5803000  Time:  4.004  GCTime:  26  GC/Time-Ratio:  0.006493506493506494  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  4850749.250749251  Allcounter:  24278000  counter:  5654000  Time:  5.005  GCTime:  33  GC/Time-Ratio:  0.006593406593406593  Queue:  998
+LocalNode--1--INFO  Throughput:  5039127.539127539  Allcounter:  30265000  counter:  5987000  Time:  6.006  GCTime:  42  GC/Time-Ratio:  0.006993006993006993  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5173540.744969317  Allcounter:  36251000  counter:  5986000  Time:  7.007  GCTime:  51  GC/Time-Ratio:  0.007278435849864422  Queue:  999
+LocalNode--1--INFO  Throughput:  5275974.025974027  Allcounter:  42250000  counter:  5997000  Time:  8.008  GCTime:  59  GC/Time-Ratio:  0.007367632367632368  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5356310.356310356  Allcounter:  48255000  counter:  6002000  Time:  9.009  GCTime:  65  GC/Time-Ratio:  0.007215007215007215  Queue:  995
+LocalNode--1--INFO  Throughput:  5420679.320679321  Allcounter:  54261000  counter:  6006000  Time:  10.01  GCTime:  72  GC/Time-Ratio:  0.007192807192807193  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5472618.2908001095  Allcounter:  60259000  counter:  5998000  Time:  11.011  GCTime:  78  GC/Time-Ratio:  0.0070838252656434475  Queue:  997
+LocalNode--1--INFO  Throughput:  5506993.006993007  Allcounter:  66150000  counter:  5891000  Time:  12.012  GCTime:  84  GC/Time-Ratio:  0.006993006993006993  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5539460.53946054  Allcounter:  72085000  counter:  5935000  Time:  13.013  GCTime:  90  GC/Time-Ratio:  0.006916160762314608  Queue:  995
+LocalNode--1--INFO  Throughput:  5564792.350506636  Allcounter:  77985000  counter:  5897000  Time:  14.014  GCTime:  96  GC/Time-Ratio:  0.006850292564578279  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5591674.991674991  Allcounter:  83959000  counter:  5974000  Time:  15.015  GCTime:  103  GC/Time-Ratio:  0.00685980685980686  Queue:  994
+LocalNode--1--INFO  Throughput:  5620566.933066933  Allcounter:  90019000  counter:  6060000  Time:  16.016  GCTime:  112  GC/Time-Ratio:  0.006993006993006993  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5653111.594288065  Allcounter:  96199000  counter:  6178000  Time:  17.017  GCTime:  120  GC/Time-Ratio:  0.0070517717576541105  Queue:  996
+LocalNode--1--INFO  Throughput:  5683205.683205683  Allcounter:  102400000  counter:  6201000  Time:  18.018  GCTime:  126  GC/Time-Ratio:  0.006993006993006993  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5709553.604290447  Allcounter:  108591000  counter:  6191000  Time:  19.019  GCTime:  132  GC/Time-Ratio:  0.006940427993059572  Queue:  996
+LocalNode--1--INFO  Throughput:  5733566.433566433  Allcounter:  114787000  counter:  6194000  Time:  20.02  GCTime:  138  GC/Time-Ratio:  0.0068931068931068935  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5754864.183435611  Allcounter:  120973000  counter:  6184000  Time:  21.021  GCTime:  145  GC/Time-Ratio:  0.0068978640407211834  Queue:  996
+LocalNode--1--INFO  Throughput:  5774452.819907365  Allcounter:  127165000  counter:  6193000  Time:  22.022  GCTime:  151  GC/Time-Ratio:  0.006856779584052311  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5792207.792207792  Allcounter:  133354000  counter:  6186000  Time:  23.023  GCTime:  157  GC/Time-Ratio:  0.006819267688832906  Queue:  993
+LocalNode--1--INFO  Throughput:  5808774.558774559  Allcounter:  139550000  counter:  6195000  Time:  24.024  GCTime:  163  GC/Time-Ratio:  0.006784881784881785  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5824655.344655345  Allcounter:  145762000  counter:  6212000  Time:  25.025  GCTime:  170  GC/Time-Ratio:  0.006793206793206793  Queue:  994
+LocalNode--1--INFO  Throughput:  5839468.224083609  Allcounter:  151978000  counter:  6214000  Time:  26.026  GCTime:  176  GC/Time-Ratio:  0.006762468300929839  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5852628.852628852  Allcounter:  158180000  counter:  6200000  Time:  27.027  GCTime:  182  GC/Time-Ratio:  0.006734006734006734  Queue:  997
+LocalNode--1--INFO  Throughput:  5856571.999429142  Allcounter:  164149000  counter:  5968000  Time:  28.028  GCTime:  189  GC/Time-Ratio:  0.006743256743256743  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5866271.659375108  Allcounter:  170292000  counter:  6141000  Time:  29.029  GCTime:  195  GC/Time-Ratio:  0.006717420510523959  Queue:  996
+LocalNode--1--INFO  Throughput:  5877755.577755578  Allcounter:  176510000  counter:  6218000  Time:  30.03  GCTime:  201  GC/Time-Ratio:  0.006693306693306694  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5889110.889110889  Allcounter:  182745000  counter:  6234000  Time:  31.031  GCTime:  207  GC/Time-Ratio:  0.006670748606232477  Queue:  994
+LocalNode--1--INFO  Throughput:  5894293.206793208  Allcounter:  188806000  counter:  6061000  Time:  32.032  GCTime:  213  GC/Time-Ratio:  0.0066496003996004  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5904792.17751945  Allcounter:  195053000  counter:  6245000  Time:  33.033  GCTime:  220  GC/Time-Ratio:  0.00666000666000666  Queue:  996
+LocalNode--1--INFO  Throughput:  5914438.502673797  Allcounter:  201292000  counter:  6239000  Time:  34.034  GCTime:  226  GC/Time-Ratio:  0.006640418405124288  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5922448.979591837  Allcounter:  207493000  counter:  6201000  Time:  35.035  GCTime:  238  GC/Time-Ratio:  0.006793206793206793  Queue:  994
+LocalNode--1--INFO  Throughput:  5930569.43056943  Allcounter:  213715000  counter:  6221000  Time:  36.036  GCTime:  245  GC/Time-Ratio:  0.006798756798756799  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5938844.938844939  Allcounter:  219957000  counter:  6240000  Time:  37.037  GCTime:  252  GC/Time-Ratio:  0.006804006804006804  Queue:  999
+LocalNode--1--INFO  Throughput:  5946711.18355329  Allcounter:  226201000  counter:  6244000  Time:  38.038  GCTime:  258  GC/Time-Ratio:  0.006782690993217309  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5954122.800276646  Allcounter:  232443000  counter:  6241000  Time:  39.039  GCTime:  264  GC/Time-Ratio:  0.006762468300929839  Queue:  996
+LocalNode--1--INFO  Throughput:  5961263.736263736  Allcounter:  238689000  counter:  6244000  Time:  40.04  GCTime:  270  GC/Time-Ratio:  0.006743256743256743  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5967934.5045198705  Allcounter:  244930000  counter:  6239000  Time:  41.041  GCTime:  277  GC/Time-Ratio:  0.006749348212762847  Queue:  999
+LocalNode--1--INFO  Throughput:  5973930.831073688  Allcounter:  251156000  counter:  6226000  Time:  42.042  GCTime:  283  GC/Time-Ratio:  0.006731363874221017  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5980043.2126013525  Allcounter:  257399000  counter:  6241000  Time:  43.043  GCTime:  289  GC/Time-Ratio:  0.006714216016541598  Queue:  998
+LocalNode--1--INFO  Throughput:  5985900.463173191  Allcounter:  263643000  counter:  6244000  Time:  44.044  GCTime:  295  GC/Time-Ratio:  0.006697847606938516  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5991452.991452991  Allcounter:  269885000  counter:  6242000  Time:  45.045  GCTime:  302  GC/Time-Ratio:  0.006704406704406704  Queue:  995
+LocalNode--1--INFO  Throughput:  5996829.257698823  Allcounter:  276130000  counter:  6243000  Time:  46.046  GCTime:  308  GC/Time-Ratio:  0.006688963210702341  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6001912.980636385  Allcounter:  282372000  counter:  6240000  Time:  47.047  GCTime:  314  GC/Time-Ratio:  0.006674176886942844  Queue:  997
+LocalNode--1--INFO  Throughput:  6006805.694305694  Allcounter:  288615000  counter:  6243000  Time:  48.048  GCTime:  320  GC/Time-Ratio:  0.00666000666000666  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6011519.093151746  Allcounter:  294859000  counter:  6244000  Time:  49.049  GCTime:  326  GC/Time-Ratio:  0.006646414809680116  Queue:  1000
+LocalNode--1--INFO  Throughput:  6015864.135864136  Allcounter:  301094000  counter:  6233000  Time:  50.05  GCTime:  333  GC/Time-Ratio:  0.006653346653346654  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6020097.549509314  Allcounter:  307332000  counter:  6236000  Time:  51.051  GCTime:  339  GC/Time-Ratio:  0.006640418405124288  Queue:  996
+LocalNode--1--INFO  Throughput:  6024168.139552755  Allcounter:  313571000  counter:  6239000  Time:  52.052  GCTime:  345  GC/Time-Ratio:  0.0066279873972181665  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6027953.178896575  Allcounter:  319801000  counter:  6228000  Time:  53.053  GCTime:  351  GC/Time-Ratio:  0.006616025483950012  Queue:  999
+LocalNode--1--INFO  Throughput:  6031875.531875531  Allcounter:  326047000  counter:  6246000  Time:  54.054  GCTime:  357  GC/Time-Ratio:  0.006604506604506605  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6035400.96267369  Allcounter:  332279000  counter:  6232000  Time:  55.055  GCTime:  364  GC/Time-Ratio:  0.006611570247933884  Queue:  996
+LocalNode--1--INFO  Throughput:  6038800.485229057  Allcounter:  338511000  counter:  6230000  Time:  56.056  GCTime:  370  GC/Time-Ratio:  0.006600542314828029  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6042010.620957989  Allcounter:  344739000  counter:  6228000  Time:  57.057  GCTime:  376  GC/Time-Ratio:  0.006589901326743432  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6045178.958972062  Allcounter:  350972000  counter:  6233000  Time:  58.058  GCTime:  383  GC/Time-Ratio:  0.006596851424437632  Queue:  996
+LocalNode--1--INFO  Throughput:  6048375.3534601  Allcounter:  357211000  counter:  6237000  Time:  59.059  GCTime:  389  GC/Time-Ratio:  0.006586633705277773  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6050199.8001998  Allcounter:  363375000  counter:  6164000  Time:  60.06  GCTime:  395  GC/Time-Ratio:  0.006576756576756577  Queue:  997
+LocalNode--1--INFO  Throughput:  6052652.26576702  Allcounter:  369581000  counter:  6206000  Time:  61.061  GCTime:  401  GC/Time-Ratio:  0.006567203288514764  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6055557.345879926  Allcounter:  375820000  counter:  6237000  Time:  62.062  GCTime:  408  GC/Time-Ratio:  0.0065740710902001225  Queue:  995
+LocalNode--1--INFO  Throughput:  6058433.629862201  Allcounter:  382063000  counter:  6241000  Time:  63.063  GCTime:  414  GC/Time-Ratio:  0.0065648637077208504  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6061110.764235765  Allcounter:  388299000  counter:  6236000  Time:  64.064  GCTime:  420  GC/Time-Ratio:  0.006555944055944056  Queue:  993
+LocalNode--1--INFO  Throughput:  6063843.8484592335  Allcounter:  394544000  counter:  6246000  Time:  65.065  GCTime:  426  GC/Time-Ratio:  0.006547298854991163  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6066236.793509521  Allcounter:  400772000  counter:  6226000  Time:  66.066  GCTime:  432  GC/Time-Ratio:  0.00653891562982472  Queue:  998
+LocalNode--1--INFO  Throughput:  6068707.411990995  Allcounter:  407010000  counter:  6238000  Time:  67.067  GCTime:  438  GC/Time-Ratio:  0.006530782650185635  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6070547.099958865  Allcounter:  413210000  counter:  6198000  Time:  68.068  GCTime:  445  GC/Time-Ratio:  0.006537580066991832  Queue:  996
+LocalNode--1--INFO  Throughput:  6071899.115377376  Allcounter:  419380000  counter:  6169000  Time:  69.069  GCTime:  451  GC/Time-Ratio:  0.006529702181876095  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6074197.231340089  Allcounter:  425619000  counter:  6238000  Time:  70.07  GCTime:  457  GC/Time-Ratio:  0.006522049379192236  Queue:  997
+LocalNode--1--INFO  Throughput:  6076374.329895457  Allcounter:  431854000  counter:  6233000  Time:  71.071  GCTime:  463  GC/Time-Ratio:  0.006514612148414966  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6078352.203352203  Allcounter:  438079000  counter:  6223000  Time:  72.072  GCTime:  469  GC/Time-Ratio:  0.006507381507381507  Queue:  993
+LocalNode--1--INFO  Throughput:  6080535.902453711  Allcounter:  444323000  counter:  6242000  Time:  73.073  GCTime:  476  GC/Time-Ratio:  0.006514033911294185  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6082647.082647082  Allcounter:  450566000  counter:  6241000  Time:  74.074  GCTime:  482  GC/Time-Ratio:  0.006507006507006507  Queue:  994
+LocalNode--1--INFO  Throughput:  6084741.924741925  Allcounter:  456812000  counter:  6246000  Time:  75.075  GCTime:  488  GC/Time-Ratio:  0.0065001665001665  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6086308.428413692  Allcounter:  463023000  counter:  6211000  Time:  76.076  GCTime:  496  GC/Time-Ratio:  0.006519795993480204  Queue:  998
+LocalNode--1--INFO  Throughput:  6088080.7504184125  Allcounter:  469251000  counter:  6227000  Time:  77.077  GCTime:  503  GC/Time-Ratio:  0.006525941590876656  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6089935.70532032  Allcounter:  475490000  counter:  6239000  Time:  78.078  GCTime:  510  GC/Time-Ratio:  0.006531929608852686  Queue:  999
+LocalNode--1--INFO  Throughput:  6091718.408174105  Allcounter:  481727000  counter:  6235000  Time:  79.079  GCTime:  516  GC/Time-Ratio:  0.006525120449171082  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6093469.030969031  Allcounter:  487965000  counter:  6238000  Time:  80.08  GCTime:  522  GC/Time-Ratio:  0.006518481518481519  Queue:  999
+LocalNode--1--INFO  Throughput:  6095139.428472762  Allcounter:  494200000  counter:  6234000  Time:  81.081  GCTime:  528  GC/Time-Ratio:  0.006512006512006512  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6096793.450451988  Allcounter:  500442000  counter:  6242000  Time:  82.082  GCTime:  534  GC/Time-Ratio:  0.006505689432518701  Queue:  998
+LocalNode--1--INFO  Throughput:  6098359.471853448  Allcounter:  506670000  counter:  6228000  Time:  83.083  GCTime:  540  GC/Time-Ratio:  0.006499524571813729  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6099864.421292992  Allcounter:  512901000  counter:  6229000  Time:  84.084  GCTime:  546  GC/Time-Ratio:  0.006493506493506494  Queue:  994
+LocalNode--1--INFO  Throughput:  6101310.454251631  Allcounter:  519130000  counter:  6228000  Time:  85.085  GCTime:  552  GC/Time-Ratio:  0.0064876300170417815  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6102804.172571614  Allcounter:  525367000  counter:  6237000  Time:  86.086  GCTime:  558  GC/Time-Ratio:  0.0064818902028204355  Queue:  994
+LocalNode--1--INFO  Throughput:  6104056.862677552  Allcounter:  531585000  counter:  6216000  Time:  87.087  GCTime:  564  GC/Time-Ratio:  0.0064762823383513034  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6105587.594223958  Allcounter:  537829000  counter:  6243000  Time:  88.088  GCTime:  570  GC/Time-Ratio:  0.00647080192534738  Queue:  999
+LocalNode--1--INFO  Throughput:  6107095.152038972  Allcounter:  544075000  counter:  6244000  Time:  89.089  GCTime:  576  GC/Time-Ratio:  0.006465444667691858  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6108535.908535908  Allcounter:  550318000  counter:  6241000  Time:  90.09  GCTime:  582  GC/Time-Ratio:  0.00646020646020646  Queue:  996
+LocalNode--1--INFO  Throughput:  6109890.10989011  Allcounter:  556556000  counter:  6238000  Time:  91.091  GCTime:  588  GC/Time-Ratio:  0.006455083378160301  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6111106.285019329  Allcounter:  562784000  counter:  6228000  Time:  92.092  GCTime:  594  GC/Time-Ratio:  0.006450071667462972  Queue:  999
+LocalNode--1--INFO  Throughput:  6112307.0477909185  Allcounter:  569014000  counter:  6228000  Time:  93.093  GCTime:  600  GC/Time-Ratio:  0.006445167735490316  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6112780.836185092  Allcounter:  575176000  counter:  6160000  Time:  94.094  GCTime:  606  GC/Time-Ratio:  0.006440368142495802  Queue:  998
+LocalNode--1--INFO  Throughput:  6113507.545086493  Allcounter:  581364000  counter:  6187000  Time:  95.095  GCTime:  612  GC/Time-Ratio:  0.00643566959356433  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6112939.144189144  Allcounter:  587429000  counter:  6065000  Time:  96.096  GCTime:  619  GC/Time-Ratio:  0.006441475191475191  Queue:  994
+LocalNode--1--INFO  Throughput:  6112310.370042329  Allcounter:  593487000  counter:  6057000  Time:  97.097  GCTime:  626  GC/Time-Ratio:  0.006447161086336344  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6111949.275214582  Allcounter:  599570000  counter:  6080000  Time:  98.098  GCTime:  633  GC/Time-Ratio:  0.006452730942526861  Queue:  994
+LocalNode--1--INFO  Throughput:  6112049.566595021  Allcounter:  605699000  counter:  6129000  Time:  99.099  GCTime:  639  GC/Time-Ratio:  0.006448097357188267  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6112287.712287713  Allcounter:  611840000  counter:  6140000  Time:  100.1  GCTime:  645  GC/Time-Ratio:  0.006443556443556444  Queue:  999
+LocalNode--1--INFO  Throughput:  6111799.091997112  Allcounter:  617910000  counter:  6070000  Time:  101.101  GCTime:  651  GC/Time-Ratio:  0.006439105449006439  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6111437.582025817  Allcounter:  623990000  counter:  6078000  Time:  102.102  GCTime:  657  GC/Time-Ratio:  0.0064347417288593755  Queue:  999
+LocalNode--1--INFO  Throughput:  6110947.305122063  Allcounter:  630057000  counter:  6067000  Time:  103.103  GCTime:  663  GC/Time-Ratio:  0.006430462741142353  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6110456.850841466  Allcounter:  636123000  counter:  6064000  Time:  104.104  GCTime:  669  GC/Time-Ratio:  0.006426266041650657  Queue:  994
+LocalNode--1--INFO  Throughput:  6109756.909756909  Allcounter:  642166000  counter:  6043000  Time:  105.105  GCTime:  675  GC/Time-Ratio:  0.0064221492792921366  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6108891.108891109  Allcounter:  648190000  counter:  6024000  Time:  106.106  GCTime:  681  GC/Time-Ratio:  0.006418110191695098  Queue:  996
+LocalNode--1--INFO  Throughput:  6108526.98703166  Allcounter:  654267000  counter:  6077000  Time:  107.107  GCTime:  687  GC/Time-Ratio:  0.006414146601062489  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6108567.358567358  Allcounter:  660385000  counter:  6117000  Time:  108.108  GCTime:  694  GC/Time-Ratio:  0.006419506419506419  Queue:  997
+LocalNode--1--INFO  Throughput:  6108762.796836192  Allcounter:  666521000  counter:  6135000  Time:  109.109  GCTime:  699  GC/Time-Ratio:  0.00640643759909815  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6107292.707292708  Allcounter:  672474000  counter:  5952000  Time:  110.11  GCTime:  705  GC/Time-Ratio:  0.006402688220870039  Queue:  999
+LocalNode--1--INFO  Throughput:  6107370.107370107  Allcounter:  678596000  counter:  6121000  Time:  111.111  GCTime:  711  GC/Time-Ratio:  0.006399006399006399  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6106732.553161125  Allcounter:  684638000  counter:  6041000  Time:  112.112  GCTime:  719  GC/Time-Ratio:  0.006413229627515342  Queue:  994
+LocalNode--1--INFO  Throughput:  6106848.903309081  Allcounter:  690764000  counter:  6126000  Time:  113.113  GCTime:  726  GC/Time-Ratio:  0.006418360400661286  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6107024.554392975  Allcounter:  696897000  counter:  6132000  Time:  114.114  GCTime:  732  GC/Time-Ratio:  0.006414637993585362  Queue:  994
+LocalNode--1--INFO  Throughput:  6107231.898536246  Allcounter:  703034000  counter:  6136000  Time:  115.115  GCTime:  738  GC/Time-Ratio:  0.006410980324023802  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6107340.934927142  Allcounter:  709160000  counter:  6124000  Time:  116.116  GCTime:  744  GC/Time-Ratio:  0.006407385717730545  Queue:  994
+LocalNode--1--INFO  Throughput:  6107448.107448108  Allcounter:  715286000  counter:  6124000  Time:  117.117  GCTime:  750  GC/Time-Ratio:  0.006403852557698712  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6107485.734604379  Allcounter:  721404000  counter:  6118000  Time:  118.118  GCTime:  756  GC/Time-Ratio:  0.006400379281735214  Queue:  998
+LocalNode--1--INFO  Throughput:  6106960.266624132  Allcounter:  727455000  counter:  6049000  Time:  119.119  GCTime:  762  GC/Time-Ratio:  0.006396964380157658  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6106235.431235431  Allcounter:  733481000  counter:  6026000  Time:  120.12  GCTime:  768  GC/Time-Ratio:  0.006393606393606394  Queue:  999
+LocalNode--1--INFO  Throughput:  6106381.222083702  Allcounter:  739611000  counter:  6128000  Time:  121.121  GCTime:  774  GC/Time-Ratio:  0.006390303910965068  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6106336.286664155  Allcounter:  745718000  counter:  6107000  Time:  122.122  GCTime:  780  GC/Time-Ratio:  0.006387055567383436  Queue:  999
+LocalNode--1--INFO  Throughput:  6105747.910625959  Allcounter:  751758000  counter:  6039000  Time:  123.123  GCTime:  787  GC/Time-Ratio:  0.006391982001738099  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6105829.654216751  Allcounter:  757880000  counter:  6121000  Time:  124.124  GCTime:  794  GC/Time-Ratio:  0.006396828977474139  Queue:  997
+LocalNode--1--INFO  Throughput:  6105326.673326673  Allcounter:  763929000  counter:  6049000  Time:  125.125  GCTime:  800  GC/Time-Ratio:  0.006393606393606394  Queue:  993
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6105584.891299177  Allcounter:  770073000  counter:  6143000  Time:  126.126  GCTime:  806  GC/Time-Ratio:  0.006390434961863534  Queue:  999
+LocalNode--1--INFO  Throughput:  6091971.02110488  Allcounter:  774454000  counter:  4381000  Time:  127.127  GCTime:  806  GC/Time-Ratio:  0.006340116576337049  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6083533.653846155  Allcounter:  779471000  counter:  5017000  Time:  128.128  GCTime:  813  GC/Time-Ratio:  0.006345217282717283  Queue:  998
+LocalNode--1--INFO  Throughput:  6078355.752774358  Allcounter:  784892000  counter:  5421000  Time:  129.129  GCTime:  820  GC/Time-Ratio:  0.006350238908378443  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6078728.963344349  Allcounter:  791025000  counter:  6133000  Time:  130.13  GCTime:  826  GC/Time-Ratio:  0.006347498655190963  Queue:  996
+LocalNode--1--INFO  Throughput:  6079043.09431027  Allcounter:  797151000  counter:  6126000  Time:  131.131  GCTime:  832  GC/Time-Ratio:  0.006344800237930009  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6079291.920201011  Allcounter:  803269000  counter:  6118000  Time:  132.132  GCTime:  838  GC/Time-Ratio:  0.006342142705779069  Queue:  994
+LocalNode--1--INFO  Throughput:  6079461.891491966  Allcounter:  809377000  counter:  6107000  Time:  133.133  GCTime:  844  GC/Time-Ratio:  0.006339525136517618  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6079845.527606722  Allcounter:  815514000  counter:  6135000  Time:  134.134  GCTime:  850  GC/Time-Ratio:  0.006336946635454098  Queue:  999
+LocalNode--1--INFO  Throughput:  6080171.680171681  Allcounter:  821644000  counter:  6130000  Time:  135.135  GCTime:  856  GC/Time-Ratio:  0.006334406334406334  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6080515.073162132  Allcounter:  827777000  counter:  6133000  Time:  136.136  GCTime:  862  GC/Time-Ratio:  0.00633190339072692  Queue:  994
+LocalNode--1--INFO  Throughput:  6080153.423219116  Allcounter:  833814000  counter:  6037000  Time:  137.137  GCTime:  868  GC/Time-Ratio:  0.006329436986371293  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6080376.145593537  Allcounter:  839931000  counter:  6116000  Time:  138.138  GCTime:  874  GC/Time-Ratio:  0.006327006327006327  Queue:  995
+LocalNode--1--INFO  Throughput:  6080466.296293634  Allcounter:  846030000  counter:  6099000  Time:  139.139  GCTime:  883  GC/Time-Ratio:  0.006346171813797713  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6080048.522905666  Allcounter:  852058000  counter:  6028000  Time:  140.14  GCTime:  889  GC/Time-Ratio:  0.0063436563436563434  Queue:  995
+LocalNode--1--INFO  Throughput:  6080338.101614698  Allcounter:  858185000  counter:  6127000  Time:  141.141  GCTime:  895  GC/Time-Ratio:  0.006341176553942511  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6079842.692518749  Allcounter:  864202000  counter:  6017000  Time:  142.142  GCTime:  902  GC/Time-Ratio:  0.006345766909147191  Queue:  998
+LocalNode--1--INFO  Throughput:  6079738.443374807  Allcounter:  870272000  counter:  6069000  Time:  143.143  GCTime:  909  GC/Time-Ratio:  0.006350293063579777  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6080114.33011433  Allcounter:  876412000  counter:  6140000  Time:  144.144  GCTime:  915  GC/Time-Ratio:  0.006347818847818848  Queue:  995
+LocalNode--1--INFO  Throughput:  6080485.03220917  Allcounter:  882552000  counter:  6140000  Time:  145.145  GCTime:  921  GC/Time-Ratio:  0.006345378759171863  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6080836.971247931  Allcounter:  888690000  counter:  6138000  Time:  146.146  GCTime:  927  GC/Time-Ratio:  0.006342972096396754  Queue:  994
+LocalNode--1--INFO  Throughput:  6081075.387197836  Allcounter:  894812000  counter:  6121000  Time:  147.147  GCTime:  934  GC/Time-Ratio:  0.006347394102496144  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6081391.581391581  Allcounter:  900946000  counter:  6134000  Time:  148.148  GCTime:  940  GC/Time-Ratio:  0.006345006345006345  Queue:  994
+LocalNode--1--INFO  Throughput:  6081737.054891418  Allcounter:  907085000  counter:  6139000  Time:  149.149  GCTime:  946  GC/Time-Ratio:  0.006342650637952652  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6082077.922077922  Allcounter:  913224000  counter:  6139000  Time:  150.15  GCTime:  952  GC/Time-Ratio:  0.00634032634032634  Queue:  996
+LocalNode--1--INFO  Throughput:  6082348.115460698  Allcounter:  919353000  counter:  6129000  Time:  151.151  GCTime:  958  GC/Time-Ratio:  0.006338032828099053  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6082719.911667281  Allcounter:  925498000  counter:  6144000  Time:  152.152  GCTime:  964  GC/Time-Ratio:  0.006335769493664231  Queue:  998
+LocalNode--1--INFO  Throughput:  6083021.553609789  Allcounter:  931633000  counter:  6135000  Time:  153.153  GCTime:  970  GC/Time-Ratio:  0.006333535745300451  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6083377.661299739  Allcounter:  937777000  counter:  6144000  Time:  154.154  GCTime:  976  GC/Time-Ratio:  0.006331331006655682  Queue:  997
+LocalNode--1--INFO  Throughput:  6083613.161032516  Allcounter:  943903000  counter:  6124000  Time:  155.155  GCTime:  982  GC/Time-Ratio:  0.0063291547162514904  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6084005.737851892  Allcounter:  950054000  counter:  6151000  Time:  156.156  GCTime:  988  GC/Time-Ratio:  0.006327006327006327  Queue:  998
+LocalNode--1--INFO  Throughput:  6084017.89293509  Allcounter:  956146000  counter:  6092000  Time:  157.157  GCTime:  994  GC/Time-Ratio:  0.006324885305777026  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6083802.273675692  Allcounter:  962202000  counter:  6056000  Time:  158.158  GCTime:  1000  GC/Time-Ratio:  0.006322791132917715  Queue:  999
+LocalNode--1--INFO  Throughput:  6084060.593494556  Allcounter:  968333000  counter:  6130000  Time:  159.159  GCTime:  1006  GC/Time-Ratio:  0.006320723301855377  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6084353.146853147  Allcounter:  974470000  counter:  6136000  Time:  160.16  GCTime:  1012  GC/Time-Ratio:  0.006318681318681319  Queue:  997
+LocalNode--1--INFO  Throughput:  6083928.493866382  Allcounter:  980492000  counter:  6021000  Time:  161.161  GCTime:  1018  GC/Time-Ratio:  0.006316664701757869  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6083934.583934584  Allcounter:  986583000  counter:  6091000  Time:  162.162  GCTime:  1024  GC/Time-Ratio:  0.006314672981339648  Queue:  999
+LocalNode--1--INFO  Throughput:  6084130.593333047  Allcounter:  992705000  counter:  6122000  Time:  163.163  GCTime:  1030  GC/Time-Ratio:  0.0063127056992087665  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6084415.584415585  Allcounter:  998842000  counter:  6137000  Time:  164.164  GCTime:  1036  GC/Time-Ratio:  0.006310762408323384  Queue:  997
+LocalNode--1--INFO  Throughput:  6078109.7690188605  Allcounter:  1003891000  counter:  5049000  Time:  165.165  GCTime:  1036  GC/Time-Ratio:  0.006272515363424454  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6075695.388948401  Allcounter:  1009574000  counter:  5681000  Time:  166.166  GCTime:  1043  GC/Time-Ratio:  0.006276855674446036  Queue:  1000
+LocalNode--1--INFO  Throughput:  6067543.235207906  Allcounter:  1014293000  counter:  4718000  Time:  167.167  GCTime:  1050  GC/Time-Ratio:  0.0062811440056949035  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6057252.271537986  Allcounter:  1018636000  counter:  4342000  Time:  168.168  GCTime:  1056  GC/Time-Ratio:  0.006279434850863423  Queue:  995
+LocalNode--1--INFO  Throughput:  6047289.98811839  Allcounter:  1023015000  counter:  4378000  Time:  169.169  GCTime:  1056  GC/Time-Ratio:  0.006242278431627544  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6037227.478403949  Allcounter:  1027355000  counter:  4339000  Time:  170.17  GCTime:  1063  GC/Time-Ratio:  0.0062466944819886  Queue:  998
+LocalNode--1--INFO  Throughput:  6027259.290417185  Allcounter:  1031692000  counter:  4336000  Time:  171.171  GCTime:  1069  GC/Time-Ratio:  0.006245216771532561  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6027321.515693609  Allcounter:  1037736000  counter:  6044000  Time:  172.172  GCTime:  1075  GC/Time-Ratio:  0.006243756243756244  Queue:  998
+LocalNode--1--INFO  Throughput:  6027377.247030426  Allcounter:  1043779000  counter:  6043000  Time:  173.173  GCTime:  1081  GC/Time-Ratio:  0.006242312600694104  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6027518.458552941  Allcounter:  1049837000  counter:  6056000  Time:  174.174  GCTime:  1087  GC/Time-Ratio:  0.006240885551230379  Queue:  999
+LocalNode--1--INFO  Throughput:  6027623.8047666615  Allcounter:  1055889000  counter:  6050000  Time:  175.175  GCTime:  1092  GC/Time-Ratio:  0.006233766233766234  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6027750.658432477  Allcounter:  1061945000  counter:  6056000  Time:  176.176  GCTime:  1098  GC/Time-Ratio:  0.006232403959676687  Queue:  1000
+LocalNode--1--INFO  Throughput:  6027751.909107842  Allcounter:  1067979000  counter:  6032000  Time:  177.177  GCTime:  1105  GC/Time-Ratio:  0.006236701151955389  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6027826.106477792  Allcounter:  1074026000  counter:  6046000  Time:  178.178  GCTime:  1111  GC/Time-Ratio:  0.006235337696011854  Queue:  996
+LocalNode--1--INFO  Throughput:  6027910.6368491845  Allcounter:  1080075000  counter:  6049000  Time:  179.179  GCTime:  1117  GC/Time-Ratio:  0.006233989474212938  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6019014.319014319  Allcounter:  1084506000  counter:  4430000  Time:  180.18  GCTime:  1117  GC/Time-Ratio:  0.0061993561993562  Queue:  998
+LocalNode--1--INFO  Throughput:  6009636.772067711  Allcounter:  1088832000  counter:  4326000  Time:  181.181  GCTime:  1123  GC/Time-Ratio:  0.006198221667834927  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  6000450.099351198  Allcounter:  1093174000  counter:  4340000  Time:  182.182  GCTime:  1129  GC/Time-Ratio:  0.006197099603693011  Queue:  1000
+LocalNode--1--INFO  Throughput:  5991347.450363844  Allcounter:  1097513000  counter:  4339000  Time:  183.183  GCTime:  1135  GC/Time-Ratio:  0.00619598980254718  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5982560.917343526  Allcounter:  1101892000  counter:  4379000  Time:  184.184  GCTime:  1135  GC/Time-Ratio:  0.006162315944924641  Queue:  1000
+LocalNode--1--INFO  Throughput:  5973664.173664174  Allcounter:  1106233000  counter:  4341000  Time:  185.185  GCTime:  1141  GC/Time-Ratio:  0.006161406161406161  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5964863.0938953515  Allcounter:  1110574000  counter:  4341000  Time:  186.186  GCTime:  1147  GC/Time-Ratio:  0.006160506160506161  Queue:  998
+LocalNode--1--INFO  Throughput:  5956337.779867191  Allcounter:  1114949000  counter:  4373000  Time:  187.187  GCTime:  1147  GC/Time-Ratio:  0.006127562277294898  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5947690.607265076  Allcounter:  1119284000  counter:  4334000  Time:  188.188  GCTime:  1153  GC/Time-Ratio:  0.006126851871532723  Queue:  998
+LocalNode--1--INFO  Throughput:  5939182.510611082  Allcounter:  1123628000  counter:  4344000  Time:  189.189  GCTime:  1159  GC/Time-Ratio:  0.006126148983291841  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5930779.74656922  Allcounter:  1127975000  counter:  4346000  Time:  190.19  GCTime:  1165  GC/Time-Ratio:  0.006125453493874547  Queue:  997
+LocalNode--1--INFO  Throughput:  5922548.655532949  Allcounter:  1132338000  counter:  4363000  Time:  191.191  GCTime:  1165  GC/Time-Ratio:  0.006093383056733842  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5914226.398601399  Allcounter:  1136667000  counter:  4329000  Time:  192.192  GCTime:  1172  GC/Time-Ratio:  0.006098068598068598  Queue:  998
+LocalNode--1--INFO  Throughput:  5906031.792042155  Allcounter:  1141004000  counter:  4337000  Time:  193.193  GCTime:  1178  GC/Time-Ratio:  0.00609752941359159  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5898122.496060641  Allcounter:  1145380000  counter:  4375000  Time:  194.194  GCTime:  1178  GC/Time-Ratio:  0.006066098849604004  Queue:  996
+LocalNode--1--INFO  Throughput:  5889910.08991009  Allcounter:  1149681000  counter:  4301000  Time:  195.195  GCTime:  1184  GC/Time-Ratio:  0.00606572914265222  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5881990.458521071  Allcounter:  1154023000  counter:  4342000  Time:  196.196  GCTime:  1190  GC/Time-Ratio:  0.006065363208220351  Queue:  998
+LocalNode--1--INFO  Throughput:  5874343.930181494  Allcounter:  1158403000  counter:  4380000  Time:  197.197  GCTime:  1190  GC/Time-Ratio:  0.0060345745624933445  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5866582.912037457  Allcounter:  1162745000  counter:  4341000  Time:  198.198  GCTime:  1196  GC/Time-Ratio:  0.006034369670733307  Queue:  998
+LocalNode--1--INFO  Throughput:  5858884.833759205  Allcounter:  1167084000  counter:  4339000  Time:  199.199  GCTime:  1202  GC/Time-Ratio:  0.006034166838186939  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5851283.716283716  Allcounter:  1171427000  counter:  4343000  Time:  200.2  GCTime:  1208  GC/Time-Ratio:  0.006033966033966034  Queue:  997
+LocalNode--1--INFO  Throughput:  5843897.396136202  Allcounter:  1175798000  counter:  4371000  Time:  201.201  GCTime:  1208  GC/Time-Ratio:  0.006003946302453765  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5836450.678034836  Allcounter:  1180142000  counter:  4343000  Time:  202.202  GCTime:  1214  GC/Time-Ratio:  0.006003897093006004  Queue:  998
+LocalNode--1--INFO  Throughput:  5829042.878303962  Allcounter:  1184479000  counter:  4337000  Time:  203.203  GCTime:  1220  GC/Time-Ratio:  0.006003848368380388  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5821918.277800631  Allcounter:  1188859000  counter:  4380000  Time:  204.204  GCTime:  1220  GC/Time-Ratio:  0.005974417739123622  Queue:  997
+LocalNode--1--INFO  Throughput:  5814692.624448721  Allcounter:  1193204000  counter:  4345000  Time:  205.205  GCTime:  1226  GC/Time-Ratio:  0.005974513291586462  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5807532.273551691  Allcounter:  1197548000  counter:  4344000  Time:  206.206  GCTime:  1232  GC/Time-Ratio:  0.00597460791635549  Queue:  998
+LocalNode--1--INFO  Throughput:  5800402.49605467  Allcounter:  1201884000  counter:  4336000  Time:  207.207  GCTime:  1238  GC/Time-Ratio:  0.00597470162687554  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5793499.769461308  Allcounter:  1206253000  counter:  4369000  Time:  208.208  GCTime:  1238  GC/Time-Ratio:  0.005945977099823254  Queue:  998
+LocalNode--1--INFO  Throughput:  5786524.480304385  Allcounter:  1210593000  counter:  4338000  Time:  209.209  GCTime:  1244  GC/Time-Ratio:  0.005946206903144702  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5779444.365158651  Allcounter:  1214897000  counter:  4304000  Time:  210.21  GCTime:  1250  GC/Time-Ratio:  0.00594643451786309  Queue:  998
+LocalNode--1--INFO  Throughput:  5772743.843833891  Allcounter:  1219267000  counter:  4370000  Time:  211.211  GCTime:  1250  GC/Time-Ratio:  0.005918252363749994  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5765965.166908563  Allcounter:  1223607000  counter:  4339000  Time:  212.212  GCTime:  1256  GC/Time-Ratio:  0.005918609692194598  Queue:  996
+LocalNode--1--INFO  Throughput:  5759287.660696112  Allcounter:  1227955000  counter:  4348000  Time:  213.213  GCTime:  1262  GC/Time-Ratio:  0.005918963665442539  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5752817.276181762  Allcounter:  1232334000  counter:  4377000  Time:  214.214  GCTime:  1262  GC/Time-Ratio:  0.005891304956725517  Queue:  999
+LocalNode--1--INFO  Throughput:  5746221.220639825  Allcounter:  1236673000  counter:  4339000  Time:  215.215  GCTime:  1268  GC/Time-Ratio:  0.005891782635968682  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5739704.739704739  Allcounter:  1241016000  counter:  4343000  Time:  216.216  GCTime:  1274  GC/Time-Ratio:  0.005892255892255892  Queue:  1000
+LocalNode--1--INFO  Throughput:  5733266.733266733  Allcounter:  1245363000  counter:  4346000  Time:  217.217  GCTime:  1280  GC/Time-Ratio:  0.005892724786734004  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5726993.190295943  Allcounter:  1249733000  counter:  4370000  Time:  218.218  GCTime:  1280  GC/Time-Ratio:  0.005865693939088435  Queue:  999
+LocalNode--1--INFO  Throughput:  5720640.090503104  Allcounter:  1254073000  counter:  4340000  Time:  219.219  GCTime:  1286  GC/Time-Ratio:  0.005866279838882578  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5714362.909817455  Allcounter:  1258417000  counter:  4344000  Time:  220.22  GCTime:  1292  GC/Time-Ratio:  0.005866860412314958  Queue:  1000
+LocalNode--1--INFO  Throughput:  5708287.187925197  Allcounter:  1262793000  counter:  4375000  Time:  221.221  GCTime:  1292  GC/Time-Ratio:  0.005840313532621225  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5702054.702054702  Allcounter:  1267122000  counter:  4329000  Time:  222.222  GCTime:  1298  GC/Time-Ratio:  0.005841005841005841  Queue:  999
+LocalNode--1--INFO  Throughput:  5695927.390994655  Allcounter:  1271462000  counter:  4338000  Time:  223.223  GCTime:  1304  GC/Time-Ratio:  0.005841691940346649  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5689899.386327958  Allcounter:  1275812000  counter:  4349000  Time:  224.224  GCTime:  1310  GC/Time-Ratio:  0.005842371913800486  Queue:  996
+LocalNode--1--INFO  Throughput:  5683867.243867244  Allcounter:  1280149000  counter:  4336000  Time:  225.225  GCTime:  1310  GC/Time-Ratio:  0.005816405816405816  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5684390.830408529  Allcounter:  1285957000  counter:  5806000  Time:  226.226  GCTime:  1317  GC/Time-Ratio:  0.005821612016302282  Queue:  997
+LocalNode--1--INFO  Throughput:  5686322.488084602  Allcounter:  1292086000  counter:  6128000  Time:  227.227  GCTime:  1324  GC/Time-Ratio:  0.0058267723465961355  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5688289.780395043  Allcounter:  1298227000  counter:  6140000  Time:  228.228  GCTime:  1330  GC/Time-Ratio:  0.005827505827505828  Queue:  999
+LocalNode--1--INFO  Throughput:  5689768.746537305  Allcounter:  1304260000  counter:  6032000  Time:  229.229  GCTime:  1336  GC/Time-Ratio:  0.00582823290246871  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5691604.048125788  Allcounter:  1310378000  counter:  6118000  Time:  230.23  GCTime:  1342  GC/Time-Ratio:  0.005828953655040612  Queue:  993
+LocalNode--1--INFO  Throughput:  5693488.329851966  Allcounter:  1316511000  counter:  6133000  Time:  231.231  GCTime:  1347  GC/Time-Ratio:  0.00582534348768115  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5695141.065830721  Allcounter:  1322594000  counter:  6082000  Time:  232.232  GCTime:  1353  GC/Time-Ratio:  0.005826070481242895  Queue:  995
+LocalNode--1--INFO  Throughput:  5696848.216161521  Allcounter:  1328693000  counter:  6099000  Time:  233.233  GCTime:  1359  GC/Time-Ratio:  0.005826791234516557  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5698643.237104775  Allcounter:  1334816000  counter:  6122000  Time:  234.234  GCTime:  1366  GC/Time-Ratio:  0.0058317750625442935  Queue:  995
+LocalNode--1--INFO  Throughput:  5700448.48768253  Allcounter:  1340945000  counter:  6128000  Time:  235.235  GCTime:  1371  GC/Time-Ratio:  0.005828214338852637  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5702221.507306254  Allcounter:  1347070000  counter:  6124000  Time:  236.236  GCTime:  1377  GC/Time-Ratio:  0.005828916845865999  Queue:  995
+LocalNode--1--INFO  Throughput:  5703937.412798173  Allcounter:  1353185000  counter:  6115000  Time:  237.237  GCTime:  1383  GC/Time-Ratio:  0.005829613424550134  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5705706.058647235  Allcounter:  1359317000  counter:  6132000  Time:  238.238  GCTime:  1390  GC/Time-Ratio:  0.00583450163282096  Queue:  998
+LocalNode--1--INFO  Throughput:  5707250.908087728  Allcounter:  1365397000  counter:  6079000  Time:  239.239  GCTime:  1396  GC/Time-Ratio:  0.0058351690150853334  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5708137.6956376955  Allcounter:  1371323000  counter:  5926000  Time:  240.24  GCTime:  1402  GC/Time-Ratio:  0.005835830835830836  Queue:  996
+LocalNode--1--INFO  Throughput:  5709609.892182506  Allcounter:  1377392000  counter:  6067000  Time:  241.241  GCTime:  1408  GC/Time-Ratio:  0.005836487164287994  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5711292.839392013  Allcounter:  1383515000  counter:  6122000  Time:  242.242  GCTime:  1414  GC/Time-Ratio:  0.0058371380685430276  Queue:  999
+LocalNode--1--INFO  Throughput:  5711905.378572045  Allcounter:  1389381000  counter:  5865000  Time:  243.243  GCTime:  1420  GC/Time-Ratio:  0.0058377836155613936  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5713565.123401189  Allcounter:  1395504000  counter:  6121000  Time:  244.244  GCTime:  1426  GC/Time-Ratio:  0.005838423871210757  Queue:  998
+LocalNode--1--INFO  Throughput:  5711790.250565761  Allcounter:  1400788000  counter:  5283000  Time:  245.245  GCTime:  1440  GC/Time-Ratio:  0.005871679341067096  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5707333.317089414  Allcounter:  1405408000  counter:  4620000  Time:  246.246  GCTime:  1447  GC/Time-Ratio:  0.005876237583554657  Queue:  996
+LocalNode--1--INFO  Throughput:  5709027.8142909715  Allcounter:  1411540000  counter:  6131000  Time:  247.247  GCTime:  1453  GC/Time-Ratio:  0.0058767143787386705  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5710567.658148304  Allcounter:  1417637000  counter:  6097000  Time:  248.248  GCTime:  1460  GC/Time-Ratio:  0.005881215558634914  Queue:  995
+LocalNode--1--INFO  Throughput:  5712287.712287713  Allcounter:  1423782000  counter:  6145000  Time:  249.249  GCTime:  1460  GC/Time-Ratio:  0.005857596219042002  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5713986.013986014  Allcounter:  1429925000  counter:  6142000  Time:  250.25  GCTime:  1465  GC/Time-Ratio:  0.005854145854145855  Queue:  1000
+LocalNode--1--INFO  Throughput:  5715595.161810301  Allcounter:  1436049000  counter:  6123000  Time:  251.251  GCTime:  1472  GC/Time-Ratio:  0.005858683149519803  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5717207.395778825  Allcounter:  1442178000  counter:  6129000  Time:  252.252  GCTime:  1478  GC/Time-Ratio:  0.005859220144934431  Queue:  996
+LocalNode--1--INFO  Throughput:  5718862.165502482  Allcounter:  1448319000  counter:  6140000  Time:  253.253  GCTime:  1484  GC/Time-Ratio:  0.0058597528953260175  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5720511.771692874  Allcounter:  1454463000  counter:  6143000  Time:  254.254  GCTime:  1490  GC/Time-Ratio:  0.005860281450832632  Queue:  997
+LocalNode--1--INFO  Throughput:  5722113.180936711  Allcounter:  1460598000  counter:  6135000  Time:  255.255  GCTime:  1496  GC/Time-Ratio:  0.005860805860805861  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5723721.590909092  Allcounter:  1466738000  counter:  6140000  Time:  256.256  GCTime:  1502  GC/Time-Ratio:  0.005861326173826174  Queue:  995
+LocalNode--1--INFO  Throughput:  5725325.2583991885  Allcounter:  1472880000  counter:  6142000  Time:  257.257  GCTime:  1508  GC/Time-Ratio:  0.005861842437717924  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5726912.62226146  Allcounter:  1479021000  counter:  6140000  Time:  258.258  GCTime:  1515  GC/Time-Ratio:  0.005866226796459355  Queue:  996
+LocalNode--1--INFO  Throughput:  5728483.871341014  Allcounter:  1485161000  counter:  6140000  Time:  259.259  GCTime:  1521  GC/Time-Ratio:  0.005866720152434438  Queue:  1000
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5730050.718512258  Allcounter:  1491303000  counter:  6141000  Time:  260.26  GCTime:  1526  GC/Time-Ratio:  0.00586336740182894  Queue:  998
+LocalNode--1--INFO  Throughput:  5731176.869107903  Allcounter:  1497333000  counter:  6029000  Time:  261.261  GCTime:  1532  GC/Time-Ratio:  0.00586386793283345  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5732710.03805355  Allcounter:  1503472000  counter:  6139000  Time:  262.262  GCTime:  1538  GC/Time-Ratio:  0.005864364642990597  Queue:  999
+LocalNode--1--INFO  Throughput:  5733889.684460027  Allcounter:  1509521000  counter:  6048000  Time:  263.263  GCTime:  1545  GC/Time-Ratio:  0.0058686560587701275  Queue:  994
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5735416.099052463  Allcounter:  1515664000  counter:  6142000  Time:  264.264  GCTime:  1550  GC/Time-Ratio:  0.005865346774437684  Queue:  995
+LocalNode--1--INFO  Throughput:  5733334.589938364  Allcounter:  1520853000  counter:  5188000  Time:  265.265  GCTime:  1556  GC/Time-Ratio:  0.00586583228092662  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5732898.680267101  Allcounter:  1526476000  counter:  5623000  Time:  266.266  GCTime:  1563  GC/Time-Ratio:  0.005870069779844216  Queue:  995
+LocalNode--1--INFO  Throughput:  5734295.666879937  Allcounter:  1532588000  counter:  6110000  Time:  267.267  GCTime:  1571  GC/Time-Ratio:  0.00587801711397217  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5735760.508148569  Allcounter:  1538721000  counter:  6132000  Time:  268.268  GCTime:  1577  GC/Time-Ratio:  0.005878449908300654  Queue:  993
+LocalNode--1--INFO  Throughput:  5737062.194311265  Allcounter:  1544813000  counter:  6091000  Time:  269.269  GCTime:  1582  GC/Time-Ratio:  0.0058751657264668414  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5738420.838420839  Allcounter:  1550923000  counter:  6109000  Time:  270.27  GCTime:  1588  GC/Time-Ratio:  0.005875605875605876  Queue:  997
+LocalNode--1--INFO  Throughput:  5739821.064544312  Allcounter:  1557047000  counter:  6123000  Time:  271.271  GCTime:  1594  GC/Time-Ratio:  0.00587604277641178  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5741159.575718399  Allcounter:  1563157000  counter:  6109000  Time:  272.272  GCTime:  1600  GC/Time-Ratio:  0.005876476464711759  Queue:  997
+LocalNode--1--INFO  Throughput:  5742623.67668961  Allcounter:  1569304000  counter:  6147000  Time:  273.273  GCTime:  1605  GC/Time-Ratio:  0.00587324763148939  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5744051.568869087  Allcounter:  1575444000  counter:  6138000  Time:  274.274  GCTime:  1612  GC/Time-Ratio:  0.005877334344487629  Queue:  998
+LocalNode--1--INFO  Throughput:  5745461.810916357  Allcounter:  1581582000  counter:  6138000  Time:  275.275  GCTime:  1617  GC/Time-Ratio:  0.005874125874125874  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5746876.312093703  Allcounter:  1587724000  counter:  6142000  Time:  276.276  GCTime:  1623  GC/Time-Ratio:  0.005874560222386309  Queue:  1000
+LocalNode--1--INFO  Throughput:  5748219.289735535  Allcounter:  1593849000  counter:  6124000  Time:  277.277  GCTime:  1629  GC/Time-Ratio:  0.005874991434558221  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5749516.67037998  Allcounter:  1599964000  counter:  6115000  Time:  278.278  GCTime:  1635  GC/Time-Ratio:  0.0058754195444842925  Queue:  998
+LocalNode--1--INFO  Throughput:  5750840.55729217  Allcounter:  1606089000  counter:  6125000  Time:  279.279  GCTime:  1641  GC/Time-Ratio:  0.005875844585522005  Queue:  993
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5752201.370058513  Allcounter:  1612227000  counter:  6138000  Time:  280.28  GCTime:  1647  GC/Time-Ratio:  0.005876266590552305  Queue:  999
+LocalNode--1--INFO  Throughput:  5753552.49732474  Allcounter:  1618365000  counter:  6136000  Time:  281.281  GCTime:  1653  GC/Time-Ratio:  0.005876685591988083  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5754819.64843667  Allcounter:  1624482000  counter:  6117000  Time:  282.282  GCTime:  1659  GC/Time-Ratio:  0.005877101621782473  Queue:  998
+LocalNode--1--INFO  Throughput:  5756088.434533664  Allcounter:  1630602000  counter:  6118000  Time:  283.283  GCTime:  1665  GC/Time-Ratio:  0.005877514711436973  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5757415.120091177  Allcounter:  1636741000  counter:  6138000  Time:  284.284  GCTime:  1671  GC/Time-Ratio:  0.005877924892009399  Queue:  995
+LocalNode--1--INFO  Throughput:  5758613.316508053  Allcounter:  1642846000  counter:  6104000  Time:  285.285  GCTime:  1677  GC/Time-Ratio:  0.0058783321941216675  Queue:  998
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5759872.994138729  Allcounter:  1648971000  counter:  6124000  Time:  286.286  GCTime:  1684  GC/Time-Ratio:  0.005882229658453435  Queue:  999
+LocalNode--1--INFO  Throughput:  5761144.778566382  Allcounter:  1655102000  counter:  6131000  Time:  287.287  GCTime:  1690  GC/Time-Ratio:  0.005882619123037241  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5761818.043068043  Allcounter:  1661063000  counter:  5961000  Time:  288.288  GCTime:  1696  GC/Time-Ratio:  0.005883005883005883  Queue:  999
+LocalNode--1--INFO  Throughput:  5763018.987932483  Allcounter:  1667178000  counter:  6114000  Time:  289.289  GCTime:  1702  GC/Time-Ratio:  0.005883389966434949  Queue:  996
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5764246.098728857  Allcounter:  1673303000  counter:  6125000  Time:  290.29  GCTime:  1707  GC/Time-Ratio:  0.005880326569981742  Queue:  998
+LocalNode--1--INFO  Throughput:  5765018.486667971  Allcounter:  1679298000  counter:  5995000  Time:  291.291  GCTime:  1713  GC/Time-Ratio:  0.005880717220923407  Queue:  993
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5766257.714887853  Allcounter:  1685431000  counter:  6133000  Time:  292.292  GCTime:  1719  GC/Time-Ratio:  0.0058811051961736895  Queue:  996
+LocalNode--1--INFO  Throughput:  5767328.234905027  Allcounter:  1691517000  counter:  6086000  Time:  293.293  GCTime:  1727  GC/Time-Ratio:  0.005888309642575854  Queue:  995
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5768537.584864116  Allcounter:  1697646000  counter:  6127000  Time:  294.294  GCTime:  1734  GC/Time-Ratio:  0.0058920671165569125  Queue:  998
+LocalNode--1--INFO  Throughput:  5769715.03073198  Allcounter:  1703768000  counter:  6122000  Time:  295.295  GCTime:  1740  GC/Time-Ratio:  0.005892412672073689  Queue:  997
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5770935.145935146  Allcounter:  1709905000  counter:  6135000  Time:  296.296  GCTime:  1746  GC/Time-Ratio:  0.005892755892755893  Queue:  1000
+LocalNode--1--INFO  Throughput:  5771844.317298862  Allcounter:  1715953000  counter:  6047000  Time:  297.297  GCTime:  1751  GC/Time-Ratio:  0.005889733162460435  Queue:  999
+LocalNode--1--PreAggregation  WindowCounter:  1  WindowList:  0  TupleList:  1000  Queue:  0
+LocalNode--1--INFO  Throughput:  5772807.729183568  Allcounter:  1722017000  counter:  6063000  Time:  298.298  GCTime:  1757  GC/Time-Ratio:  0.005890083071291125  Queue:  995
+LocalNode--1--INFO  Throughput:  5773961.824129049  Allcounter:  1728142000  counter:  6125000  Time:  299.299  GCTime:  1763  GC/Time-Ratio:  0.005890430639594519  Queue:  995
