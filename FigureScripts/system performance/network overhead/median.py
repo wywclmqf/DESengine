@@ -8,7 +8,7 @@ pio.kaleido.scope.mathjax = None
 
 fig = go.Figure()
 
-fig.add_trace(go.Bar(name="DesisCen", x=[" "], y=[2.982], legendrank=1, width=[0.25]
+fig.add_trace(go.Bar(name="Central", x=[" "], y=[2.982], legendrank=1, width=[0.25]
                      , marker_line_color='rgb(99,110,250)', marker_pattern_shape="."))
 fig.add_trace(go.Bar(name="Disco", x=[" "], y=[3.3528], legendrank=2, width=[0.25]
                      , marker_line_color='rgb(239,85,59)', marker_pattern_shape="/"))

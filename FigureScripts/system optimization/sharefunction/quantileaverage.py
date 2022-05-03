@@ -9,16 +9,16 @@ pio.kaleido.scope.mathjax = None
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(name="DesisCen", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[2655895.53, 984385.516, 226051.66, 136779.975, 55359.736, 46494.372]
+                         , y=[1403524.069, 387253.99, 131776.59, 86184.67, 47530.083, 41439.678]
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
 fig.add_trace(go.Scatter(name="DesisIC", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[16294481.44, 3731987.076, 655939.378, 279072.098, 56809.41, 27494.24]
+                         , y=[5237469.503, 380500.7901, 236284.3108, 82862.10056, 13733.88692, 8889.532434]
                          , line=dict(color='rgb(239,85,59)', width=2), marker=dict(size=5, symbol='square')))
 fig.add_trace(go.Scatter(name="DesisSW", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[29073237.24, 29517521.79, 28812342.55, 28381546.46, 29106038.64, 28742027.52]
+                         , y=[5497973.43, 2284814.001, 745805.5536, 516454.4547, 401699.1008, 417719.9]
                          , line=dict(color='rgb(255,161,90)', width=2), marker=dict(size=5, symbol='triangle-up')))
 fig.add_trace(go.Scatter(name="Desis", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[31774489.07, 31270061.07, 32186826.55, 31516253.98, 31345975.1, 31029385.73]
+                         , y=[7109307.3, 7153671.78, 7132647.7, 7138793.61, 7160719.28, 7153667.26]
                          , line=dict(color='rgb(171,99,250)', width=2), marker=dict(size=5, symbol='cross')))
 
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6,
@@ -43,10 +43,10 @@ fig.update_layout(
     yaxis=dict(
         title_text="events/sec",
         titlefont=dict(size=15),
-        ticktext=["0", "2M", "5M", "10M", "20M", "30M"],
-        tickvals=[0, 2000000, 5000000, 10000000, 20000000, 30000000],
+        ticktext=["0", "2M", "4M", "6M", "7M"],
+        tickvals=[0, 2000000, 4000000, 6000000, 7000000],
+        range=[0,8000000],
         tickmode="array",
-        range=[0, 35000000],
     ),
     xaxis=dict(
         title_text="queries",
@@ -77,5 +77,5 @@ if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Win
     os.mkdir("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2")
 
 # fig.write_image("images/fig1.svg")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareWindow\/tumtum.pdf")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareWindow\/tumtum.svg")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareFunction\/quantileaverage.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareFunction\/quantileaverage.svg")

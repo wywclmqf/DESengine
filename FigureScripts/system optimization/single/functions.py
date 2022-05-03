@@ -6,41 +6,39 @@ import plotly.express as px
 pio.kaleido.scope.mathjax = None
 
 windowType = ['Median', 'Quantile', 'Average', 'Sum', 'Count', 'Max', 'Min']
-widthSin = 0.25
+widthSin = 0.2
 widthAll=[widthSin,widthSin,widthSin,widthSin,widthSin]
 
 fig = go.Figure()
 
-fig.add_trace(go.Bar(name="DesisCen", x=windowType, y=[1626861.266, 1622474.069, 3065244.36, 3056406.42, 3104004.67, 3192249.027, 3210081.02], legendrank=1, width=widthAll
+fig.add_trace(go.Bar(name="Central", x=windowType, y=[1520597.885, 1557800.284, 3495378.13, 3359127.763, 3341792.98, 3392249.027, 3355436.95], legendrank=1, width=widthAll
                      , marker_line_color='rgb(99,110,250)', marker_pattern_shape="."))
-fig.add_trace(go.Bar(name="DesisSW", x=windowType, y=[7387008.61, 7381403.005, 30635560.52, 30651978.27, 30811652.63, 34126088.52, 34653452.05], legendrank=2, width=widthAll
+fig.add_trace(go.Bar(name="DesisIC", x=windowType, y=[7231345.29, 7230599.76, 32348346.87, 31675630.53, 32917038.1, 33999379.84, 33600584.11], legendrank=2, width=widthAll
+                     , marker_line_color='rgb(239,85,59)', marker_pattern_shape="/"))
+fig.add_trace(go.Bar(name="DesisSW", x=windowType, y=[7124119.39, 7298107.12, 31171516.62, 31651978.27, 32811652.63, 33526088.52, 33681575.7], legendrank=3, width=widthAll
                      , marker_line_color='rgb(255,161,90)', marker_pattern_shape="-"))
-fig.add_trace(go.Bar(name="Desis", x=windowType, y=[7401292, 7365279.748, 30545075.4, 30447031.23, 30935064.94, 34251061.44, 34515041.78], legendrank=3, width=widthAll
+fig.add_trace(go.Bar(name="Desis", x=windowType, y=[7401292, 7345260.74, 32429281.64, 33303603.04, 33626397.4, 34126237.66, 34166162.26], legendrank=4, width=widthAll
                      , marker_line_color='rgb(171,99,250)', marker_pattern_shape="\\"))
 # fig.add_trace(go.Bar(name="DesisSw", x=[" "], y=[30545075.4], legendrank=4, width=[0.18]
 #                      , marker_line_color='rgb(255,161,90)', marker_pattern_shape="-"))
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6)
 
-7401292, 7365279.748, 30545075.4, 30447031.23, 30935064.94, 34251061.44, 34515041.78
-7387008.61, 7381403.005, 30635560.52, 30651978.27, 30811652.63, 34126088.52, 34653452.05
-1626861.266, 1622474.069, 3065244.36, 3056406.42, 3104004.67, 3192249.027, 3210081.02
-
 
 #legend
 fig.update_layout(
-    legend=dict(
-        yanchor="top",
-        y=0.99,
-        xanchor="left",
-        x=0.01,
-        # bordercolor="Black",
-        # borderwidth=2,
-        # bgcolor="white",
-        font=dict(
-            size=10,
-            color="black"
-        ),
-    ),
+    # legend=dict(
+    #     yanchor="top",
+    #     y=0.99,
+    #     xanchor="left",
+    #     x=0.01,
+    #     # bordercolor="Black",
+    #     # borderwidth=2,
+    #     # bgcolor="white",
+    #     font=dict(
+    #         size=10,
+    #         color="black"
+    #     ),
+    # ),
     yaxis=dict(
         title_text="events/sec",
         titlefont=dict(size=15),
@@ -55,7 +53,7 @@ fig.update_layout(
 # size & color
 fig.update_layout(
     autosize=False,
-    width=500,
+    width=800,
     height=500,
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)'

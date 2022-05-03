@@ -8,7 +8,7 @@ pio.kaleido.scope.mathjax = None
 
 fig = go.Figure()
 
-fig.add_trace(go.Scatter(name="DesisCen", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
+fig.add_trace(go.Scatter(name="Central", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
                          , y=[1563426.905, 1559000.38, 1565001.108, 1558914.97, 1558007.2, 1555151.267, 1543917.05, 1566713.37]
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
 fig.add_trace(go.Scatter(name="Disco", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'

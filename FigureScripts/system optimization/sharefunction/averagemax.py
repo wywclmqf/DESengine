@@ -9,16 +9,16 @@ pio.kaleido.scope.mathjax = None
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(name="DesisCen", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[2655895.53, 984385.516, 226051.66, 136779.975, 55359.736, 46494.372]
+                         , y=[2961137.047, 1045008.367, 268128.92, 152465.166, 60372.43, 49702.896]
                          , line=dict(color='rgb(99,110,250)', width=2), marker=dict(size=5, symbol='circle')))
 fig.add_trace(go.Scatter(name="DesisIC", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[16294481.44, 3731987.076, 655939.378, 279072.098, 56809.41, 27494.24]
+                         , y=[16705429.42, 3673690.85, 659247.107, 307832.63, 60711.86, 30023.488]
                          , line=dict(color='rgb(239,85,59)', width=2), marker=dict(size=5, symbol='square')))
 fig.add_trace(go.Scatter(name="DesisSW", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[29073237.24, 29517521.79, 28812342.55, 28381546.46, 29106038.64, 28742027.52]
+                         , y=[16503497.88, 16891695.15, 16904714.33, 17315105.79, 17190334.91, 16713713.44]
                          , line=dict(color='rgb(255,161,90)', width=2), marker=dict(size=5, symbol='triangle-up')))
 fig.add_trace(go.Scatter(name="Desis", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
-                         , y=[31774489.07, 31270061.07, 32186826.55, 31516253.98, 31345975.1, 31029385.73]
+                         , y=[30793070.73, 30135139.92, 29347037.3, 29713437.55, 28725609.82, 28595004.63]
                          , line=dict(color='rgb(171,99,250)', width=2), marker=dict(size=5, symbol='cross')))
 
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6,
@@ -77,5 +77,5 @@ if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Win
     os.mkdir("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2")
 
 # fig.write_image("images/fig1.svg")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareWindow\/tumtum.pdf")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareWindow\/tumtum.svg")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareFunction\/avgmax.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\shareFunction\/avgmax.svg")
