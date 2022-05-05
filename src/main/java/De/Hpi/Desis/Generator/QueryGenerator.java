@@ -191,7 +191,7 @@ public class QueryGenerator {
                 }
 
                  case 41:{
-                    for(int i = 0; i < 2000; i++){
+                    for(int i = 0; i < 210000; i++){
                         initializeQuery(Configuration.SPEED,Configuration.AVERAGE,Configuration.TUMBING,
                                 1000*(i%10 + 1), 1000, 0, 1000, 0, 0,(i%999 + 1) / 1000.0);
                         initializeQuery(Configuration.SPEED,Configuration.SUM,Configuration.SLIDING,

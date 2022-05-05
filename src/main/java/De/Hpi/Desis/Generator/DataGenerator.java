@@ -58,36 +58,4 @@ public class DataGenerator implements Runnable {
         }
     }
 
-//    void readFromDiskOpenUniVocityCSVByBuffer(){
-//        ArrayList<Tuple> dataBuffer = new ArrayList<>();
-//        while (!Thread.currentThread().isInterrupted()) {
-//            dataBuffer.add(uniVocityCSVReader.getDataTuple());
-//            if (dataBuffer.size() >= conf.MAXBUFFERSIZE) {
-//                dataQueue.offer(dataBuffer);
-//                dataBuffer = new ArrayList<>();
-//            }
-//        }
-//    }
-
-//    void readFromDiskOpenCSV(){
-//        while (!Thread.currentThread().isInterrupted()) {
-//            try {
-//                if(dataQueue.size() < conf.MAXBUFFERSIZE) {
-//                    dataQueue.offer(openCSVReader.getDataTuple());
-//                }else {
-//                    System.out.println(dataQueue.size());
-//                    Thread.sleep(conf.DATAGENERATORFREQUENCY);
-//                }
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-//    void readFromDiskOpenUniVocityCSV(){
-//        while (!Thread.currentThread().isInterrupted()) {
-//            dataQueue.offer(uniVocityCSVReader.getDataTuple());
-//        }
-//    }
-
 }

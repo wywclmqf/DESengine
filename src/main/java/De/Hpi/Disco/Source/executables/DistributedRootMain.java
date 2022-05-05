@@ -3,6 +3,7 @@ package De.Hpi.Disco.Source.executables;
 import De.Hpi.Disco.generator.Configuration;
 import De.Hpi.Disco.Source.utility.ResultListener;
 import De.Hpi.Disco.Source.utility.DistributedRoot;
+import De.Hpi.Disco.generator.DesisTuple;
 
 public class DistributedRootMain {
     public static void main(String[] args) {
@@ -25,7 +26,7 @@ public class DistributedRootMain {
         }
 
         String queries = new String();
-        for(int i = 0; i <= conf.queryNumber; i++){
+        for(int i = 0; i < conf.queryNumber; i++){
             queries += "TUMBLING,"+1000*(i%10 + 1)+";";
         }
 
@@ -50,7 +51,7 @@ public class DistributedRootMain {
             rootWindowPort = Integer.parseInt(args[2]);
             rootResultPath = args[3];
             numChildren = Integer.parseInt(args[4]);
-            windowsString = "TUMBLING,1000";
+            windowsString = queries;
             aggFnsString = "MEDIAN";
         }
 

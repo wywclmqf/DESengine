@@ -478,6 +478,7 @@ public class Optimizer {
     }
 
     private void functionBreakToOperators(int function){
+
         //to analyze operators
         if(function == conf.AVERAGE || function == conf.COUNT) {
             this.operators[conf.COUNTOPERATOR] = true;
