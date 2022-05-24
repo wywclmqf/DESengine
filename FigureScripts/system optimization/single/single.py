@@ -42,7 +42,7 @@ fig.update_layout(
         yanchor="top",
         y=1.2,
         xanchor="left",
-        x=0.3,
+        x=0.15,
         # bordercolor="Black",
         # borderwidth=2,
         # bgcolor="white",
@@ -91,7 +91,7 @@ fig.update_layout(
 fig.update_layout(barmode='group', bargap=0.15, bargroupgap=0.0)
 
 fig.update_xaxes(showline=True, linewidth=3, linecolor='black'#, mirror=True
-                 , tickfont=dict(size=35))
+                 , tickfont=dict(size=25))
 fig.update_yaxes(showline=True, linewidth=3, linecolor='black'#, mirror=True
                  , tickfont=dict(size=35))
 fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgb(120,120,120)')
@@ -100,5 +100,5 @@ fig.show()
 if not os.path.exists("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2"):
     os.mkdir("E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2")
 # fig.write_image("images/fig1.svg")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\single\singleFunctions.pdf")
-pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\single\singleFunctions.svg")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\single\singleAll.pdf")
+pio.write_image(fig, "E:\my paper\DesisPaper\Desis-Optimizing-Decentralized-Window-Aggregation\experiment\s2\single\singleAll.svg")
