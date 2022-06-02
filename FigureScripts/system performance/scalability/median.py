@@ -10,13 +10,13 @@ fig = go.Figure()
 
 fig.add_trace(go.Scatter(name="Central", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
                          , y=[1563426.905, 1559000.38, 1565001.108, 1558914.97, 1558007.2, 1555151.267, 1543917.05, 1566713.37]
-                         , line=dict(color='rgb(153, 0, 50)', width=5), marker=dict(size=20, symbol='circle')))
+                         , line=dict(color='rgb(100, 30, 22)', width=5), marker=dict(size=20, symbol='circle')))
 fig.add_trace(go.Scatter(name="Disco", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
                          , y=[40379, 81010, 121524, 162212, 202755, 243282, 283521, 324008]
-                         , line=dict(color='rgb(49, 0, 125)', width=5), marker=dict(size=20, symbol='square')))
+                         , line=dict(color='rgb(21, 67, 97)', width=5), marker=dict(size=20, symbol='square')))
 fig.add_trace(go.Scatter(name="Desis", x=[1, 2, 3, 4, 5, 6, 7, 8], mode='lines+markers'
                          , y=[7301659.16, 7439741, 7531010, 7641958, 7664154, 7681207, 7689210, 7688381.22]
-                         , line=dict(color='rgb(60,60,60)', width=5), marker=dict(size=20, symbol='cross')))
+                         , line=dict(color='rgb(21, 90, 50)', width=5), marker=dict(size=20, symbol='cross')))
 
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6,
 # marker=dict(size=10, symbol='triangle-up'))))

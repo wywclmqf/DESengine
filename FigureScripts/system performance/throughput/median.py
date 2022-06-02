@@ -10,16 +10,16 @@ fig = go.Figure()
 
 fig.add_trace(go.Bar(name="Central", x=["Central"], y=[1563426.905], legendrank=1, width=[0.8]
                      , text="<b>1.56M<b>", textposition='outside', textfont = dict(size = 25)
-                     , marker_color='rgb(60,60,60)'))
+                     , marker_color='rgb(100, 30, 22)'))
 fig.add_trace(go.Bar(name="Disco", x=["Disco"], y=[40379], legendrank=2, width=[0.8]
                      , text="<b>0.04M<b>", textposition='outside', textfont = dict(size = 25)
-                     , marker_color='rgb(60,60,60)'))
+                     , marker_color='rgb(21, 67, 97)'))
 fig.add_trace(go.Bar(name="Scotty", x=["Scotty"], y=[7353263], legendrank=3, width=[0.8]
-                     , text="<b>7.35<b>", textposition='outside', textfont = dict(size = 25)
-                     , marker_color='rgb(60,60,60)'))
+                     , text="<b>7.35M<b>", textposition='outside', textfont = dict(size = 25)
+                     , marker_color='rgb(126, 81, 10)'))
 fig.add_trace(go.Bar(name="Desis", x=["Desis"], y=[7361659.16], legendrank=4, width=[0.8]
                      , text="<b>7.36M<b>", textposition='outside', textfont = dict(size = 25)
-                     , marker_color='rgb(60,60,60)'))
+                     , marker_color='rgb(21, 90, 50)'))
 
 # fig.add_trace(go.Bar(name="DesisSw", x=[" "], y=[30545075.4], legendrank=4, width=[0.18]
 #                      , marker_line_color='rgb(255,161,90)', marker_pattern_shape="-"))

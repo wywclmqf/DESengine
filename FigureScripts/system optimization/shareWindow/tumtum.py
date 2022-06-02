@@ -10,16 +10,16 @@ fig = go.Figure()
 
 fig.add_trace(go.Scatter(name="DesisCen", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[2655895.53, 984385.516, 226051.66, 136779.975, 55359.736, 46494.372]
-                         , line=dict(color='rgb(153, 0, 50)', width=5), marker=dict(size=20, symbol='circle')))
+                         , line=dict(color='rgb(100, 30, 22)', width=5), marker=dict(size=20, symbol='circle')))
 fig.add_trace(go.Scatter(name="DesisIC", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[16294481.44, 3731987.076, 655939.378, 279072.098, 56809.41, 27494.24]
-                         , line=dict(color='rgb(49, 0, 125)', width=5), marker=dict(size=20, symbol='square')))
+                         , line=dict(color='rgb(21, 67, 97)', width=5), marker=dict(size=20, symbol='square')))
 fig.add_trace(go.Scatter(name="DesisSW", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[29073237.24, 29517521.79, 28812342.55, 28381546.46, 29106038.64, 28742027.52]
-                         , line=dict(color='rgb(25, 86, 2)', width=5), marker=dict(size=20, symbol='triangle-up')))
+                         , line=dict(color='rgb(126, 81, 10)', width=5), marker=dict(size=20, symbol='triangle-up')))
 fig.add_trace(go.Scatter(name="Desis", x=[2, 10, 50, 100, 500, 1000], mode='lines+markers'
                          , y=[31774489.07, 31270061.07, 32186826.55, 31516253.98, 31345975.1, 31029385.73]
-                         , line=dict(color='rgb(60,60,60)', width=5), marker=dict(size=20, symbol='cross')))
+                         , line=dict(color='rgb(21, 90, 50)', width=5), marker=dict(size=20, symbol='cross')))
 
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6,
 # marker=dict(size=10, symbol='triangle-up'))))

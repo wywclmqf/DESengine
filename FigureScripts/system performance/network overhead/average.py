@@ -10,13 +10,13 @@ fig = go.Figure()
 
 fig.add_trace(go.Bar(name="Central", x=["Central"], y=[2.982], legendrank=1, width=[0.8]
                      , text="<b>2.98GB<b>", textposition='outside', textfont = dict(size = 25)
-                     , marker_color='rgb(60,60,60)'))
+                     , marker_color='rgb(100, 30, 22)'))
 fig.add_trace(go.Bar(name="Disco", x=["Disco"], y=[6.478279829025269e-6], width=[0.8]
                      , text="<b>6.48KB<b>", textposition='outside', textfont = dict(size = 25)
-                     , marker_color='rgb(60,60,60)'))
+                     , marker_color='rgb(21, 67, 97)'))
 fig.add_trace(go.Bar(name="Desis", x=["Desis"], y=[2.16066837310791e-7], width=[0.8]
                      , text="<b>2.16KB<b>", textposition='outside', textfont = dict(size = 25)
-                     , marker_color='rgb(60,60,60)'))
+                     , marker_color='rgb(21, 90, 50)'))
 # fig.add_trace(go.Bar(name="DesisSw", x=[" "], y=[30545075.4], legendrank=4, width=[0.18]
 #                      , marker_line_color='rgb(255,161,90)', marker_pattern_shape="-"))
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6)

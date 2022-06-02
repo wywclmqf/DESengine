@@ -16,19 +16,19 @@ fig = go.Figure()
 fig.add_trace(go.Bar(name="Central", x=windowType, y=[1520597.885, 1557800.284, 3495378.13, 3359127.763, 3341792.98, 3392249.027, 3355436.95,
                     3372245.47, 1966341.8, 2238047.26, 2041280.4, 2181275.89]
                      , legendrank=1, width=widthAll
-                     , marker_color='rgb(153, 0, 50)'))
+                     , marker_color='rgb(100, 30, 22)'))
 fig.add_trace(go.Bar(name="DesisIC", x=windowType, y=[7231345.29, 7230599.76, 32348346.87, 31675630.53, 32917038.1, 33999379.84, 33600584.11,
                     31256010.27, 31687829.55, 30392116.51, 30565557.23, 15967132.95]
                      , legendrank=2, width=widthAll
-                     , marker_color='rgb(49, 0, 125)'))
+                     , marker_color='rgb(21, 67, 97)'))
 fig.add_trace(go.Bar(name="DesisSW", x=windowType, y=[7124119.39, 7298107.12, 31171516.62, 31651978.27, 32811652.63, 33526088.52, 33681575.7,
                     31572287.21, 31566440.19, 30735626.13, 30871344.42, 16001392.57]
                      , legendrank=3, width=widthAll
-                     , marker_color='rgb(25, 86, 2)'))
+                     , marker_color='rgb(126, 81, 10)'))
 fig.add_trace(go.Bar(name="Desis", x=windowType, y=[7401292, 7345260.74, 32429281.64, 33303603.04, 33626397.4, 34126237.66, 34166162.26,
                     32743863.48, 31710032.11, 30776051.23, 30929431.42, 16012225.69]
                      , legendrank=4, width=widthAll
-                     , marker_color='rgb(60,60,60)'))
+                     , marker_color='rgb(21, 90, 50)'))
 # fig.add_trace(go.Bar(name="DesisSw", x=[" "], y=[30545075.4], legendrank=4, width=[0.18]
 #                      , marker_line_color='rgb(255,161,90)', marker_pattern_shape="-"))
 # fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6)
