@@ -10,10 +10,18 @@ public class DistributedMergeNode implements Runnable {
 
     private final DistributedNode nodeImpl;
 
+    //for debug
+    private int latencyOverall;
+    private int latencyCounter;
+
     public DistributedMergeNode(String parentIp, int parentControllerPort, int parentWindowPort,
             int controllerPort, int windowPort, int numChildren, int nodeId) {
         this.nodeImpl = new DistributedNode(nodeId, NODE_IDENTIFIER, controllerPort, windowPort, numChildren,
                 parentIp, parentControllerPort, parentWindowPort);
+
+        //for debug
+        this.latencyOverall = 0;
+        this.latencyCounter = 0;
 
         nodeImpl.createDataPuller();
         nodeImpl.createWindowPusher(parentIp, parentWindowPort);
@@ -67,8 +75,13 @@ public class DistributedMergeNode implements Runnable {
                 nodeImpl.forwardEvent(windowOrStreamEnd);
                 continue;
             }
-
+            long latencyStart = System.nanoTime();
             nodeImpl.processAndSendWindowAggregates();
+            long latencyEnd = System.nanoTime();
+            latencyOverall += (int)(latencyEnd-latencyStart);
+            latencyCounter++;
+            System.out.println("Inter - latency  " + latencyOverall/latencyCounter);
+
         }
     }
 }

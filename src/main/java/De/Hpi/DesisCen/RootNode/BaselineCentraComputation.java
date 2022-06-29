@@ -26,6 +26,12 @@ public class BaselineCentraComputation implements Runnable{
     private Random random;
     private long previousTimeCounter;
 
+
+    //for debug
+    private long latencyOverall;
+    private long latencyCounter;
+
+
     public BaselineCentraComputation(Configuration conf, ConcurrentLinkedQueue<Window> resultQueue,
                                      ConcurrentLinkedQueue<Query> queryQueue , ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue) {
         this.conf = conf;
@@ -40,6 +46,11 @@ public class BaselineCentraComputation implements Runnable{
         this.offset = 0;
         this.random = new Random();
         this.previousTimeCounter = 0;
+
+        //for debug
+        this.latencyOverall = 0;
+        this.latencyCounter = 0;
+
     }
 //    long eventHere1 = 0;
 //    long eventHere2 = 0;
@@ -412,6 +423,10 @@ public class BaselineCentraComputation implements Runnable{
 //    long partT12 = 0;
 //    long partT2 = 0;
     void endWindow(LocalisEventHere localisEventHere) {
+
+        //for debug
+        long latencyStart = System.nanoTime();
+
 //        localTasks.forEach(task -> {
 //        System.out.println(task.getTaskId()
 //                + " endList " + localisEventHere.endList[task.getTaskId()]
@@ -498,6 +513,12 @@ public class BaselineCentraComputation implements Runnable{
             if(!task.windowList.isEmpty()) {
                 resultQueue.addAll(task.windowList);
 //                System.out.println("Wtuplist   " + task.windowList.get(0).tuples.size());
+
+                long latencyEnd = System.nanoTime();
+                latencyOverall += (long)(latencyEnd-latencyStart);
+                latencyCounter++;
+                System.out.println("local - latency  " + (double)latencyOverall/latencyCounter);
+
                 resetTupleList();
                 System.out.println("tuplist   " + tupleList.size());
                 task.windowList.clear();

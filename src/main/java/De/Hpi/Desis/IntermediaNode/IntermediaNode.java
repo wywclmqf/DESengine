@@ -4,6 +4,7 @@ import De.Hpi.Desis.Configure.Configuration;
 import De.Hpi.Desis.Dao.Query;
 import De.Hpi.Desis.Dao.Window;
 import De.Hpi.Desis.Dao.WindowCollection;
+import De.Hpi.Desis.Generator.DataGeneratorForInter;
 import De.Hpi.Desis.MessageManager.IntermediatePublishMessage;
 import De.Hpi.Desis.MessageManager.IntermediateSubscribeMessage;
 import De.Hpi.Desis.MessageManager.IntermediateSubscribeAndPublishMessage;
@@ -42,6 +43,10 @@ public class IntermediaNode {
         this.context = new ZContext();
         this.intermediateParseAddress = new IntermediateParseAddress();
 
+
+        //to test intermediate node
+//        conf.localNumber = conf.GeneratorThreadNumber;
+
         initialIntermediaNode();
         startIntermediaNode();
     }
@@ -73,6 +78,9 @@ public class IntermediaNode {
         threadsList.add(new Thread(new IntermediateComputationEngine(resultQueue, resultQueueFromLocal, queryQueue ,conf)));
 //        //send data from intermedia to root
         threadsList.add(new Thread(new IntermediatePublishMessage(resultQueue, socketUpperPub, conf)));
+
+        //simulate message from local node
+//        threadsList.add(new Thread(new DataGeneratorForInter(conf, resultQueueFromLocal)));
 
     }
 

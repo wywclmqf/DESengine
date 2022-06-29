@@ -25,12 +25,16 @@ public class LocalPublishMessage implements Runnable{
     public void run() {
 //        System.out.println("Starting RequestThread ----localNode");
         MessagePack msgpack = new MessagePack();
+        int latencyCounter = 0;
+        int latencyAll = 0;
 //        Long networkOverhead = 0l;
 //        long begintime = System.currentTimeMillis();
         long endtime = System.currentTimeMillis();
         while (true) {
             if(!intermediateResultQueue.isEmpty()) {
                 WindowCollection windowCollection = (WindowCollection) intermediateResultQueue.poll();
+                latencyAll += windowCollection.nodeId;
+                latencyCounter++;
                 windowCollection.nodeId = conf.getNodeId();
                 //the message type now it the data
                 MessageResult messageResult = new MessageResult();
@@ -59,6 +63,7 @@ public class LocalPublishMessage implements Runnable{
                                         + "  TupleList:  " + (messageResult.windowCollection.tuples != null ?
                                                 messageResult.windowCollection.tuples.size() : 0)
                                         + "  Queue:  " + intermediateResultQueue.size()
+                                        + "  Latency:  " + latencyAll / latencyCounter
 //                                        + "  Throughput:  " + messageResult.window.tupleCounter / ((endtime - begintime) / 1000.0)
 //                                        + "  NetworkOverhead:  " + networkOverhead
 //                                        + "  Allcounter:  " + messageResult.window.tupleCounter

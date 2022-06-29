@@ -22,10 +22,21 @@ public class Scotty {
     private long beginTimer;
     private Configuration conf;
 
+    //for debug
+    private int latencyOverall;
+    private int latencyCounter;
+
+
+
     public Scotty(Configuration conf){
         this.debugTimer = System.currentTimeMillis();
         this.beginTimer = System.currentTimeMillis();
         this.conf = conf;
+
+        //for debug
+        this.latencyOverall = 0;
+        this.latencyCounter = 0;
+
     }
 
     public SlicingWindowOperator<Double> initWindowOperator() {
@@ -48,12 +59,24 @@ public class Scotty {
         // Every tuple represents a Watermark with its timestamp.
         // A watermark is processed if it is greater than the old watermark, i.e. monotonically increasing.
         // We process watermarks every watermarkEvictionPeriod in event-time
+
+
+        //for debug
+        long latencyStart = System.nanoTime();
+
         long watermarkEvictionPeriod = 1000;
         if (timeStamp > lastWatermark + watermarkEvictionPeriod) {
+
+
             for (SlicingWindowOperator<Double> slicingWindowOperator : this.slicingWindowOperatorMap.values()) {
                 List<AggregateWindow> aggregates = slicingWindowOperator.processWatermark(timeStamp);
                 for (AggregateWindow<Value> aggregateWindow : aggregates) {
 //                    basicOutputCollector.emit(new Values(currentKey, aggregateWindow));
+
+                    long latencyEnd = System.nanoTime();
+                    latencyOverall += (int)(latencyEnd-latencyStart);
+                    latencyCounter++;
+                    System.out.println("local - latency  " + latencyOverall/latencyCounter);
 
                     if (System.currentTimeMillis() - debugTimer > conf.BenchMarkDebugFrequency) {
 //                        debugTimer = System.currentTimeMillis();

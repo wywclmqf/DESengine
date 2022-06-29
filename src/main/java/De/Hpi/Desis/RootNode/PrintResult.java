@@ -19,12 +19,19 @@ public class PrintResult implements Runnable {
     public void run() {
         long begintime = System.currentTimeMillis();
         long endtime = System.currentTimeMillis();
+        int latencyCounter = 0;
+        int latencyAll = 0;
         while(!Thread.currentThread().isInterrupted()){
             if(!resultQueue.isEmpty()){
                 WindowCollection windowCollection = (WindowCollection) resultQueue.poll();
+                latencyAll += windowCollection.nodeId;
+                latencyCounter++;
                 if(conf.DEBUGMODE_ROOT) {
                     if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {
                         endtime = System.currentTimeMillis();
+                        System.out.println("rootNode--FinalAggregation"
+                                + "  Latency:  " + latencyAll / latencyCounter
+                        );
                         windowCollection.windowList.forEach(window -> {
                             System.out.println("rootNode--FinalAggregation"
                                             + "  QueryId:  " + window.queryId

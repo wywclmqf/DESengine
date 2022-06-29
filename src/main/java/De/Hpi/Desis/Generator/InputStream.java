@@ -34,7 +34,7 @@ public class InputStream implements Runnable {
         ArrayList<Thread> threads = new ArrayList<Thread>();
         for(int i = 1; i <= this.threadNumber; i++){
             conf.setNodeId(i);
-            threads.add(new Thread(new DataGenerator(conf, dataQueue, tupleCounter)));
+            threads.add(new Thread(new DataGeneratorSimu(conf, dataQueue, tupleCounter)));
         }
         threads.forEach(thread -> thread.start());
 

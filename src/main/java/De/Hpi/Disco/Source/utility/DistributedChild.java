@@ -38,11 +38,19 @@ public class DistributedChild implements Runnable {
     private boolean hasCountWindow;
     private boolean hasDistributedWindow;
 
+    //for debug
+    private int latencyOverall;
+    private int latencyCounter;
+
     public DistributedChild(String parentIp, int parentControllerPort, int parentWindowPort,
                             int streamInputPort, int childId, int numStreams) {
         this.nodeImpl = new DistributedNode(childId, NODE_IDENTIFIER, streamInputPort + STREAM_REGISTER_PORT_OFFSET,
                 streamInputPort, numStreams, parentIp, parentControllerPort, parentWindowPort);
         this.hasCountWindow = false;
+
+        //for debug
+        this.latencyOverall = 0;
+        this.latencyCounter = 0;
 
         nodeImpl.createDataPuller();
         nodeImpl.createWindowPusher(parentIp, parentWindowPort);
@@ -168,6 +176,9 @@ public class DistributedChild implements Runnable {
     }
 
     private void processEvent(String eventString) {
+        //for debug
+        long latencyStart = System.nanoTime();
+
 //        final long processingStart = System.nanoTime();
         final Event event = Event.fromString(eventString);
         this.childMerger.processElement(event);
@@ -188,6 +199,13 @@ public class DistributedChild implements Runnable {
         if (currentEventTime >= watermarkTimestamp + MAX_LATENESS) {
             handleWatermark(watermarkTimestamp);
         }
+        if (currentEventTime >= watermarkTimestamp + MAX_LATENESS) {
+            handleWatermark(watermarkTimestamp);
+            long latencyEnd = System.nanoTime();
+            latencyOverall += (int)(latencyEnd-latencyStart);
+            latencyCounter++;
+                    System.out.println("local - latency  " + latencyOverall/latencyCounter);
+        }
 
     }
 
@@ -199,6 +217,11 @@ public class DistributedChild implements Runnable {
 //        System.out.println("Watermark processing took " + (watermarkEnd - watermarkStart) + " ns.");
 //        final long sendingStart = System.nanoTime();
         nodeImpl.sendPreAggregatedWindowsToParent(finalWindows);
+
+//        if(!finalWindows.isEmpty())
+//        System.out.println("asgsgd" + finalWindows.get(0));
+
+
 //        final long sendingEnd = System.nanoTime();
 //        System.out.println("Watermark sending took " + (sendingEnd - sendingStart) + " ns.");
 

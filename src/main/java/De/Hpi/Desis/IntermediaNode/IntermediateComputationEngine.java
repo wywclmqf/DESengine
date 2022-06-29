@@ -22,6 +22,10 @@ public class IntermediateComputationEngine implements Runnable {
     private int currentSliceId;
     private boolean endFlag;
 
+    //for debug
+    private long latencyOverall;
+    private long latencyCounter;
+
      IntermediateComputationEngine(ConcurrentLinkedQueue<WindowCollection> resultQueue, ConcurrentLinkedQueue<WindowCollection> resultQueueFromLocal,
                                    ConcurrentLinkedQueue<Query> queryQueue, Configuration conf){
          this.conf = conf;
@@ -35,7 +39,12 @@ public class IntermediateComputationEngine implements Runnable {
          this.centralizedFlag = false;
          this.currentSliceId = 0;
          this.endFlag = false;
-    }
+
+         //for debug
+         this.latencyOverall = 0;
+         this.latencyCounter = 0;
+
+     }
 
     public void run() {
         //to read all queries
@@ -63,6 +72,9 @@ public class IntermediateComputationEngine implements Runnable {
         //and the intermediate window is to collect same windowid windows that from different nodes.
         //windowCounter 1. >wc save 2. <wc drop 3. =wc process
         //drop < windowcounter
+
+        //debug for latency
+        long latencyStart = System.nanoTime();
 
         //save & process  > & == windowcounter
         WindowCollection newWindowCollection = new WindowCollection();
@@ -133,16 +145,25 @@ public class IntermediateComputationEngine implements Runnable {
                 }
             }
         });
+
         if (currentSliceId <= windowCollection.sliceId){
             organizeWinodw(windowCollection, newWindowCollection);
         }
-
+//    System.out.println(tupleListForCen.size());
         //send reuslt
         if(endFlag) {
             endFlag = false;
 //        newWindowCollection.tuples = windowCollection.tuples;
             newWindowCollection.sliceId = windowCollection.sliceId ;
             newWindowCollection.sliceCounter = windowCollection.sliceCounter;
+//            System.out.println(newWindowCollection.toString());
+
+            //debug for latency
+            long latencyEnd = System.nanoTime();
+            latencyOverall += (long)(latencyEnd-latencyStart);
+            latencyCounter++;
+            System.out.println("inter - latency  " + (double)latencyOverall/latencyCounter);
+//            newWindowCollection.nodeId = (int)(endLatency - startLatency);
             resultQueue.add(newWindowCollection);
         }
     }

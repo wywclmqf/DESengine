@@ -22,7 +22,7 @@ public class IntermediateWindow {
         this.windowWaitCounter = windowWaitCounter;
     }
     public void deleteWindowWaitingCounter() {
-        this.windowWaitCounter++;
+        this.windowWaitCounter--;
     }
     public long getProcessTime() {
         return processTime;

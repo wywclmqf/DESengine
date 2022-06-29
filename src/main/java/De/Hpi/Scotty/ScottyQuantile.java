@@ -21,10 +21,20 @@ public class ScottyQuantile {
     private long beginTimer;
     private Configuration conf;
 
+    //for debug
+    private int latencyOverall;
+    private int latencyCounter;
+
+
     public ScottyQuantile(Configuration conf){
         this.debugTimer = System.currentTimeMillis();
         this.beginTimer = System.currentTimeMillis();
         this.conf = conf;
+
+        //for debug
+        this.latencyOverall = 0;
+        this.latencyCounter = 0;
+
     }
 
     public SlicingWindowOperator<Integer> initWindowOperator() {
@@ -35,35 +45,9 @@ public class ScottyQuantile {
 //        windowFunction = new Sum();
 //        windowFunction = new QuantileWindowFunction(0.5);
         slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1000));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.9));
-        slicingWindowOperator.addAggregation(new Quantile(0.8));
-        slicingWindowOperator.addAggregation(new Quantile(0.7));
-        slicingWindowOperator.addAggregation(new Quantile(0.6));
         slicingWindowOperator.addAggregation(new Quantile(0.5));
-        slicingWindowOperator.addAggregation(new Quantile(0.4));
-        slicingWindowOperator.addAggregation(new Quantile(0.3));
-        slicingWindowOperator.addAggregation(new Quantile(0.2));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
-        slicingWindowOperator.addAggregation(new Quantile(0.1));
+//        slicingWindowOperator.addAggregation(new Quantile(0.9));
+
         slicingWindowOperator.setMaxLateness(0);
         return slicingWindowOperator;
     }
@@ -72,12 +56,23 @@ public class ScottyQuantile {
         // Every tuple represents a Watermark with its timestamp.
         // A watermark is processed if it is greater than the old watermark, i.e. monotonically increasing.
         // We process watermarks every watermarkEvictionPeriod in event-time
+
+        //for debug
+        long latencyStart = System.nanoTime();
+
         long watermarkEvictionPeriod = 1000;
         if (timeStamp > lastWatermark + watermarkEvictionPeriod) {
+
             for (SlicingWindowOperator<Integer> slicingWindowOperator : this.slicingWindowOperatorMap.values()) {
                 List<AggregateWindow> aggregates = slicingWindowOperator.processWatermark(timeStamp);
                 for (AggregateWindow<Value> aggregateWindow : aggregates) {
 //                    basicOutputCollector.emit(new Values(currentKey, aggregateWindow));
+
+                    long latencyEnd = System.nanoTime();
+                    latencyOverall += (int)(latencyEnd-latencyStart);
+                    latencyCounter++;
+                    System.out.println("local - latency  " + latencyOverall/latencyCounter);
+
 
                     if (System.currentTimeMillis() - debugTimer > conf.BenchMarkDebugFrequency) {
                         debugTimer = System.currentTimeMillis();

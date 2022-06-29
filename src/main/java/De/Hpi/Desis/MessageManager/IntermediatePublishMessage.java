@@ -24,10 +24,14 @@ public class IntermediatePublishMessage implements Runnable{
     public void run() {
 //        System.out.println("Starting UpperRequestThread ----intermediateNode");
         MessagePack msgpack = new MessagePack();
+        int latencyCounter = 0;
+        int latencyAll = 0;
         long endtime = System.currentTimeMillis();
         while (true) {
             if(!resultQueue.isEmpty()) {
                 WindowCollection windowCollection = resultQueue.poll();
+                latencyAll += windowCollection.nodeId;
+                latencyCounter++;
 //                window.setNodeId(conf.getNodeId());
                 //the message type now it the data
                 MessageResult resultFromIntermediaToRoot = new MessageResult();
@@ -52,6 +56,7 @@ public class IntermediatePublishMessage implements Runnable{
                                             + "  TupleList:  " + (resultFromIntermediaToRoot.windowCollection.tuples != null ?
                                             resultFromIntermediaToRoot.windowCollection.tuples.size() : 0)
                                             + "  Queue:  " + resultQueue.size()
+                                            + "  Latency:  " + latencyAll / latencyCounter
 //                                    + "  NetworkOverhead:  " + networkOverhead
 //                                    + "  Throughput:  " + resultFromIntermediaToRoot.window.tupleCounter / ((endtime - begintime) / 1000.0)
                             );

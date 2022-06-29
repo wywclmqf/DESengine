@@ -37,6 +37,9 @@ public class CSVReadingNoGenerator {
 //          tuple.EVENT = Integer.valueOf(line[3]);
             tuple.EVENT = eventSimulator(conf, random);
             tupleCounter++;
+
+
+
                     slicingWindowOperator.processElement(tuple.DATA, System.currentTimeMillis());
 //                    System.out.println(System.c//                    System.out.println(tupleCounter.get());urrentTimeMillis()-begintime);
                     scotty.processWatermark("CSVT", System.currentTimeMillis()

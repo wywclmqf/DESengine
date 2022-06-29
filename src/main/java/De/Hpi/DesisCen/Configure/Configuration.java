@@ -31,7 +31,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //how many threads for generator
     public int GeneratorThreadNumber = 1;
     //auto querys, from 1-3 are quantiles
-    public int queryModes = 0;
+    public int queryModes = 9999;
 
     //the sending speed of local node 1000w
     public static final int SendingSpeed = 1000 * 10000;

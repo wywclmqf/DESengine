@@ -38,6 +38,10 @@ public class Optimizer implements Runnable{
     private boolean maxFLAG;
     private boolean minFLAG;
 
+    //for debug
+    private long latencyOverall;
+    private long latencyCounter;
+
     public Optimizer(Configuration conf, ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue,
                                        ConcurrentLinkedQueue<Query> queryQueue , ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue) {
         this.conf = conf;
@@ -59,6 +63,10 @@ public class Optimizer implements Runnable{
         this.minFLAG = false;
         this.localisEventHere = new LocalisEventHere();
         this.random = new Random();
+
+        //for debug
+        this.latencyOverall = 0;
+        this.latencyCounter = 0;
 
     }
 
@@ -402,6 +410,9 @@ public class Optimizer implements Runnable{
 //        long time1 = 0;
 //        long time2 = 0;
 //        long time3 = 0;
+        //debug for latency
+        long latencyStart = System.nanoTime();
+
         WindowCollection windowCollection = new WindowCollection();
         windowCollection.windowList = new ArrayList<>();
 //        System.out.println(tupleList.size());
@@ -467,6 +478,13 @@ public class Optimizer implements Runnable{
 //            System.out.println(tupleCounter);
 //            System.out.println(intermediateResultQueue.size());
 //        }
+
+        //debug for latency
+        long latencyEnd = System.nanoTime();
+        latencyOverall += (long)(latencyEnd-latencyStart);
+        latencyCounter++;
+        System.out.println("local - latency  " + (double)latencyOverall/latencyCounter);
+//        windowCollection.nodeId = (int) (latencyEnd - latencyStart);
         intermediateResultQueue.add(windowCollection);
     }
 

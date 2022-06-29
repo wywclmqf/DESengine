@@ -29,12 +29,21 @@ public class DistributedRoot implements Runnable {
     long endtime;
     Configuration conf;
 
+    //for debug
+    private int latencyOverall;
+    private int latencyCounter;
+
+
     public DistributedRoot(int controllerPort, int windowPort, String resultPath, int numChildren,
             String windowsString, String aggregateFunctionsString) {
         this.nodeImpl = new DistributedNode(0, NODE_IDENTIFIER, controllerPort, windowPort, numChildren, "", 0, 0);
         this.resultPath = resultPath;
         this.endtime = System.currentTimeMillis();
         this.conf = new Configuration();
+
+        //for debug
+        this.latencyOverall = 0;
+        this.latencyCounter = 0;
 
         nodeImpl.windowStrings = windowsString.split(ARG_DELIMITER);
         if (nodeImpl.windowStrings.length == 0) {
@@ -81,6 +90,8 @@ public class DistributedRoot implements Runnable {
                 continue;
             }
 
+            long latencyStart = System.nanoTime();
+
             final List<WindowResult> windowResults;
             switch (messageOrStreamEnd) {
                 case STREAM_END: {
@@ -112,6 +123,10 @@ public class DistributedRoot implements Runnable {
                     }
                 }
             }
+            long latencyEnd = System.nanoTime();
+            latencyOverall += (int)(latencyEnd-latencyStart);
+            latencyCounter++;
+            System.out.println("Root - latency  " + latencyOverall/latencyCounter);
 
             windowResults.forEach(this::sendResult);
         }

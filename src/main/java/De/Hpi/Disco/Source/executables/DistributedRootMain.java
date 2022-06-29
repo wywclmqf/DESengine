@@ -26,10 +26,11 @@ public class DistributedRootMain {
         }
 
         String queries = new String();
+        System.out.println(conf.queryNumber);
         for(int i = 0; i < conf.queryNumber; i++){
             queries += "TUMBLING,"+1000*(i%10 + 1)+";";
         }
-
+        System.out.println(queries);
 
         final int rootControllerPort;
         final int rootWindowPort;

@@ -1,11 +1,6 @@
 package De.Hpi.Desis.Configure;
 
 public interface ConfigurationTopology {
-    //node
-    public static final int rootNumber = 1;
-    public static final int intermediaNumber = 1;
-    public static final int localNumber = 1;
-
     //root node
     public static final String rootPubAddrW = "tcp://localhost:41010";
     //*************
