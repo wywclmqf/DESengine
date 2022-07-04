@@ -28,8 +28,8 @@ public class BaselineCentraComputation implements Runnable{
 
 
     //for debug
-    private long latencyOverall;
-    private long latencyCounter;
+//    private long latencyOverall;
+//    private long latencyCounter;
 
 
     public BaselineCentraComputation(Configuration conf, ConcurrentLinkedQueue<Window> resultQueue,
@@ -48,8 +48,8 @@ public class BaselineCentraComputation implements Runnable{
         this.previousTimeCounter = 0;
 
         //for debug
-        this.latencyOverall = 0;
-        this.latencyCounter = 0;
+//        this.latencyOverall = 0;
+//        this.latencyCounter = 0;
 
     }
 //    long eventHere1 = 0;
@@ -425,7 +425,7 @@ public class BaselineCentraComputation implements Runnable{
     void endWindow(LocalisEventHere localisEventHere) {
 
         //for debug
-        long latencyStart = System.nanoTime();
+//        long latencyStart = System.nanoTime();
 
 //        localTasks.forEach(task -> {
 //        System.out.println(task.getTaskId()
@@ -511,16 +511,20 @@ public class BaselineCentraComputation implements Runnable{
             });
 
             if(!task.windowList.isEmpty()) {
+                task.windowList.get(0).setNodeId((int) localWindowCounter);
+
+
                 resultQueue.addAll(task.windowList);
 //                System.out.println("Wtuplist   " + task.windowList.get(0).tuples.size());
 
-                long latencyEnd = System.nanoTime();
-                latencyOverall += (long)(latencyEnd-latencyStart);
-                latencyCounter++;
-                System.out.println("local - latency  " + (double)latencyOverall/latencyCounter);
+//                long latencyEnd = System.nanoTime();
+//                latencyOverall += (long)(latencyEnd-latencyStart);
+//                latencyCounter++;
+//                System.out.println("local - latency  " + (double)latencyOverall/latencyCounter);
+
 
                 resetTupleList();
-                System.out.println("tuplist   " + tupleList.size());
+//                System.out.println("tuplist   " + tupleList.size());
                 task.windowList.clear();
             }
         });

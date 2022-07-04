@@ -10,11 +10,16 @@ import java.util.stream.Collectors;
 public class RandomTest {
     public static void main(String[] args) {
         Random random = new Random();
-        for(int i = 0; i< 10000; i++){
-            int temp = random.nextInt(1000);
-            if(temp == 1)
-            System.out.println(temp);
-        }
+//        for(int i = 0; i< 10000; i++){
+//            int temp = random.nextInt(1000);
+//            if(temp == 1)
+//            System.out.println(temp);
+//        }
+        System.out.println(random.nextInt(1000));
+        System.out.println(random.nextInt(1000));
+        System.out.println(random.nextInt(1000));
+        System.out.println(random.nextInt(1000));
+        System.out.println(random.nextInt(1000));
 
 
 //        ArrayList<Double> arrayList = new ArrayList<>();

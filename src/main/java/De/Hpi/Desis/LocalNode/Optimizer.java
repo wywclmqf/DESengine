@@ -38,9 +38,9 @@ public class Optimizer implements Runnable{
     private boolean maxFLAG;
     private boolean minFLAG;
 
-    //for debug
-    private long latencyOverall;
-    private long latencyCounter;
+//    for debug
+//    private long latencyOverall;
+//    private long latencyCounter;
 
     public Optimizer(Configuration conf, ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue,
                                        ConcurrentLinkedQueue<Query> queryQueue , ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue) {
@@ -65,8 +65,8 @@ public class Optimizer implements Runnable{
         this.random = new Random();
 
         //for debug
-        this.latencyOverall = 0;
-        this.latencyCounter = 0;
+//        this.latencyOverall = 0;
+//        this.latencyCounter = 0;
 
     }
 
@@ -92,7 +92,7 @@ public class Optimizer implements Runnable{
 //                    long timeTemp1 = System.nanoTime();
 
                     long timeTemp = System.currentTimeMillis();
-                    if(timeTemp - previousTimeCounter >= conf. timegranularity){
+                    if(timeTemp - previousTimeCounter >= conf. timegranularity && tuple.EVENT == 1){
                         //slice window
                         isEventHereTimeBased(tuple, timeTemp);
                         previousTimeCounter = System.currentTimeMillis();
@@ -410,8 +410,11 @@ public class Optimizer implements Runnable{
 //        long time1 = 0;
 //        long time2 = 0;
 //        long time3 = 0;
+
+//        System.out.println(localWindows.size());
+
         //debug for latency
-        long latencyStart = System.nanoTime();
+//        long latencyStart = System.nanoTime();
 
         WindowCollection windowCollection = new WindowCollection();
         windowCollection.windowList = new ArrayList<>();
@@ -480,11 +483,13 @@ public class Optimizer implements Runnable{
 //        }
 
         //debug for latency
-        long latencyEnd = System.nanoTime();
-        latencyOverall += (long)(latencyEnd-latencyStart);
-        latencyCounter++;
-        System.out.println("local - latency  " + (double)latencyOverall/latencyCounter);
+//        long latencyEnd = System.nanoTime();
+//        latencyOverall += (long)(latencyEnd-latencyStart);
+//        latencyCounter++;
+//        System.out.println("local - latency  " + (double)latencyOverall/latencyCounter);
 //        windowCollection.nodeId = (int) (latencyEnd - latencyStart);
+
+        windowCollection.nodeId = localWindowCounter;
         intermediateResultQueue.add(windowCollection);
     }
 

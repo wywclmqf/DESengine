@@ -23,8 +23,8 @@ public class IntermediateComputationEngine implements Runnable {
     private boolean endFlag;
 
     //for debug
-    private long latencyOverall;
-    private long latencyCounter;
+//    private long latencyOverall;
+//    private long latencyCounter;
 
      IntermediateComputationEngine(ConcurrentLinkedQueue<WindowCollection> resultQueue, ConcurrentLinkedQueue<WindowCollection> resultQueueFromLocal,
                                    ConcurrentLinkedQueue<Query> queryQueue, Configuration conf){
@@ -41,8 +41,8 @@ public class IntermediateComputationEngine implements Runnable {
          this.endFlag = false;
 
          //for debug
-         this.latencyOverall = 0;
-         this.latencyCounter = 0;
+//         this.latencyOverall = 0;
+//         this.latencyCounter = 0;
 
      }
 
@@ -74,7 +74,7 @@ public class IntermediateComputationEngine implements Runnable {
         //drop < windowcounter
 
         //debug for latency
-        long latencyStart = System.nanoTime();
+//        long latencyStart = System.nanoTime();
 
         //save & process  > & == windowcounter
         WindowCollection newWindowCollection = new WindowCollection();
@@ -159,10 +159,10 @@ public class IntermediateComputationEngine implements Runnable {
 //            System.out.println(newWindowCollection.toString());
 
             //debug for latency
-            long latencyEnd = System.nanoTime();
-            latencyOverall += (long)(latencyEnd-latencyStart);
-            latencyCounter++;
-            System.out.println("inter - latency  " + (double)latencyOverall/latencyCounter);
+//            long latencyEnd = System.nanoTime();
+//            latencyOverall += (long)(latencyEnd-latencyStart);
+//            latencyCounter++;
+//            System.out.println("inter - latency  " + (double)latencyOverall/latencyCounter);
 //            newWindowCollection.nodeId = (int)(endLatency - startLatency);
             resultQueue.add(newWindowCollection);
         }

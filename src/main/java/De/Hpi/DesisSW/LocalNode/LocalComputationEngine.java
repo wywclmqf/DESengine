@@ -34,15 +34,14 @@ public class LocalComputationEngine implements Runnable{
         long previousTimeCounter = System.currentTimeMillis();
         optimizers.forEach(optimizer -> optimizer.previousTimeCounter = previousTimeCounter);
 
+
         System.out.println(conf.queryNumber);
-        System.out.println("Optimizer");
-        System.out.println(optimizers.size());
-        System.out.println("LocalTask");
         optimizers.forEach(optimizer -> {
+            System.out.println("Optimizer:   " + optimizer.optimizerId);
             ArrayList<LocalTask> localTasks = optimizer.localTasks;
-            System.out.println(localTasks.size());
-            System.out.println("QuerySub");
-            localTasks.forEach(localTask -> System.out.println(localTask.querySubs.size()));
+            System.out.println("LocalTask: " + localTasks.size());
+            System.out.println("QuerySub: ");
+            localTasks.forEach(localTask -> System.out.print(localTask.querySubs.size() + " "));
             System.out.println();
         });
 
@@ -79,6 +78,7 @@ public class LocalComputationEngine implements Runnable{
                     continue;
                 }
                 Optimizer optimizer = new Optimizer(conf, intermediateResultQueue, query.getFunction(), query.getScenario());
+                optimizer.optimizerId = optimizers.size() + 1;
                 optimizer.queryPreProcess(query);
                 optimizers.add(optimizer);
             }else{

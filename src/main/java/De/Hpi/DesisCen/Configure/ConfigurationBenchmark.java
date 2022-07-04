@@ -9,7 +9,7 @@ public interface ConfigurationBenchmark {
     public static final int BenchMarkOutputFrequency = 1000;
 
     //the frequency of outputting benchmark
-    public static final int BenchMarkDebugFrequency = 000;
+    public static final int BenchMarkDebugFrequency = 999;
 
 
 }

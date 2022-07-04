@@ -14,12 +14,24 @@ public class DataGeneratorSimu implements Runnable{
     private ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue;
     private AtomicLong tupleCounter;
     private Random random;
+    private long timeTemp;
+
+    //for debug
+//    long eventCounter;
+//    long initialTime;
+//    long counterTemp;
 
     public DataGeneratorSimu(Configuration conf, ConcurrentLinkedQueue<ArrayList<Tuple>> dataQueue, AtomicLong tupleConter) {
         this.conf = conf;
         this.dataQueue = dataQueue;
         this.tupleCounter = tupleConter;
         this.random = new Random();
+        this.timeTemp = System.currentTimeMillis();
+
+        //for debug
+//        this.eventCounter = 0;
+//        this.initialTime = System.currentTimeMillis();
+//        this.counterTemp = 1;
     }
 
     public void run() {
@@ -39,6 +51,15 @@ public class DataGeneratorSimu implements Runnable{
                         tuple.DATA = (double)System.currentTimeMillis() + random.nextInt(conf.EVENTRANDOMSEED);
 //                tuple.EVENT = Integer.valueOf(line[3]);
                         tuple.EVENT = eventSimulator();
+
+                          //debug
+//                        eventCounter += tuple.EVENT;
+//                        if(System.currentTimeMillis() - initialTime >= 1000){
+//                            initialTime = System.currentTimeMillis();
+//                            System.out.println(eventCounter/counterTemp);
+//                            counterTemp++;
+//                        }
+
                         dataBuffer.add(tuple);
                     }
                         dataQueue.offer(dataBuffer);
@@ -63,7 +84,13 @@ public class DataGeneratorSimu implements Runnable{
     }
 
     public int eventSimulator(){
-        return random.nextInt(conf.EVENTRANDOMSEED) == 1 ? 1 : 0;
+        if(System.currentTimeMillis() - timeTemp > 0){
+            timeTemp = System.currentTimeMillis();
+            return random.nextInt(conf.EVENTRANDOMSEED) == 1 ? 1 : 0;
+//            return 1;
+        }else {
+            return 0;
+        }
     }
 
 }

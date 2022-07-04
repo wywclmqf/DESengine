@@ -29,6 +29,7 @@ public class Optimizer {
     private Random random;
     public int function;
     public int scenario;
+    public int optimizerId;
 
     //flags for organize()
     //there are non-decomposable function and system has to sort data anyway
@@ -419,6 +420,8 @@ public class Optimizer {
 //            System.out.println(tupleCounter);
 //            System.out.println(intermediateResultQueue.size());
 //        }
+        windowCollection.sliceId = localWindowCounter;
+        windowCollection.nodeId = optimizerId;
         intermediateResultQueue.add(windowCollection);
     }
 

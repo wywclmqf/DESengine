@@ -30,6 +30,7 @@ public class BaselineCentraPrintresult implements Runnable {
 //                            + "  windowType  " + window.getWindowType()
                                     + "  result:  " + window.result
                                     + "  count:  " + window.count
+                                    + "  Slices:  " + window.getNodeId()
 //                                    + "  listSize:  " + window.tuples.size()
 //                                    + "  NetworkOverhead:  " + networkOverhead
 //                                    + "  Throughput:  " + window.tupleCounter / ((endtime - begintime) / 1000.0)

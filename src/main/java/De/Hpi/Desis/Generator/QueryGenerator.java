@@ -29,9 +29,9 @@ public class QueryGenerator {
             //object, function, windowType, range, slide, startPunctuation, endPunctuation, warterMark, Batch size.
 //            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
 //                    1000, 1000, 0, 1000, 0, 0,0.1);
-            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
-                    conf.queryModes*1000, 1000, 0, 1000, 0, 0,0.5);
-            switch (conf.queryModes*10000){
+//            initializeQuery(Configuration.SPEED,Configuration.MEDIAN,Configuration.TUMBING,
+//                    conf.queryModes*1000, 1000, 0, 1000, 0, 0,0.5);
+            switch (conf.queryModes){
                 case 0:{
                     for(int i = 0; i <= 1000; i++){
                         initializeQuery(Configuration.SPEED,Configuration.QUANTILE,Configuration.TUMBING,

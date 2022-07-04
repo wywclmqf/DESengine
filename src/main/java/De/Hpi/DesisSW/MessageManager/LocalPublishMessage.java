@@ -8,6 +8,7 @@ import org.zeromq.ZMQ;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class LocalPublishMessage implements Runnable{
@@ -25,12 +26,25 @@ public class LocalPublishMessage implements Runnable{
     public void run() {
 //        System.out.println("Starting RequestThread ----localNode");
         MessagePack msgpack = new MessagePack();
+
+        int[] infoList = new int[1000];
+
+        int infoCounter = 0;
+        int infoId = 0;
+        int infoAll = 0;
+
 //        Long networkOverhead = 0l;
 //        long begintime = System.currentTimeMillis();
         long endtime = System.currentTimeMillis();
         while (true) {
             if(!intermediateResultQueue.isEmpty()) {
                 WindowCollection windowCollection = (WindowCollection) intermediateResultQueue.poll();
+
+                infoId = windowCollection.nodeId;
+                infoAll = windowCollection.sliceId;
+                infoList[infoId-1] = infoAll;
+                infoCounter++;
+
                 windowCollection.nodeId = conf.getNodeId();
                 //the message type now it the data
                 MessageResult messageResult = new MessageResult();
@@ -59,6 +73,8 @@ public class LocalPublishMessage implements Runnable{
                                         + "  TupleList:  " + (messageResult.windowCollection.tuples != null ?
                                                 messageResult.windowCollection.tuples.size() : 0)
                                         + "  Queue:  " + intermediateResultQueue.size()
+//                                        + "  Id:  " + infoId
+                                        + "  Slices:  " + Arrays.stream(Arrays.stream(infoList).toArray()).sum()
 //                                        + "  Throughput:  " + messageResult.window.tupleCounter / ((endtime - begintime) / 1000.0)
 //                                        + "  NetworkOverhead:  " + networkOverhead
 //                                        + "  Allcounter:  " + messageResult.window.tupleCounter

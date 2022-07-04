@@ -21,8 +21,8 @@ public class RootComputationEngineDecentral implements Runnable {
     private boolean timeBasedNonDecomposableFlag;
 
     //for debug
-    private long latencyOverall;
-    private long latencyCounter;
+//    private long latencyOverall;
+//    private long latencyCounter;
 
     RootComputationEngineDecentral(ConcurrentLinkedQueue<WindowCollection> resultFromIntermedia, Configuration conf,
                                    ConcurrentLinkedQueue<WindowCollection> resultQueue,
@@ -39,8 +39,8 @@ public class RootComputationEngineDecentral implements Runnable {
         this.timeBasedNonDecomposableFlag = false;
 
         //for debug
-        this.latencyOverall = 0;
-        this.latencyCounter = 0;
+//        this.latencyOverall = 0;
+//        this.latencyCounter = 0;
 
     }
 
@@ -73,7 +73,7 @@ public class RootComputationEngineDecentral implements Runnable {
 
 
         //debug for latency
-        long latencyStart = System.nanoTime();
+//        long latencyStart = System.nanoTime();
 
         WindowCollection newWindowCollection = new WindowCollection();
         newWindowCollection.windowList = new ArrayList<>();
@@ -231,10 +231,10 @@ public class RootComputationEngineDecentral implements Runnable {
         if(!newWindowCollection.windowList.isEmpty()) {
 
             //debug for latency
-            long latencyEnd = System.nanoTime();
-            latencyOverall += (long)(latencyEnd-latencyStart);
-            latencyCounter++;
-            System.out.println("root - latency  " + (double)latencyOverall/latencyCounter);
+//            long latencyEnd = System.nanoTime();
+//            latencyOverall += (long)(latencyEnd-latencyStart);
+//            latencyCounter++;
+//            System.out.println("root - latency  " + (double)latencyOverall/latencyCounter);
 //            newWindowCollection.nodeId = (int)(endLatency - startLatency);
             resultQueue.add(newWindowCollection);
         }

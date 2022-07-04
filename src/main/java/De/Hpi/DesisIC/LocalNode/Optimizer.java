@@ -38,6 +38,7 @@ public class Optimizer {
     private boolean countbasedFLAG;
     private boolean maxFLAG;
     private boolean minFLAG;
+    public int optimizerId;
 
     public Optimizer(Configuration conf, ConcurrentLinkedQueue<WindowCollection> intermediateResultQueue,
                      int function, int scenario) {
@@ -60,6 +61,7 @@ public class Optimizer {
         this.random = new Random();
         this.function = function;
         this.scenario = scenario;
+
 
     }
 
@@ -419,6 +421,8 @@ public class Optimizer {
 //            System.out.println(tupleCounter);
 //            System.out.println(intermediateResultQueue.size());
 //        }
+        windowCollection.sliceId = localWindowCounter;
+        windowCollection.nodeId = optimizerId;
         intermediateResultQueue.add(windowCollection);
     }
 

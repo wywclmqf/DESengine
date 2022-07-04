@@ -4,19 +4,19 @@ public interface ConfigurationTopology {
     //root node
     public static final String rootPubAddrW = "tcp://localhost:41010";
     //*************
-    public static final String rootPubAddr = "tcp://node-11:41010";
+    public static final String rootPubAddr = "tcp://node-03:41010";
 
     //intermediate node
     public static final String interUpperPubAddr1W = "tcp://localhost:51010";
     public static final String interLowerPubAddr1W = "tcp://localhost:51020";
-    public static final String interUpperPubAddr1 = "tcp://node-02:51010";
-    public static final String interLowerPubAddr1 = "tcp://node-02:51020";
+    public static final String interUpperPubAddr1 = "tcp://node-03:51010";
+    public static final String interLowerPubAddr1 = "tcp://node-03:51020";
 
     public static final String interUpperPubAddr2W = "tcp://localhost:51011";
     public static final String interLowerPubAddr2W = "tcp://localhost:51021";
     //*************
-    public static final String interUpperPubAddr2 = "tcp://node-12:52010";
-    public static final String interLowerPubAddr2 = "tcp://node-12:52020";
+    public static final String interUpperPubAddr2 = "tcp://node-04:52010";
+    public static final String interLowerPubAddr2 = "tcp://node-04:52020";
 
 
     //local node
@@ -31,6 +31,6 @@ public interface ConfigurationTopology {
 
     public static final String localPubAddr4W = "tcp://localhost:61040";
     //*************
-    public static final String localPubAddr4 = "tcp://node-13:64010";
+    public static final String localPubAddr4 = "tcp://node-05:64010";
 
 }
