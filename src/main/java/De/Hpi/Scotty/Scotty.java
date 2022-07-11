@@ -48,9 +48,11 @@ public class Scotty {
 
         for(int i = 0; i < conf.queryNumber; i++){
             slicingWindowOperator.addWindowAssigner(new TumblingWindow(WindowMeasure.Time, 1000*(i%10 + 1)));
-//            System.out.println(1000*(i%10 + 1));
+            System.out.println(1000*(i%10 + 1));
         }
-        slicingWindowOperator.addAggregation(new Sum());
+//        slicingWindowOperator.addAggregation(new Sum());
+//        slicingWindowOperator.addAggregation(new Sum2());
+        slicingWindowOperator.addAggregation(new Sum2());
         slicingWindowOperator.setMaxLateness(0);
         return slicingWindowOperator;
     }

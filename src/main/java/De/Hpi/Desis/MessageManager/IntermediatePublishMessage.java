@@ -41,6 +41,7 @@ public class IntermediatePublishMessage implements Runnable{
                 resultFromIntermediaToRoot.windowCollection = windowCollection;
                 try {
                     byte[] raw = msgpack.write(resultFromIntermediaToRoot);
+//                    for(int i = 0; i < conf.queryModes; i++)
                     socketPub.send(raw);
                     if(conf.DEBUGMODE_INTER) {
                         if (System.currentTimeMillis() - endtime > conf.BenchMarkDebugFrequency) {

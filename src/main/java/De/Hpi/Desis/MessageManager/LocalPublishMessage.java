@@ -48,6 +48,7 @@ public class LocalPublishMessage implements Runnable{
                 messageResult.windowCollection = windowCollection;
                 try {
                     byte[] raw = msgpack.write(messageResult);
+//                    for(int i = 0; i < conf.queryModes; i++)
                     socketPub.send(raw);
                     if(messageResult.windowCollection.tuples == null)
                         messageResult.windowCollection.tuples = new ArrayList<>();

@@ -18,14 +18,14 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //but they still can be removed if we don't process hopping window
 
     //how many query we would simulate
-    public int queryNumber = 1000;
+    public int queryNumber = 1;
     //to make program easy
     // in optimizer system start to process only when "queryNumber" queries in system,
     // and querywait is to block loops
     public static final int queryWait = 100;
     //the batch size of centralized aggregation default 1000 * 1000 = 100w
-    public int localBatchSize = 1000;
-    public int interBatchSize = 100;
+    public int localBatchSize = 1; //1000
+    public int interBatchSize = 1; //100
     //the time granularity for optimizer to process timebased window
     public static final int timegranularity = 1;
     //expired time
@@ -39,7 +39,7 @@ public class Configuration implements ConfigurationTopology, ConfigurationWindow
     //how many threads for generator
     public int GeneratorThreadNumber = 1;
     //auto querys, from 1-3 are quantiles
-    public int queryModes = 6;
+    public int queryModes = 1000000;
 
     //node
     public int rootNumber = 1;
